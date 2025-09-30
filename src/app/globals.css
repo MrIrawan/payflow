@@ -112,6 +112,39 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@font-face {
+  font-family: "zalando-regular";
+  src: url("../../public//fonts/ZalandoSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "zalando-medium";
+  src: url("../../public//fonts/ZalandoSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "zalando-semibold";
+  src: url("../../public//fonts/ZalandoSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "zalando-bold";
+  src: url("../../public//fonts/ZalandoSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "zalando-black";
+  src: url("../../public//fonts/ZalandoSans-Black.ttf") format("truetype");
+}
+
+@theme {
+  --font-zalando-regular: "zalando-regular";
+  --font-zalando-medium: "zalando-medium";
+  --font-zalando-semibold: "zalando-semibold";
+  --font-zalando-bold: "zalando-bold";
+  --font-zalando-black: "zalando-black";
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
