@@ -7,10 +7,11 @@ export interface BreadcrumbsProps {
 
 export interface CollapsibleMenuProps {
     children: React.ReactNode;
-    items: [
-        {
-            title: string;
-            icon: LucideIcon;
-        }
-    ];
+    items: CollapsibleMenuData[] | [];
+}
+
+export interface CollapsibleMenuData {
+    title: string;
+    icon: LucideIcon;
+    link: string;
 }
