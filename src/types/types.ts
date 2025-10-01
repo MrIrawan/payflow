@@ -17,7 +17,7 @@ export interface CollapsibleMenuData {
 }
 
 export interface ProfileCardProps {
-    variant: "sidebar" | "medium" | "large";
+    variant?: "sidebar" | "medium" | "large";
     avatar: string;
     name: string;
     email: string;

@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  subsets: ["latin"]
-})
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "PayFlow | make it easy to pay employees",
@@ -19,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} antialiased`}
+        className={`${inter.className} antialiased`}
       >
         {children}
       </body>

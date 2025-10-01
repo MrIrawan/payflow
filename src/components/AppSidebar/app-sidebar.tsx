@@ -1,6 +1,7 @@
 import Image from "next/image";
 import payFLowBanner from "../../../public/images/payflow-banner.svg";
 
+import ProfileCard from "../ProfileCard/profile-card";
 import CollapsibleMenu from "../CollapsibleMenu/collapsible-menu";
 import { staticSidebarData } from "../../../public/data/static-sidebar-menu";
 
@@ -72,7 +73,12 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Card className="shadow-none"></Card>
+        <ProfileCard 
+          variant="sidebar"
+          name="John Doe"
+          email="tT8sG@example.com"
+          avatar=""
+        />
       </SidebarFooter>
     </Sidebar>
   );
