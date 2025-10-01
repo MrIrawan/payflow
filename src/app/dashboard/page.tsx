@@ -16,9 +16,9 @@ import {
 
 export default function DashboardPage() {
   return (
-    <div className="w-full h-full flex flex-col gap-3 p-3">
+    <div className="w-full h-full flex flex-col gap-3 px-3">
       <div className="w-full min-h-3/12 bg-green-200">
-        <Card className="w-full h-full rounded-none py-0 shadow-none border-none gap-2 justify-evenly">
+        <Card className="w-full h-full rounded-none py-0 shadow-none border-none gap-2 justify-around">
           <CardHeader className="px-0 flex flex-col gap-2">
             <CardDescription>
               <p className="text-lg font-bold text-black/50">
