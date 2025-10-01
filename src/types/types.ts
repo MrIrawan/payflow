@@ -1,8 +1,13 @@
 import { LucideIcon } from "lucide-react";
 
 export interface BreadcrumbsProps {
-    countItem: number;
-    href: Array<string> | string;
+    currentPage: string;
+    items: BreadcrumbsData[] | [];
+}
+
+export interface BreadcrumbsData {
+    title: string;
+    link: string;
 }
 
 export interface CollapsibleMenuProps {
