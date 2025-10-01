@@ -27,3 +27,11 @@ export interface ProfileCardProps {
     name: string;
     email: string;
 }
+
+export interface QuickNavigationCardProps {
+    title: string;
+    description: string;
+    color: string;
+    icon: LucideIcon;
+    link: string;
+}
