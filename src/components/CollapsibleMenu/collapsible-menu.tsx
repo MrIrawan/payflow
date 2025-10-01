@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,7 +20,6 @@ export default function CollapsibleMenu({
   items = [],
 }: CollapsibleMenuProps) {
   return (
-    <SidebarMenu className="flex flex-col gap-3">
       <Collapsible className="group/collapsible">
         <SidebarMenuItem>
           <CollapsibleTrigger asChild>
@@ -33,9 +31,8 @@ export default function CollapsibleMenu({
           <CollapsibleContent>
             <SidebarMenuSub className="flex flex-col gap-2">
               {items.map((item, index) => (
-                <SidebarMenuSubItem>
-                  <Link href={item.link}>
-                    <SidebarMenuSubButton>
+                <SidebarMenuSubItem key={index}>
+                    <SidebarMenuSubButton href={item.link}>
                       <div className="flex items-center gap-2">
                         <item.icon className="w-4 h-4" />
                         <p className="text-base font-zalando-medium">
@@ -43,13 +40,11 @@ export default function CollapsibleMenu({
                         </p>
                       </div>
                     </SidebarMenuSubButton>
-                  </Link>
                 </SidebarMenuSubItem>
               ))}
             </SidebarMenuSub>
           </CollapsibleContent>
         </SidebarMenuItem>
       </Collapsible>
-    </SidebarMenu>
   );
 }
