@@ -21,6 +21,7 @@ import {
   HandCoinsIcon,
   BookIcon,
 } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 export default function AppSidebar() {
   const number: number = 5;
@@ -35,6 +36,7 @@ export default function AppSidebar() {
           />
         </Card>
       </SidebarHeader>
+      <Separator />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
