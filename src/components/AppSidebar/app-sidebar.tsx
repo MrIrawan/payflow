@@ -1,3 +1,6 @@
+import Image from "next/image";
+import payFLowBanner from "../../../public/images/payflow-banner.svg";
+
 import CollapsibleMenu from "../CollapsibleMenu/collapsible-menu";
 import { staticSidebarData } from "../../../public/data/static-sidebar-menu";
 
@@ -24,7 +27,13 @@ export default function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <Card className="shadow-none"></Card>
+        <Card className="shadow-none p-0 h-20 overflow-hidden rounded-none border-none">
+          <Image 
+            src={payFLowBanner}
+            alt="PayFlow Banner"
+            className="w-full h-full object-cover"
+          />
+        </Card>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
