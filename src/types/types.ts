@@ -15,3 +15,10 @@ export interface CollapsibleMenuData {
     icon: LucideIcon;
     link: string;
 }
+
+export interface ProfileCardProps {
+    variant: "sidebar" | "medium" | "large";
+    avatar: string;
+    name: string;
+    email: string;
+}
