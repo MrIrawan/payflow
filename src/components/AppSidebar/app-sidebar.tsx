@@ -45,8 +45,8 @@ export default function AppSidebar() {
               {staticSidebarData.map((item, index) => (
                 <CollapsibleMenu key={index} items={item.items}>
                     <div className="flex items-center gap-2">
-                      <item.labelIcon className="w-5 h-5" />
-                      <p className="text-base font-zalando-medium">
+                      <item.labelIcon className="w-6 h-6" />
+                      <p className="text-lg font-semibold lowercase">
                         {item.label}
                       </p>
                     </div>
@@ -55,16 +55,16 @@ export default function AppSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton>
                   <div className="flex items-center gap-2">
-                    <HandCoinsIcon className="w-5 h-5" />
-                    <p className="text-base font-zalando-medium">Penggajian</p>
+                    <HandCoinsIcon className="w-6 h-6" />
+                    <p className="text-lg font-semibold">penggajian</p>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>
                   <div className="flex items-center gap-2">
-                    <BookIcon className="w-5 h-5" />
-                    <p className="text-base font-zalando-medium">Laporan</p>
+                    <BookIcon className="w-6 h-6" />
+                    <p className="text-lg font-semibold">laporan</p>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>

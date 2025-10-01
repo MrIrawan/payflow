@@ -34,8 +34,8 @@ export default function CollapsibleMenu({
                 <SidebarMenuSubItem key={index}>
                     <SidebarMenuSubButton href={item.link}>
                       <div className="flex items-center gap-2">
-                        <item.icon className="w-4 h-4" />
-                        <p className="text-base font-zalando-medium">
+                        <item.icon className="w-5 h-5" />
+                        <p className="text-base font-medium lowercase">
                           {item.title}
                         </p>
                       </div>
