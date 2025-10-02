@@ -137,6 +137,24 @@
   src: url("../../public//fonts/ZalandoSans-Black.ttf") format("truetype");
 }
 
+.bg-image-male {
+  background-image: url("../../public/images/data-card-male.svg");
+  background-position: center 225px;
+  background-size: cover;
+}
+
+.bg-image-female {
+  background-image: url("../../public/images/data-card-female.svg");
+  background-position: center 222px;
+  background-size: cover;
+}
+
+.bg-image-total {
+  background-image: url("../../public/images/data-card-total.svg");
+  background-position: center 250px;
+  background-size: cover;
+}
+
 @theme {
   --font-zalando-regular: "zalando-regular";
   --font-zalando-medium: "zalando-medium";

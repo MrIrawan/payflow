@@ -36,7 +36,7 @@ export default function DashboardPage() {
         </Card>
       </div>
       <div className="w-full h-fit flex items-center gap-3">
-        <Card className="w-full h-56 shadow-none p-3">
+        <Card className="w-full h-56 shadow-none p-3 bg-image-male">
           <CardHeader className="p-0">
             <div className="flex items-center gap-2 w-full h-16">
             <div className="w-14 h-14 shadow-none ring-2 ring-blue-300 rounded-md flex items-center justify-center bg-blue-200">
@@ -56,14 +56,14 @@ export default function DashboardPage() {
             <p className="text-lg font-medium text-black/50">90% dari total guru ber-jenis kelamin laki-laki</p>
           </CardFooter>
         </Card>
-        <Card className="w-full h-56 shadow-none p-3 bg-[#78b285]">
+        <Card className="w-full h-56 shadow-none p-3 bg-image-female">
           <div className="flex items-center gap-2">
             <div className="w-14 h-14 shadow-none ring-2 ring-[#27687e] rounded-md flex items-center justify-center bg-[#27687e]/50">
               <VenusIcon className="w-8 h-8 text-[#27687e]/100" />
             </div>
           </div>
         </Card>
-        <Card className="w-full h-56 shadow-none p-3">
+        <Card className="w-full h-56 shadow-none p-3 bg-image-total">
           <div className="flex items-center gap-2">
             <div className="w-14 h-14 shadow-none ring-2 ring-green-300 rounded-md flex items-center justify-center bg-green-200">
               <UserRoundIcon className="w-8 h-8 text-green-500" />
