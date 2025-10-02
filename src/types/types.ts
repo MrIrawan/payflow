@@ -31,7 +31,9 @@ export interface ProfileCardProps {
 export interface QuickNavigationCardProps {
     title: string;
     description: string;
-    color: string;
     icon: LucideIcon;
     link: string;
+    bgColor: string;
+    ringColor: string;
+    iconColor: string;
 }
