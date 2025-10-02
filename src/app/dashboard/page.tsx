@@ -35,38 +35,39 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="w-full h-80 flex items-center gap-3">
-        <Card className="w-full h-full shadow-none p-3">
-          <div className="flex items-start justify-between p-2">
-          <CardTitle>
-            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
-          </CardTitle>
-
-          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-blue-300 rounded-md flex items-center justify-center bg-blue-200">
-            <MarsIcon className="w-8 h-8 text-blue-500"/>
-          </CardDescription>
+      <div className="w-full h-fit flex items-center gap-3">
+        <Card className="w-full h-56 shadow-none p-3">
+          <CardHeader className="p-0">
+            <div className="flex items-center gap-2 w-full h-16">
+            <div className="w-14 h-14 shadow-none ring-2 ring-blue-300 rounded-md flex items-center justify-center bg-blue-200">
+              <MarsIcon className="w-8 h-8 text-blue-500" />
+            </div>
+            <div className="w-fit h-full flex flex-col gap-0.5">
+              <CardTitle>
+                <p className="text-base font-bold">Total guru laki-laki</p>
+              </CardTitle>
+              <CardDescription>
+                <p className="text-4xl font-semibold text-black/50 max-w-sm">64</p>
+              </CardDescription>
+            </div>
+          </div>
+          </CardHeader>
+          <CardFooter className="w-full p-0">
+            <p className="text-lg font-medium text-black/50">90% dari total guru ber-jenis kelamin laki-laki</p>
+          </CardFooter>
+        </Card>
+        <Card className="w-full h-56 shadow-none p-3 bg-[#78b285]">
+          <div className="flex items-center gap-2">
+            <div className="w-14 h-14 shadow-none ring-2 ring-[#27687e] rounded-md flex items-center justify-center bg-[#27687e]/50">
+              <VenusIcon className="w-8 h-8 text-[#27687e]/100" />
+            </div>
           </div>
         </Card>
-        <Card className="w-full h-full shadow-none p-3">
-          <div className="flex items-start justify-between p-2">
-          <CardTitle>
-            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
-          </CardTitle>
-
-          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-pink-300 rounded-md flex items-center justify-center bg-pink-200">
-            <VenusIcon className="w-8 h-8 text-pink-500"/>
-          </CardDescription>
-          </div>
-        </Card>
-        <Card className="w-full h-full shadow-none p-3">
-          <div className="flex items-start justify-between p-2">
-          <CardTitle>
-            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
-          </CardTitle>
-
-          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-green-300 rounded-md flex items-center justify-center bg-green-200">
-            <UserRoundIcon className="w-8 h-8 text-green-500"/>
-          </CardDescription>
+        <Card className="w-full h-56 shadow-none p-3">
+          <div className="flex items-center gap-2">
+            <div className="w-14 h-14 shadow-none ring-2 ring-green-300 rounded-md flex items-center justify-center bg-green-200">
+              <UserRoundIcon className="w-8 h-8 text-green-500" />
+            </div>
           </div>
         </Card>
       </div>
