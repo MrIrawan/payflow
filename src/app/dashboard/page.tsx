@@ -9,6 +9,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { MarsIcon, UserRoundIcon, VenusIcon } from "lucide-react";
 
 export default function DashboardPage() {
   return (
@@ -34,7 +35,41 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="w-full h-80 bg-blue-200"></div>
+      <div className="w-full h-80 flex items-center gap-3">
+        <Card className="w-full h-full shadow-none p-3">
+          <div className="flex items-start justify-between p-2">
+          <CardTitle>
+            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
+          </CardTitle>
+
+          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-blue-300 rounded-md flex items-center justify-center bg-blue-200">
+            <MarsIcon className="w-8 h-8 text-blue-500"/>
+          </CardDescription>
+          </div>
+        </Card>
+        <Card className="w-full h-full shadow-none p-3">
+          <div className="flex items-start justify-between p-2">
+          <CardTitle>
+            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
+          </CardTitle>
+
+          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-pink-300 rounded-md flex items-center justify-center bg-pink-200">
+            <VenusIcon className="w-8 h-8 text-pink-500"/>
+          </CardDescription>
+          </div>
+        </Card>
+        <Card className="w-full h-full shadow-none p-3">
+          <div className="flex items-start justify-between p-2">
+          <CardTitle>
+            <p className="text-xl font-semibold">Jumlah guru laki-laki</p>
+          </CardTitle>
+
+          <CardDescription className="w-16 h-16 shadow-none ring-2 ring-green-300 rounded-md flex items-center justify-center bg-green-200">
+            <UserRoundIcon className="w-8 h-8 text-green-500"/>
+          </CardDescription>
+          </div>
+        </Card>
+      </div>
       <div className="w-full h-1/2 bg-indigo-200"></div>
     </div>
   );
