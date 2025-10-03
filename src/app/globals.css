@@ -138,20 +138,20 @@
 }
 
 .bg-image-male {
-  background-image: url("../../public/images/data-card-male.svg");
-  background-position: center 225px;
+  background-image: url("../../public/images/small-data-card-male.svg");
+  background-position: right;
   background-size: cover;
 }
 
 .bg-image-female {
-  background-image: url("../../public/images/data-card-female.svg");
-  background-position: center 222px;
+  background-image: url("../../public/images/small-data-card-female.svg");
+  background-position: right;
   background-size: cover;
 }
 
 .bg-image-total {
-  background-image: url("../../public/images/data-card-total.svg");
-  background-position: center 250px;
+  background-image: url("../../public/images/small-data-card-total.svg");
+  background-position: right;
   background-size: cover;
 }
 
