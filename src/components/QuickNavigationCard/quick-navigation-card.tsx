@@ -12,7 +12,7 @@ export default function QuickNavigationCard({
     <>
       {data.map((item, index) => (
         <Link href={item.link} key={index}>
-          <Card className={`w-84 h-20 shadow-none py-0 p-3 flex-row gap-3 cursor-pointer border-none ring ring-border transition-all duration-200 hover:ring-2 hover:ring-[#31572c] hover:bg-[#ecf39e]/20`}>
+          <Card className={`w-84 h-20 shadow-none py-0 p-3 flex-row gap-3 cursor-pointer border-none ring ring-border rounded-xl transition-all duration-200 hover:ring-2 hover:ring-[#31572c] hover:bg-[#ecf39e]/20`}>
             <div className={`w-20 h-full bg-[#ecf39e] ring-2 ring-[#31572c] rounded-md flex items-center justify-center`}>
               <item.icon className={`w-6 h-6 text-[#31572c]`} />
             </div>
