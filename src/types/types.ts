@@ -40,4 +40,8 @@ export interface DataCardProps {
     description: string;
     link: string;
     button: boolean;
+    className?: string;
+    titleStyle?: string;
+    descriptionStyle?: string;
+    buttonStyle?: string;
 }
