@@ -33,15 +33,6 @@ export interface QuickNavigationCardProps {
     description: string;
     icon: LucideIcon;
     link: string;
-    color: string;
-}
-
-export interface ColorMap {
-    color: {
-        background: string;
-        icon: string;
-        ring: string;
-    }
 }
 
 export interface CustomCardVariants {
