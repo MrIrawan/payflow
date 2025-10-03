@@ -35,7 +35,9 @@ export interface QuickNavigationCardProps {
     link: string;
 }
 
-export interface CustomCardVariants {
-    name: string;
-    classname: string;
+export interface DataCardProps {
+    title: string;
+    description: string;
+    link: string;
+    button: boolean;
 }
