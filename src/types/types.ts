@@ -37,3 +37,8 @@ export interface QuickNavigationCardProps {
     ringColor: string;
     iconColor: string;
 }
+
+export interface CustomCardVariants {
+    name: string;
+    classname: string;
+}
