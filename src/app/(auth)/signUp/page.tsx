@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { InputGroup } from "@/components/InputGroup/input-group";
+import { DatePicker } from "@/components/DatePicker/date-picker";
 
 export default function SignUpPage() {
   return (
@@ -40,15 +41,32 @@ export default function SignUpPage() {
           </CardHeader>
           <CardContent className="w-full bg-white p-0 flex flex-col gap-6">
             <div className="flex flex-row items-center justify-between gap-3">
-              <InputGroup label="First name" htmlFor="first_name" />
-              <InputGroup label="Last name" htmlFor="last_name" />
+              <InputGroup
+                label="First name"
+                htmlFor="first_name"
+                type="text"
+                placeholder="ex: Jhon"
+              />
+              <InputGroup
+                label="Last name"
+                htmlFor="last_name"
+                type="text"
+                placeholder="ex: Doe"
+              />
             </div>
-            <div className="flex flex-row items-center justify-between gap-3">
-              <InputGroup label="First name" htmlFor="first_name" />
-              <InputGroup label="First name" htmlFor="first_name" />
-            </div>
-            <InputGroup label="First name" htmlFor="first_name" />
-            <InputGroup label="First name" htmlFor="first_name" />
+            <DatePicker />
+            <InputGroup
+              label="Email address"
+              htmlFor="email_address"
+              type="email"
+              placeholder="ex: jhondoe@mail.com"
+            />
+            <InputGroup
+              label="Password email"
+              htmlFor="password_email"
+              type="password"
+              placeholder="ex: ********"
+            />
           </CardContent>
           <CardFooter className="p-0 w-full">
             <Button

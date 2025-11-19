@@ -50,4 +50,5 @@ export interface DataCardProps {
 export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   htmlFor: string;
+  className?: string;
 }
