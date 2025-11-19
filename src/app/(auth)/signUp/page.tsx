@@ -54,7 +54,11 @@ export default function SignUpPage() {
                 placeholder="ex: Doe"
               />
             </div>
-            <DatePicker />
+            <DatePicker
+              label="Date of birth"
+              htmlFor="date_of_birth"
+              placeholder="Select your date of birth"
+            />
             <InputGroup
               label="Email address"
               htmlFor="email_address"

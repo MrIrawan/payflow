@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, SelectHTMLAttributes } from "react";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -51,4 +51,10 @@ export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   htmlFor: string;
   className?: string;
+}
+
+export interface DatePickerProps {
+  label: string;
+  htmlFor: string;
+  placeholder: string;
 }

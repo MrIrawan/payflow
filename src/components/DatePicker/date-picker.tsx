@@ -11,14 +11,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-export function DatePicker() {
+import { DatePickerProps } from "@/types/types";
+
+export function DatePicker({ label, htmlFor, placeholder }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <Label htmlFor="date" className="px-1">
-        Date of birth
-      </Label>
+    <div className="flex flex-col gap-2 w-full">
+      <Label htmlFor={htmlFor}>{label}</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button
@@ -26,7 +26,7 @@ export function DatePicker() {
             id="date"
             className="w-full justify-between font-normal text-black"
           >
-            {date ? date.toLocaleDateString() : "mm/dd/yy"}
+            {date ? date.toLocaleDateString() : placeholder}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
