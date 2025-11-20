@@ -4,10 +4,19 @@ import { RadioOptionsProps } from "@/types/types";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
-export function RadioOptions({ label, optionsNumber }: RadioOptionsProps) {
+export function RadioOptions({
+  label,
+  optionsNumber,
+  requiredLabel = false,
+}: RadioOptionsProps) {
   return (
     <div className="w-full flex flex-col gap-2">
-      <Label>{label}</Label>
+      {label && (
+        <Label className="text-sm font-medium gap-0.5">
+          {label}{" "}
+          <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
+        </Label>
+      )}
       <RadioGroup className="flex flex-row gap-3 py-1 h-9">
         <div className="flex flex-row gap-2 items-center">
           <RadioGroupItem value="male" id="male" />

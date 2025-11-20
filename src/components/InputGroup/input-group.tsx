@@ -10,11 +10,17 @@ export function InputGroup({
   label,
   htmlFor,
   className,
+  requiredLabel = false,
   ...props
 }: InputGroupProps) {
   return (
     <div className="w-full flex flex-col gap-2">
-      <Label htmlFor={htmlFor}>{label}</Label>
+      {label && (
+        <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
+          {label}{" "}
+          <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
+        </Label>
+      )}
       <Input
         id={htmlFor}
         name={htmlFor}

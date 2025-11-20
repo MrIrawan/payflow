@@ -22,6 +22,7 @@ export function DatePicker({
   label,
   htmlFor,
   placeholder,
+  requiredLabel = false,
   value,
   onchange,
 }: DatePickerProps) {
@@ -32,7 +33,12 @@ export function DatePicker({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      {label && <Label htmlFor={htmlFor}>{label}</Label>}
+      {label && (
+        <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
+          {label}{" "}
+          <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
+        </Label>
+      )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button

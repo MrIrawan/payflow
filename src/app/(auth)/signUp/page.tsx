@@ -56,6 +56,7 @@ export default function SignUpPage() {
                 htmlFor="first_name"
                 type="text"
                 placeholder="ex: Jhon"
+                requiredLabel
               />
               <InputGroup
                 label="Last name"
@@ -68,19 +69,22 @@ export default function SignUpPage() {
               label="Date of birth"
               htmlFor="date_of_birth"
               placeholder="Select your date of birth"
+              requiredLabel
             />
-            <RadioOptions label="Choose your gender" />
+            <RadioOptions label="Choose your gender" requiredLabel />
             <InputGroup
               label="Email address"
               htmlFor="email_address"
               type="email"
               placeholder="ex: jhondoe@mail.com"
+              requiredLabel
             />
             <InputGroup
               label="Password email"
               htmlFor="password_email"
               type="password"
               placeholder="ex: ********"
+              requiredLabel
             />
           </CardContent>
           <CardFooter className="p-0 w-full">

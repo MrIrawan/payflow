@@ -49,6 +49,7 @@ export interface DataCardProps {
 
 export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  requiredLabel?: boolean;
   htmlFor: string;
   className?: string;
 }
@@ -57,6 +58,7 @@ export interface DatePickerProps {
   label: string;
   htmlFor: string;
   placeholder: string;
+  requiredLabel?: boolean;
   value?: Date | undefined;
   onchange?: (date?: Date) => void;
 }
@@ -72,5 +74,6 @@ export interface SignUpData {
 
 export interface RadioOptionsProps {
   label: string;
+  requiredLabel?: boolean;
   optionsNumber?: number | undefined;
 }
