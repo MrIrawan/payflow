@@ -1,20 +1,14 @@
 "use client";
 
+import { useState } from "react";
+
 import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
-import PayflowLogo from "../../../../public/images/payflow-logo.svg";
 
 import { useForm, SubmitHandler, Control } from "react-hook-form";
 import { SignUpData } from "@/types/types";
 
-import {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardContent,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import { InputGroup } from "@/components/InputGroup/input-group";
@@ -26,17 +20,32 @@ import {
   FormFooter,
   FormHeader,
 } from "@/components/Form/Form";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function SignUpPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors, isValid, isLoading },
+    reset,
+    formState: { errors, isValid },
   } = useForm<SignUpData>();
+
+  const onSubmitForm: SubmitHandler<SignUpData> = (data) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      if (isValid) {
+        console.log(data);
+        reset();
+        setIsLoading(false);
+      }
+    }, 1500);
+  };
+
   return (
     <>
-      <FormComponent>
+      <FormComponent onSubmit={handleSubmit(onSubmitForm)}>
         <FormHeader logo>
           <CardTitle className="text-4xl font-bold leading-snug">
             because convenience doesn't come twice.
@@ -46,25 +55,40 @@ export default function SignUpPage() {
           </CardDescription>
         </FormHeader>
         <FormContent>
-          <div className="flex flex-row items-center justify-between gap-3">
+          <div className="flex flex-row items-start justify-between gap-3">
             <InputGroup
               label="First name"
               htmlFor="first_name"
               type="text"
               placeholder="ex: Jhon"
+              aria-invalid={errors.first_name ? true : false}
+              errorMsg={errors.first_name?.message}
               requiredLabel
+              {...register("first_name", {
+                required: { value: true, message: "first name is required" },
+                minLength: {
+                  value: 3,
+                  message: "first name at least 3 length",
+                },
+              })}
             />
             <InputGroup
               label="Last name"
               htmlFor="last_name"
               type="text"
               placeholder="ex: Doe"
+              aria-invalid={errors.last_name ? true : false}
+              errorMsg={errors.last_name?.message}
+              {...register("last_name", {
+                minLength: { value: 3, message: "last name at least 3 length" },
+              })}
             />
           </div>
           <DatePicker
             label="Date of birth"
             htmlFor="date_of_birth"
             placeholder="Select your date of birth"
+            aria-invalid={errors ? true : false}
             requiredLabel
           />
           <RadioOptions label="Choose your gender" requiredLabel />
@@ -73,22 +97,47 @@ export default function SignUpPage() {
             htmlFor="email_address"
             type="email"
             placeholder="ex: jhondoe@mail.com"
+            aria-invalid={errors.email_address ? true : false}
+            errorMsg={errors.email_address?.message}
             requiredLabel
+            {...register("email_address", {
+              required: { value: true, message: "email address is required" },
+              minLength: {
+                value: 3,
+                message: "email address at least 3 length",
+              },
+            })}
           />
           <InputGroup
             label="Password email"
             htmlFor="password_email"
             type="password"
             placeholder="ex: ********"
+            aria-invalid={errors.password_email ? true : false}
+            errorMsg={errors.password_email?.message}
             requiredLabel
+            {...register("password_email", {
+              required: { value: true, message: "password email is required" },
+              minLength: {
+                value: 3,
+                message: "password email at least 8 length",
+              },
+            })}
           />
         </FormContent>
         <FormFooter>
           <Button
             size={"lg"}
-            className="bg-linear-to-r/oklch from-blue-600 to-blue-900 w-full hover:brightness-90 focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
+            className="bg-linear-to-r/oklch from-blue-600 to-blue-900 w-full hover:brightness-90 focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px] disabled:brightness-90 disabled:opacity-100"
+            disabled={isLoading ? true : false}
           >
-            <p className="text-base font-medium text-white">register account</p>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <p className="text-base font-medium text-white">
+                register account
+              </p>
+            )}
           </Button>
         </FormFooter>
       </FormComponent>

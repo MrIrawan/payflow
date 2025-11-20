@@ -57,6 +57,7 @@ export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   requiredLabel?: boolean;
   htmlFor: string;
   className?: string;
+  errorMsg?: string | React.ReactElement | undefined;
 }
 
 export interface DatePickerProps {
