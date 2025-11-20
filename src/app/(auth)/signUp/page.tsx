@@ -90,7 +90,7 @@ export default function SignUpPage() {
           <CardFooter className="p-0 w-full">
             <Button
               size={"lg"}
-              className="bg-linear-to-r/oklch from-blue-600 to-blue-900 w-full hover:brightness-90"
+              className="bg-linear-to-r/oklch from-blue-600 to-blue-900 w-full hover:brightness-90 focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
             >
               <p className="text-base font-medium text-white">
                 register account

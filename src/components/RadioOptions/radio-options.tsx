@@ -19,13 +19,21 @@ export function RadioOptions({
       )}
       <RadioGroup className="flex flex-row gap-3 py-1 h-9">
         <div className="flex flex-row gap-2 items-center">
-          <RadioGroupItem value="male" id="male" />
+          <RadioGroupItem
+            value="male"
+            id="male"
+            className="focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
+          />
           <Label htmlFor="male" className="text-sm font-medium">
             male
           </Label>
         </div>
         <div className="flex flex-row gap-2 items-center">
-          <RadioGroupItem value="female" id="female" />
+          <RadioGroupItem
+            value="female"
+            id="female"
+            className="focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
+          />
           <Label htmlFor="female" className="text-sm font-medium">
             female
           </Label>

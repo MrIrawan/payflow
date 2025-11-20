@@ -44,7 +44,7 @@ export function DatePicker({
           <Button
             variant="outline"
             id={htmlFor}
-            className="w-full justify-between font-normal text-black"
+            className="w-full justify-between font-normal text-black focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
           >
             {selected ? selected.toLocaleDateString() : placeholder}
             <ChevronDownIcon />
