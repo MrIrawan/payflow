@@ -4,6 +4,9 @@ import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 import PayflowLogo from "../../../../public/images/payflow-logo.svg";
 
+import { useForm, SubmitHandler, Control } from "react-hook-form";
+import { SignUpData } from "@/types/types";
+
 import {
   Card,
   CardHeader,
@@ -18,6 +21,12 @@ import { InputGroup } from "@/components/InputGroup/input-group";
 import { DatePicker } from "@/components/DatePicker/date-picker";
 
 export default function SignUpPage() {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid, isLoading },
+  } = useForm<SignUpData>();
   return (
     <>
       <form className="w-full h-full rounded-none shadow-none flex flex-row justify-center items-center">
