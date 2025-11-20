@@ -1,5 +1,10 @@
 import { LucideIcon } from "lucide-react";
-import { InputHTMLAttributes, SelectHTMLAttributes } from "react";
+import {
+  FormHTMLAttributes,
+  HTMLAttributes,
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+} from "react";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -76,4 +81,28 @@ export interface RadioOptionsProps {
   label: string;
   requiredLabel?: boolean;
   optionsNumber?: number | undefined;
+}
+
+export interface FormComponentProps
+  extends FormHTMLAttributes<HTMLFormElement> {
+  children: React.ReactNode;
+  asWrapper?: boolean;
+  className?: string;
+}
+
+export interface FormHeaderProps extends HTMLAttributes<HTMLDivElement> {
+  logo?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+export interface FormContentProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export interface FormFooterPops extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+  className?: string;
+  button?: boolean;
 }
