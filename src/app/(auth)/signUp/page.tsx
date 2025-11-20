@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 import { InputGroup } from "@/components/InputGroup/input-group";
 import { DatePicker } from "@/components/DatePicker/date-picker";
+import { RadioOptions } from "@/components/RadioOptions/radio-options";
 
 export default function SignUpPage() {
   const {
@@ -68,6 +69,7 @@ export default function SignUpPage() {
               htmlFor="date_of_birth"
               placeholder="Select your date of birth"
             />
+            <RadioOptions label="Choose your gender" />
             <InputGroup
               label="Email address"
               htmlFor="email_address"

@@ -69,3 +69,8 @@ export interface SignUpData {
   email_address: string;
   password_email: string;
 }
+
+export interface RadioOptionsProps {
+  label: string;
+  optionsNumber?: number | undefined;
+}
