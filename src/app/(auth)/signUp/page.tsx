@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 
-import { useForm, SubmitHandler, Control } from "react-hook-form";
+import { useForm, SubmitHandler, Control, Controller } from "react-hook-form";
 import { SignUpData } from "@/types/types";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -84,14 +84,33 @@ export default function SignUpPage() {
               })}
             />
           </div>
-          <DatePicker
-            label="Date of birth"
-            htmlFor="date_of_birth"
-            placeholder="Select your date of birth"
-            aria-invalid={errors ? true : false}
-            requiredLabel
+          <Controller
+            control={control}
+            name="date_of_birth"
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
+                label="Date of birth"
+                htmlFor="date_of_birth"
+                placeholder="Select your date of birth"
+                aria-invalid={errors ? true : false}
+                requiredLabel
+                onchange={onChange}
+                value={value}
+              />
+            )}
           />
-          <RadioOptions label="Choose your gender" requiredLabel />
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { onChange, value } }) => (
+              <RadioOptions
+                label="Choose your gender"
+                requiredLabel
+                value={value}
+                onvaluechange={onChange}
+              />
+            )}
+          />
           <InputGroup
             label="Email address"
             htmlFor="email_address"

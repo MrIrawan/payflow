@@ -81,7 +81,8 @@ export interface SignUpData {
 export interface RadioOptionsProps {
   label: string;
   requiredLabel?: boolean;
-  optionsNumber?: number | undefined;
+  value?: "male" | "female" | undefined;
+  onvaluechange?: (gender?: string) => void;
 }
 
 export interface FormComponentProps

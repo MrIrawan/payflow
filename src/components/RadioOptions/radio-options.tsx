@@ -6,7 +6,8 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 export function RadioOptions({
   label,
-  optionsNumber,
+  value,
+  onvaluechange,
   requiredLabel = false,
 }: RadioOptionsProps) {
   return (
@@ -17,7 +18,10 @@ export function RadioOptions({
           <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
         </Label>
       )}
-      <RadioGroup className="flex flex-row gap-3 py-1 h-9">
+      <RadioGroup
+        className="flex flex-row gap-3 py-1 h-9"
+        onValueChange={onvaluechange}
+      >
         <div className="flex flex-row gap-2 items-center">
           <RadioGroupItem
             value="male"
