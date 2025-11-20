@@ -57,4 +57,6 @@ export interface DatePickerProps {
   label: string;
   htmlFor: string;
   placeholder: string;
+  value?: Date | undefined;
+  onchange?: (date?: Date) => void;
 }

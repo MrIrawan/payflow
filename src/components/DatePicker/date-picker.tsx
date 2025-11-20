@@ -1,7 +1,7 @@
+// DatePicker.tsx (tidak lagi mem-manage state internal untuk tanggal; mendukung controlled)
 "use client";
 
 import { useState } from "react";
-
 import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,31 +13,47 @@ import {
 } from "@/components/ui/popover";
 import { DatePickerProps } from "@/types/types";
 
-export function DatePicker({ label, htmlFor, placeholder }: DatePickerProps) {
+/**
+ * Props extended:
+ * - value: Date | undefined  (controlled value)
+ * - onChange: (date?: Date) => void
+ */
+export function DatePicker({
+  label,
+  htmlFor,
+  placeholder,
+  value,
+  onchange,
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  // local fallback if parent doesn't control it
+  const [local, setLocal] = useState<Date | undefined>(undefined);
+  const selected = value ?? local;
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label htmlFor={htmlFor}>{label}</Label>
+      {label && <Label htmlFor={htmlFor}>{label}</Label>}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button
             variant="outline"
-            id="date"
+            id={htmlFor}
             className="w-full justify-between font-normal text-black"
           >
-            {date ? date.toLocaleDateString() : placeholder}
+            {selected ? selected.toLocaleDateString() : placeholder}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
-            selected={date}
+            selected={selected}
             captionLayout="dropdown"
             className="min-w-[350px]"
-            onSelect={(date) => {
-              setDate(date);
+            onSelect={(d) => {
+              // propagate to parent if exists else update local state
+              if (onchange) onchange(d ?? undefined);
+              else setLocal(d ?? undefined);
               setOpen(false);
             }}
           />
