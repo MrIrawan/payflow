@@ -33,15 +33,33 @@ export default function SignUpPage() {
     formState: { errors, isValid },
   } = useForm<SignUpRequest>();
 
-  const onSubmitForm: SubmitHandler<SignUpRequest> = (data) => {
+  const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
     setIsLoading(true);
-    setTimeout(() => {
-      if (isValid) {
-        console.log(data);
-        reset();
+    if (isValid) {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+
+        if (!response.ok)
+          throw new Error("failed to Sign Up, something went error");
+
+        console.log(await response.json());
+      } catch (err) {
+        console.error(err);
+        throw err;
+      } finally {
         setIsLoading(false);
       }
-    }, 1500);
+      reset();
+    }
   };
 
   return (
