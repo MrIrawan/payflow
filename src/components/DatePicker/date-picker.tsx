@@ -1,0 +1,70 @@
+// DatePicker.tsx (tidak lagi mem-manage state internal untuk tanggal; mendukung controlled)
+"use client";
+
+import { useState } from "react";
+import { ChevronDownIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { DatePickerProps } from "@/types/types";
+
+/**
+ * Props extended:
+ * - value: Date | undefined  (controlled value)
+ * - onChange: (date?: Date) => void
+ */
+export function DatePicker({
+  label,
+  htmlFor,
+  placeholder,
+  requiredLabel = false,
+  value,
+  onchange,
+}: DatePickerProps) {
+  const [open, setOpen] = useState(false);
+  // local fallback if parent doesn't control it
+  const [local, setLocal] = useState<Date | undefined>(undefined);
+  const selected = value ?? local;
+
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      {label && (
+        <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
+          {label}{" "}
+          <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
+        </Label>
+      )}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild className="w-full">
+          <Button
+            variant="outline"
+            id={htmlFor}
+            className="w-full justify-between font-normal text-black focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
+          >
+            {selected ? selected.toLocaleDateString() : placeholder}
+            <ChevronDownIcon />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={selected}
+            captionLayout="dropdown"
+            className="min-w-[350px]"
+            onSelect={(d) => {
+              // propagate to parent if exists else update local state
+              if (onchange) onchange(d ?? undefined);
+              else setLocal(d ?? undefined);
+              setOpen(false);
+            }}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
