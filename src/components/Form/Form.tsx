@@ -47,7 +47,13 @@ export function FormComponent({
   );
 }
 
-function FormHeader({ logo, className, children, ...props }: FormHeaderProps) {
+function FormHeader({
+  logo,
+  logoTitle,
+  className,
+  children,
+  ...props
+}: FormHeaderProps) {
   return (
     <CardHeader className={cn(className)} {...props}>
       {logo ? (
@@ -58,7 +64,9 @@ function FormHeader({ logo, className, children, ...props }: FormHeaderProps) {
             width={35}
             height={35}
           />
-          <h3 className="text-lg font-semibold">payflow sign up</h3>
+          <h3 className="text-lg font-semibold">
+            {logoTitle ? logoTitle : "logo title here"}
+          </h3>
         </div>
       ) : (
         ""

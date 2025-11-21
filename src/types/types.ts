@@ -100,6 +100,7 @@ export interface FormComponentProps
 
 export interface FormHeaderProps extends HTMLAttributes<HTMLDivElement> {
   logo?: boolean;
+  logoTitle?: string;
   className?: string;
   children: React.ReactNode;
 }

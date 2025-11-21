@@ -42,7 +42,7 @@ export default function SignInPage() {
   return (
     <>
       <FormComponent onSubmit={handleSubmit(onSubmitForm)}>
-        <FormHeader logo>
+        <FormHeader logo logoTitle="PayFlow Sign In">
           <CardTitle className="text-4xl font-bold leading-snug">
             because convenience doesn't come twice.
           </CardTitle>
