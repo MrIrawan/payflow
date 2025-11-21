@@ -6,7 +6,7 @@ import Image from "next/image";
 import SignInIllustration from "../../../../public/images/sign_in_illustration.svg";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignInData } from "@/types/types";
+import { SignInRequest } from "@/types/auth";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import {
@@ -27,9 +27,9 @@ export default function SignInPage() {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<SignInData>();
+  } = useForm<SignInRequest>();
 
-  const onSubmitForm: SubmitHandler<SignInData> = (data) => {
+  const onSubmitForm: SubmitHandler<SignInRequest> = (data) => {
     setIsLoading(true);
     setTimeout(() => {
       if (isValid) {
@@ -56,11 +56,11 @@ export default function SignInPage() {
             htmlFor="full_name"
             type="text"
             placeholder="ex: Jhon Doe"
-            {...register("username", {
-              minLength: { value: 3, message: "username at least 3 length" },
+            {...register("full_name", {
+              minLength: { value: 3, message: "full name at least 3 length" },
             })}
-            aria-invalid={errors.username ? true : false}
-            errorMsg={errors.username?.message}
+            aria-invalid={errors.full_name ? true : false}
+            errorMsg={errors.full_name?.message}
           />
           <InputGroup
             label="Email address"

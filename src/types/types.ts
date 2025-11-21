@@ -69,25 +69,10 @@ export interface DatePickerProps {
   onchange?: (date?: Date) => void;
 }
 
-export interface SignUpData {
-  first_name: string;
-  last_name?: string;
-  date_of_birth: Date;
-  gender: "male" | "female";
-  email_address: string;
-  password_email: string;
-}
-
-export interface SignInData {
-  username?: string;
-  email_address: string;
-  password_email: string;
-}
-
 export interface RadioOptionsProps {
   label: string;
   requiredLabel?: boolean;
-  value?: "male" | "female" | undefined;
+  value?: "male" | "female" | string;
   onvaluechange?: (gender?: string) => void;
 }
 

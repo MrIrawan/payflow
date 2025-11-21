@@ -7,7 +7,7 @@ import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 
 import { useForm, SubmitHandler, Control, Controller } from "react-hook-form";
-import { SignUpData } from "@/types/types";
+import { SignUpRequest } from "@/types/auth";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -31,9 +31,9 @@ export default function SignUpPage() {
     control,
     reset,
     formState: { errors, isValid },
-  } = useForm<SignUpData>();
+  } = useForm<SignUpRequest>();
 
-  const onSubmitForm: SubmitHandler<SignUpData> = (data) => {
+  const onSubmitForm: SubmitHandler<SignUpRequest> = (data) => {
     setIsLoading(true);
     setTimeout(() => {
       if (isValid) {
