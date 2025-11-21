@@ -8,7 +8,7 @@ export interface SignUpRequest {
 }
 
 export interface SignInRequest {
-  full_name?: string;
+  username?: string;
   email_address: string;
   password_email: string;
 }
