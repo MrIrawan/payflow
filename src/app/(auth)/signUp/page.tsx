@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
 import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 
@@ -159,6 +160,14 @@ export default function SignUpPage() {
             )}
           </Button>
         </FormFooter>
+        <div className="w-full">
+          <p className="text-sm font-normal text-black text-center">
+            Already have an account?{" "}
+            <Link href={"/signIn"} className="text-blue-600 hover:underline">
+              Sign in here.
+            </Link>
+          </p>
+        </div>
       </FormComponent>
       <Card className="w-full h-full ring-0 border-0 shadow-none rounded-none">
         <Image

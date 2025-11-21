@@ -78,6 +78,12 @@ export interface SignUpData {
   password_email: string;
 }
 
+export interface SignInData {
+  username?: string;
+  email_address: string;
+  password_email: string;
+}
+
 export interface RadioOptionsProps {
   label: string;
   requiredLabel?: boolean;
