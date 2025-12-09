@@ -100,3 +100,9 @@ export interface FormFooterPops extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   button?: boolean;
 }
+
+export interface SidebarNavigationLinkProps {
+  href: string;
+  Icon: LucideIcon;
+  label: string;
+}

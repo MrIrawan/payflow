@@ -1,3 +1,4 @@
+import { AdminSidebar } from "@/components/AdminSidebar/admin-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function AdminLayout({
@@ -5,7 +6,8 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SidebarProvider>
-      <SidebarTrigger />
+      <AdminSidebar />
+      {/* <SidebarTrigger /> */}
       {children}
     </SidebarProvider>
   );
