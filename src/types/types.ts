@@ -103,8 +103,9 @@ export interface FormFooterPops extends HTMLAttributes<HTMLDivElement> {
 
 export interface SidebarNavigationLinkProps {
   href: string;
-  Icon: LucideIcon;
+  Icon?: LucideIcon;
   label: string;
+  isActive?: boolean;
 }
 
 export interface CollabsibleSidebarNavigationProps {
