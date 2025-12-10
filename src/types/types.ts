@@ -107,6 +107,7 @@ export interface SidebarNavigationLinkProps {
   label: string;
   isActive?: boolean;
   onclick?: () => void;
+  className?: string;
 }
 
 export interface CollabsibleSidebarNavigationProps {

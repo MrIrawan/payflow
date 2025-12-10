@@ -3,12 +3,15 @@ import Link from "next/link";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { SidebarNavigationLinkProps } from "@/types/types";
 
+import { cn } from "@/lib/utils";
+
 export function SidebarNavigationLink({
   href,
   Icon,
   label,
   isActive,
   onclick,
+  className,
 }: SidebarNavigationLinkProps) {
   return (
     <SidebarMenuItem>
@@ -24,7 +27,9 @@ export function SidebarNavigationLink({
           }`}
         >
           {Icon && <Icon size={16} />}
-          <p className="text-lg font-medium text-black">{label}</p>
+          <p className={cn("text-lg font-medium text-black", className)}>
+            {label}
+          </p>
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>

@@ -15,6 +15,7 @@ import {
   SidebarMenuSubItem,
 } from "../ui/sidebar";
 import Link from "next/link";
+import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
 export function CollabsipleSidebarNavigation({
   label,
@@ -22,7 +23,7 @@ export function CollabsipleSidebarNavigation({
   sub,
 }: CollabsibleSidebarNavigationProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [activeLink, setActiveLink] = useState<null | string>(null);
   return (
     <Collapsible className="w-full" open={isOpen} onOpenChange={setIsOpen}>
       <SidebarMenuItem>
@@ -38,24 +39,18 @@ export function CollabsipleSidebarNavigation({
           </SidebarMenuButton>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <SidebarMenuSub className="gap-3">
+          <SidebarMenuSub className="gap-0">
             {sub.map((subItem, key) => (
-              <SidebarMenuSubItem key={key}>
-                <SidebarMenuButton asChild>
-                  <Link
-                    href={subItem.href}
-                    onClick={() => setIsActive(!isActive)}
-                  >
-                    <p
-                      className={`text-base font-normal ${
-                        isActive ? "text-blue-600" : "text-black"
-                      }`}
-                    >
-                      {subItem.label}
-                    </p>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuSubItem>
+              <SidebarNavigationLink
+                key={key}
+                label={subItem.label}
+                href={subItem.href}
+                onclick={() => setActiveLink(subItem.href)}
+                isActive={activeLink === subItem.href}
+                className={`text-base ${
+                  activeLink === subItem.href ? "text-blue-600" : "text-black"
+                }`}
+              />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>
