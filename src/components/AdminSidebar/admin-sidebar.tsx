@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg";
 
@@ -10,6 +12,8 @@ import {
 } from "../ui/sidebar";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { staticSidebarNavigationLinks } from "../../../public/data/static-sidebar-navigation";
+import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
+import { BoxIcon } from "lucide-react";
 
 export function AdminSidebar() {
   return (
@@ -24,6 +28,11 @@ export function AdminSidebar() {
             {staticSidebarNavigationLinks.map((link, index) => (
               <SidebarNavigationLink key={index} {...link} />
             ))}
+            <CollabsipleSidebarNavigation
+              label="hahahah"
+              Icon={BoxIcon}
+              sub={staticSidebarNavigationLinks}
+            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
