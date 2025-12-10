@@ -16,6 +16,7 @@ import {
 } from "../ui/sidebar";
 import Link from "next/link";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 export function CollabsipleSidebarNavigation({
   label,
@@ -31,10 +32,15 @@ export function CollabsipleSidebarNavigation({
           <SidebarMenuButton asChild className="[&>svg]:size-7 h-fit">
             <Link
               href={"#"}
-              className="flex flex-row justify-start gap-2 items-center w-full h-6"
+              className="flex flex-row justify-between gap-2 items-center w-full h-6"
             >
-              <Icon size={16} />
-              <p className="text-lg font-medium text-black">{label}</p>
+              <div className="flex flex-row gap-2 justify-start items-center">
+                <Icon size={16} className="size-7" />
+                <p className="text-lg font-medium text-black">{label}</p>
+              </div>
+              <ChevronDownIcon
+                className={`${isOpen ? "rotate-180" : ""} transition-transform`}
+              />
             </Link>
           </SidebarMenuButton>
         </CollapsibleTrigger>
