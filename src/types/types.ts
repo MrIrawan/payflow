@@ -106,6 +106,7 @@ export interface SidebarNavigationLinkProps {
   Icon?: LucideIcon;
   label: string;
   isActive?: boolean;
+  onclick?: () => void;
 }
 
 export interface CollabsibleSidebarNavigationProps {

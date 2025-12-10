@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Image from "next/image";
 import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg";
 
@@ -16,6 +18,7 @@ import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/co
 import { BoxIcon } from "lucide-react";
 
 export function AdminSidebar() {
+  const [activeLink, setActiveLink] = useState<null | string>(null);
   return (
     <Sidebar className="px-2.5">
       <SidebarHeader className="p-4">
@@ -26,7 +29,12 @@ export function AdminSidebar() {
           {/* Sidebar items go here */}
           <SidebarMenu className="gap-4">
             {staticSidebarNavigationLinks.map((link, index) => (
-              <SidebarNavigationLink key={index} {...link} />
+              <SidebarNavigationLink
+                key={index}
+                {...link}
+                isActive={activeLink === link.href}
+                onclick={() => setActiveLink(link.href)}
+              />
             ))}
             <CollabsipleSidebarNavigation
               label="hahahah"

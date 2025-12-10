@@ -8,10 +8,15 @@ export function SidebarNavigationLink({
   Icon,
   label,
   isActive,
+  onclick,
 }: SidebarNavigationLinkProps) {
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild className="[&>svg]:size-7 h-fit">
+      <SidebarMenuButton
+        asChild
+        className="[&>svg]:size-7 h-fit"
+        onClick={onclick}
+      >
         <Link
           href={href}
           className={`w-full flex flex-row items-center justify-start gap-2 h-6 ${
