@@ -110,7 +110,7 @@ export interface SidebarNavigationLinkProps {
   className?: string;
 }
 
-export interface CollabsibleSidebarNavigationProps {
+export interface CollapsibleSidebarNavigationProps {
   label: string;
   Icon: LucideIcon;
   sub: SidebarNavigationLinkProps[];

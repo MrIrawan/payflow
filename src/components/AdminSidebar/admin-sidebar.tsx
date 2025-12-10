@@ -15,7 +15,8 @@ import {
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { staticSidebarNavigationLinks } from "../../../public/data/static-sidebar-navigation";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
-import { BoxIcon } from "lucide-react";
+import { BoxIcon, CalendarCheck2 } from "lucide-react";
+import { staticCollapsibleNavigationLinks } from "../../../public/data/static-collapsible-navigation";
 
 export function AdminSidebar() {
   const [activeLink, setActiveLink] = useState<null | string>(null);
@@ -37,9 +38,9 @@ export function AdminSidebar() {
               />
             ))}
             <CollabsipleSidebarNavigation
-              label="hahahah"
-              Icon={BoxIcon}
-              sub={staticSidebarNavigationLinks}
+              label="Absensi"
+              Icon={CalendarCheck2}
+              sub={staticCollapsibleNavigationLinks.sub}
             />
           </SidebarMenu>
         </SidebarGroup>

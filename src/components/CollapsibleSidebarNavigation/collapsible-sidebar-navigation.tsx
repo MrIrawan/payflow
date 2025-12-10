@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { CollabsibleSidebarNavigationProps } from "@/types/types";
+import { CollapsibleSidebarNavigationProps } from "@/types/types";
 import {
   Collapsible,
   CollapsibleContent,
@@ -22,7 +22,7 @@ export function CollabsipleSidebarNavigation({
   label,
   Icon,
   sub,
-}: CollabsibleSidebarNavigationProps) {
+}: CollapsibleSidebarNavigationProps) {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [activeLink, setActiveLink] = useState<null | string>(null);
   return (
