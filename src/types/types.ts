@@ -41,15 +41,9 @@ export interface QuickNavigationCardProps {
   link: string;
 }
 
-export interface DataCardProps {
-  title: string;
-  description: string;
-  link: string;
-  button: boolean;
+export interface DataCardProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
   className?: string;
-  titleStyle?: string;
-  descriptionStyle?: string;
-  buttonStyle?: string;
 }
 
 export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
