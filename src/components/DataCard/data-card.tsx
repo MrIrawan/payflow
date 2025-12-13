@@ -5,7 +5,13 @@ import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 export function DataCard({ children, className, ...props }: DataCardProps) {
   return (
-    <Card className={cn(className)} {...props}>
+    <Card
+      className={cn(
+        "shadow-none w-full h-[250px] flex flex-col gap-0 items-start p-4",
+        className
+      )}
+      {...props}
+    >
       {children}
     </Card>
   );
@@ -17,7 +23,13 @@ export function DataCardHeader({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <CardHeader className={cn(className)} {...props}>
+    <CardHeader
+      className={cn(
+        "w-full flex flex-row items-center gap-3 justify-start p-0",
+        className
+      )}
+      {...props}
+    >
       {children}
     </CardHeader>
   );

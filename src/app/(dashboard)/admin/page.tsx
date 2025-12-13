@@ -14,8 +14,8 @@ export default function AdminPage() {
       <div className="w-full flex flex-col gap-6">
         {/* Data card component */}
         <div className="flex flex-row justify-between items-center gap-6">
-          <DataCard className="w-full h-[250px] flex flex-col gap-0 items-start">
-            <DataCardHeader className="flex flex-row items-center gap-3 justify-start">
+          <DataCard>
+            <DataCardHeader>
               <div className="w-16 h-16 p-2.5 rounded-xl bg-blue-100 flex flex-row items-center justify-center">
                 <MarsIcon className="text-blue-600 size-9" />
               </div>
@@ -38,8 +38,8 @@ export default function AdminPage() {
               </Button>
             </DataCardFooter>
           </DataCard>
-          <DataCard className="w-full h-[250px] flex flex-col gap-0 items-start">
-            <DataCardHeader className="flex flex-row items-center gap-3 justify-start">
+          <DataCard>
+            <DataCardHeader>
               <div className="w-16 h-16 p-2.5 rounded-xl bg-pink-100 flex flex-row items-center justify-center">
                 <VenusIcon className="text-pink-600 size-9" />
               </div>
@@ -62,8 +62,8 @@ export default function AdminPage() {
               </Button>
             </DataCardFooter>
           </DataCard>
-          <DataCard className="w-full h-[250px] flex flex-col gap-0 items-start">
-            <DataCardHeader className="flex flex-row items-center gap-3 justify-start">
+          <DataCard>
+            <DataCardHeader>
               <div className="w-16 h-16 p-2.5 rounded-xl bg-yellow-100 flex flex-row items-center justify-center">
                 <Users2Icon className="text-yellow-600 size-9" />
               </div>
