@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart } from "recharts";
+import { Bar, BarChart, CartesianGrid } from "recharts";
 
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
@@ -112,6 +112,7 @@ export default function AdminPage() {
         {/* attendance graph */}
         <ChartContainer config={chartConfig} className="h-[500px] w-full">
           <BarChart accessibilityLayer data={staticAttendanceChartData}>
+            <CartesianGrid vertical={false} />
             <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
             <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
             <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
