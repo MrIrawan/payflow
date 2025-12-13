@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
@@ -113,6 +113,13 @@ export default function AdminPage() {
         <ChartContainer config={chartConfig} className="h-[500px] w-full">
           <BarChart accessibilityLayer data={staticAttendanceChartData}>
             <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
             <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
             <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
             <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
