@@ -112,42 +112,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-.bg-image-male {
-  background-image: url("../../public/images/small-data-card-male.svg");
-  background-position: right;
-  background-size: cover;
-}
-
-.bg-image-female {
-  background-image: url("../../public/images/small-data-card-female.svg");
-  background-position: right;
-  background-size: cover;
-}
-
-.bg-image-total {
-  background-image: url("../../public/images/small-data-card-total.svg");
-  background-position: right;
-  background-size: cover;
-}
-
-.bg-invert-male {
-  background-image: url("../../public/images/invert-data-card-male.svg");
-  background-position: right;
-  background-size: cover;
-}
-
-.bg-invert-female {
-  background-image: url("../../public/images/invert-data-card-female.svg");
-  background-position: right;
-  background-size: cover;
-}
-
-.bg-invert-total {
-  background-image: url("../../public/images/invert-data-card-total.svg");
-  background-position: right;
-  background-size: cover;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
