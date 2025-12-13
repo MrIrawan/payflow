@@ -7,6 +7,8 @@ import {
   type ChartConfig,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart";
 import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
 
@@ -126,6 +128,7 @@ export default function AdminPage() {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
             <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
             <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
             <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
