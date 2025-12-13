@@ -2,7 +2,12 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
+import {
+  ChartContainer,
+  type ChartConfig,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
 
 const chartConfig = {
@@ -120,6 +125,7 @@ export default function AdminPage() {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
             <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
             <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
