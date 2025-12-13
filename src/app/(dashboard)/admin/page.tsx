@@ -117,23 +117,25 @@ export default function AdminPage() {
           </DataCard>
         </div>
         {/* attendance graph */}
-        <ChartContainer config={chartConfig} className="h-[500px] w-full">
-          <BarChart accessibilityLayer data={staticAttendanceChartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
-            <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
-            <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
-          </BarChart>
-        </ChartContainer>
+        <Card className="shadow-none">
+          <ChartContainer config={chartConfig} className="h-[500px] w-full">
+            <BarChart accessibilityLayer data={staticAttendanceChartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
+              <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
+              <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
+            </BarChart>
+          </ChartContainer>
+        </Card>
         {/* employee table component */}
         <Card className="w-full min-h-[500px]"></Card>
       </div>
