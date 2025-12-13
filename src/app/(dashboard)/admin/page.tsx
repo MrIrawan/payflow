@@ -1,3 +1,25 @@
+"use client";
+
+import { Bar, BarChart } from "recharts";
+
+import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
+import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
+
+const chartConfig = {
+  hadir: {
+    label: "Hadir",
+    color: "#2563eb",
+  },
+  sakit: {
+    label: "Sakit",
+    color: "#60a5fa",
+  },
+  alfa: {
+    label: "Alfa",
+    color: "#4b5563",
+  },
+} satisfies ChartConfig;
+
 import {
   DataCard,
   DataCardBody,
@@ -88,7 +110,13 @@ export default function AdminPage() {
           </DataCard>
         </div>
         {/* attendance graph */}
-        <Card className="w-full min-h-[300px]"></Card>
+        <ChartContainer config={chartConfig} className="h-[500px] w-full">
+          <BarChart accessibilityLayer data={staticAttendanceChartData}>
+            <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
+            <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
+            <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
+          </BarChart>
+        </ChartContainer>
         {/* employee table component */}
         <Card className="w-full min-h-[500px]"></Card>
       </div>
