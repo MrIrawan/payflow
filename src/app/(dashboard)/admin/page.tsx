@@ -36,6 +36,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon, MarsIcon, Users2Icon, VenusIcon } from "lucide-react";
+import { ChartHeader } from "@/components/ChartHeader/chart-header";
 
 export default function AdminPage() {
   return (
@@ -118,6 +119,7 @@ export default function AdminPage() {
         </div>
         {/* attendance graph */}
         <Card className="shadow-none">
+          <ChartHeader />
           <ChartContainer config={chartConfig} className="h-[500px] w-full">
             <BarChart accessibilityLayer data={staticAttendanceChartData}>
               <CartesianGrid vertical={false} />
