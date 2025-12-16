@@ -1,15 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
-import {
-  ChartContainer,
-  type ChartConfig,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
-} from "@/components/ui/chart";
+import { type ChartConfig } from "@/components/ui/chart";
 import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
 
 const chartConfig = {

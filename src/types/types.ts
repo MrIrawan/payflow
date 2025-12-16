@@ -1,5 +1,10 @@
 import { LucideIcon } from "lucide-react";
-import { FormHTMLAttributes, HTMLAttributes, InputHTMLAttributes } from "react";
+import {
+  ButtonHTMLAttributes,
+  FormHTMLAttributes,
+  HTMLAttributes,
+  InputHTMLAttributes,
+} from "react";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -103,4 +108,20 @@ export interface CollapsibleSidebarNavigationProps {
   label: string;
   Icon: LucideIcon;
   sub: SidebarNavigationLinkProps[];
+}
+
+export interface ButtonOptionProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  variant?:
+    | "default"
+    | "ghost"
+    | "outline"
+    | "destructive"
+    | "secondary"
+    | "link";
+  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+  placeholder: string;
+  Icon?: LucideIcon;
+  align?: "start" | "end" | "center";
 }
