@@ -1,10 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import {
-  FormHTMLAttributes,
-  HTMLAttributes,
-  InputHTMLAttributes,
-  SelectHTMLAttributes,
-} from "react";
+import { FormHTMLAttributes, HTMLAttributes, InputHTMLAttributes } from "react";
 
 export interface BreadcrumbsProps {
   currentPage: string;
