@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon, MarsIcon, Users2Icon, VenusIcon } from "lucide-react";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
+import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
 
 export default function AdminPage() {
   return (
@@ -120,23 +121,10 @@ export default function AdminPage() {
         {/* attendance graph */}
         <Card className="shadow-none">
           <ChartHeader />
-          <ChartContainer config={chartConfig} className="h-[500px] w-full">
-            <BarChart accessibilityLayer data={staticAttendanceChartData}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="month"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="hadir" fill="var(--color-hadir)" radius={4} />
-              <Bar dataKey="sakit" fill="var(--color-sakit)" radius={4} />
-              <Bar dataKey="alfa" fill="var(--color-alfa)" radius={4} />
-            </BarChart>
-          </ChartContainer>
+          <AttendanceChart
+            config={chartConfig}
+            data={staticAttendanceChartData}
+          />
         </Card>
         {/* employee table component */}
         <Card className="w-full min-h-[500px]"></Card>
