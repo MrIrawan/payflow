@@ -38,6 +38,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon, MarsIcon, Users2Icon, VenusIcon } from "lucide-react";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
+import { DataTable } from "@/components/DataTable/data-table";
 
 export default function AdminPage() {
   return (
@@ -127,7 +128,9 @@ export default function AdminPage() {
           />
         </Card>
         {/* employee table component */}
-        <Card className="w-full min-h-[500px]"></Card>
+        <Card className="w-full min-h-[500px] py-6 px-3">
+          <DataTable />
+        </Card>
       </div>
     </section>
   );
