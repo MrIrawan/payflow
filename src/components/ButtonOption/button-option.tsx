@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
-
 import { cn } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ButtonOptionProps } from "@/types/types";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { GridIcon, TableIcon } from "lucide-react";
 
 export function ButtonOption({
   children,
@@ -19,7 +24,7 @@ export function ButtonOption({
 }: ButtonOptionProps) {
   return (
     <Popover>
-      <PopoverTrigger className="w-fit">
+      <PopoverTrigger asChild>
         <Button variant={variant} size={size} className={cn(props.className)}>
           {Icon ? (
             <>
@@ -31,7 +36,22 @@ export function ButtonOption({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align={align}>{children}</PopoverContent>
+      <PopoverContent align={align} className="w-fit">
+        {children}
+      </PopoverContent>
     </Popover>
+  );
+}
+
+export function SelectOption() {
+  return (
+    <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="hahahah" />
+      </SelectTrigger>
+      <SelectContent>
+        <div className="w-40 h-40"></div>
+      </SelectContent>
+    </Select>
   );
 }

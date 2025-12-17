@@ -1,6 +1,11 @@
 "use client";
 
-import { EllipsisIcon } from "lucide-react";
+import {
+  EllipsisIcon,
+  GridIcon,
+  LayoutDashboardIcon,
+  TableIcon,
+} from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -13,6 +18,7 @@ import { Card } from "../ui/card";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { ButtonOption } from "../ButtonOption/button-option";
 
 export function DataTable() {
   return (
@@ -27,7 +33,25 @@ export function DataTable() {
           <Button variant={"outline"}>status</Button>
           <Button variant={"outline"}>reset</Button>
         </div>
-        <Button variant={"outline"}>view</Button>
+        {/* <SelectOption /> */}
+        <ButtonOption placeholder="view option" Icon={LayoutDashboardIcon}>
+          <div className="flex flex-row items-center gap-3">
+            <Button
+              variant={"outline"}
+              className="flex flex-col items-center justify-center h-20 w-20 border border-gray-300 rounded-lg"
+            >
+              <GridIcon className="text-gray-600" />
+              <p className="text-base font-medium text-gray-600">Grid</p>
+            </Button>
+            <Button
+              variant={"outline"}
+              className="flex flex-col items-center justify-center h-20 w-20 border border-gray-300 rounded-lg"
+            >
+              <TableIcon className="text-gray-600" />
+              <p className="text-base font-medium text-gray-600">Table</p>
+            </Button>
+          </div>
+        </ButtonOption>
       </Card>
       <Table>
         <TableHeader>
