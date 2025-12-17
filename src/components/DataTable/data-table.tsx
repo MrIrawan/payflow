@@ -19,8 +19,9 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ButtonOption } from "../ButtonOption/button-option";
+import { DataTableProps } from "@/types/table";
 
-export function DataTable() {
+export function DataTable({ headers, data }: DataTableProps) {
   return (
     <div className="w-full flex flex-col gap-6 p-3">
       <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
@@ -33,7 +34,6 @@ export function DataTable() {
           <Button variant={"outline"}>status</Button>
           <Button variant={"outline"}>reset</Button>
         </div>
-        {/* <SelectOption /> */}
         <ButtonOption placeholder="view option" Icon={LayoutDashboardIcon}>
           <div className="flex flex-row items-center gap-3">
             <Button
@@ -56,104 +56,42 @@ export function DataTable() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-fit capitalize">Full Name</TableHead>
-            <TableHead className="w-fit capitalize">Email</TableHead>
-            <TableHead className="w-fit capitalize">Job Title</TableHead>
-            <TableHead className="w-fit capitalize">Company</TableHead>
-            <TableHead className="w-fit capitalize">Gender</TableHead>
-            <TableHead className="w-fit capitalize">Net Salary</TableHead>
+            {headers?.map((header, index) => (
+              <TableHead key={index} className="w-fit capitalize">
+                {header}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell className="text-sm font-normal text-black">
-              Farrel Irawan
-            </TableCell>
-            <TableCell className="text-sm font-normal text-black">
-              irawanssfarrel@gmail.com
-            </TableCell>
-            <TableCell className="text-sm font-normal text-black">
-              Siswa
-            </TableCell>
-            <TableCell className="text-sm font-normal text-black">
-              SMK Nurjamilah
-            </TableCell>
-            <TableCell className="text-sm font-normal text-black">
-              Laki-laki
-            </TableCell>
-            <TableCell className="text-sm font-normal text-black">
-              1.000.000
-            </TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
-          <TableRow className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100">
-            <TableCell>Farrel Irawan</TableCell>
-            <TableCell>irawanssfarrel@gmail.com</TableCell>
-            <TableCell>Siswa</TableCell>
-            <TableCell>SMK Nurjamilah</TableCell>
-            <TableCell>Laki-laki</TableCell>
-            <TableCell>1.000.000</TableCell>
-            <TableCell>
-              <EllipsisIcon />
-            </TableCell>
-          </TableRow>
+          {data?.map((data, index) => (
+            <TableRow
+              key={index}
+              className="h-14 transition-all duration-300 ease-in-out hover:bg-gray-100"
+            >
+              <TableCell className="text-sm font-normal text-black">
+                {data.fullName}
+              </TableCell>
+              <TableCell className="text-sm font-normal text-black">
+                {data.email}
+              </TableCell>
+              <TableCell className="text-sm font-normal text-black">
+                {data.jobTitle}
+              </TableCell>
+              <TableCell className="text-sm font-normal text-black">
+                {data.company}
+              </TableCell>
+              <TableCell className="text-sm font-normal text-black">
+                {data.gender}
+              </TableCell>
+              <TableCell className="text-sm font-normal text-black">
+                {data.netSalary.toLocaleString()}
+              </TableCell>
+              <TableCell>
+                <EllipsisIcon />
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

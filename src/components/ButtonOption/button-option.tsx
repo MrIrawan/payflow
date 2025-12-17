@@ -5,13 +5,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ButtonOptionProps } from "@/types/types";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { GridIcon, TableIcon } from "lucide-react";
 
 export function ButtonOption({
   children,
@@ -40,18 +33,5 @@ export function ButtonOption({
         {children}
       </PopoverContent>
     </Popover>
-  );
-}
-
-export function SelectOption() {
-  return (
-    <Select>
-      <SelectTrigger>
-        <SelectValue placeholder="hahahah" />
-      </SelectTrigger>
-      <SelectContent>
-        <div className="w-40 h-40"></div>
-      </SelectContent>
-    </Select>
   );
 }
