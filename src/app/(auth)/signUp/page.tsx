@@ -7,7 +7,7 @@ import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 
 import { useForm, SubmitHandler, Control, Controller } from "react-hook-form";
-import { SignUpRequest } from "@/types/auth";
+import { SignUpRequest } from "@/types/request";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

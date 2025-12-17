@@ -6,7 +6,7 @@ import Image from "next/image";
 import SignInIllustration from "../../../../public/images/sign_in_illustration.svg";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignInRequest } from "@/types/auth";
+import { SignInRequest } from "@/types/request";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import {
