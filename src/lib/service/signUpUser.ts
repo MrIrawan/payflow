@@ -3,7 +3,7 @@ import { fetchAPI } from "../api/api";
 import { SignUpResponse } from "@/types/response";
 
 export async function signUpUser(signUpData: SignUpRequest) {
-  const { data, message, success } = await fetchAPI<SignUpResponse>(
+  const response = await fetchAPI<SignUpResponse>(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
     {
       method: "POST",
@@ -15,5 +15,5 @@ export async function signUpUser(signUpData: SignUpRequest) {
     }
   );
 
-  return { data, message, success };
+  return response;
 }

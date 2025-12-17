@@ -22,6 +22,7 @@ import {
   FormHeader,
 } from "@/components/Form/Form";
 import { Spinner } from "@/components/ui/spinner";
+import { signUpUser } from "@/lib/service/signUpUser";
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,32 +35,9 @@ export default function SignUpPage() {
   } = useForm<SignUpRequest>();
 
   const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
-    setIsLoading(true);
     if (isValid) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok)
-          throw new Error("failed to Sign Up, something went error");
-
-        console.log(await response.json());
-      } catch (err) {
-        console.error(err);
-        throw err;
-      } finally {
-        setIsLoading(false);
-      }
-      reset();
+      const response = await signUpUser(data);
+      console.log(response);
     }
   };
 
