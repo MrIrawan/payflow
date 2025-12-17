@@ -11,6 +11,7 @@ export async function signUpUser(signUpData: SignUpRequest) {
       body: JSON.stringify(signUpData),
       timeout: 10000,
       retries: 2,
+      credentials: "include",
       onError: (error) => console.error("Auth error:", error.message),
     }
   );
