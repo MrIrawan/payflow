@@ -19,6 +19,7 @@ import { InputGroup } from "@/components/InputGroup/input-group";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
+import { signInUser } from "@/lib/service/signInUser";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,29 +33,9 @@ export default function SignInPage() {
   const onSubmitForm: SubmitHandler<SignInRequest> = async (data) => {
     setIsLoading(true);
     if (isValid) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
-        );
-
-        if (!response.ok)
-          throw new Error("failed to sign in, something went wrong");
-
-        console.log(await response.json());
-      } catch (err) {
-        console.error(err);
-        throw err;
-      } finally {
-        setIsLoading(false);
-      }
-
+      const response = signInUser(data)
+        .then((result) => console.log(result))
+        .finally(() => setIsLoading(false));
       reset();
     }
   };
