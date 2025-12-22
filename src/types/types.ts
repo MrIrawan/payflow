@@ -114,14 +114,24 @@ export interface ButtonOptionProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?:
-    | "default"
-    | "ghost"
-    | "outline"
-    | "destructive"
-    | "secondary"
-    | "link";
+  | "default"
+  | "ghost"
+  | "outline"
+  | "destructive"
+  | "secondary"
+  | "link";
   size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
   placeholder: string;
   Icon?: LucideIcon;
   align?: "start" | "end" | "center";
+}
+
+export interface DashboardBreadcrumbProps {
+  data: {
+    link?: {
+      title: string;
+      href: string;
+    }[];
+    page: string;
+  }
 }

@@ -31,11 +31,14 @@ import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
 import { DataTable } from "@/components/DataTable/data-table";
 import { staticDataTable } from "../../../../public/data/static-table-data";
+import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function AdminPage() {
   return (
     <section className="w-full p-6">
       <div className="w-full flex flex-col gap-6">
+        <PageHeader />
         {/* Data card component */}
         <div className="flex flex-row justify-between items-center gap-6">
           <DataCard>
@@ -136,4 +139,15 @@ export default function AdminPage() {
       </div>
     </section>
   );
+}
+
+function PageHeader() {
+  return (
+    <div className="h-fit w-full flex flex-row items-center gap-3">
+      <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
+      <DashboardBreadcrumb data={{
+        page: "Dashboard"
+      }} />
+    </div>
+  )
 }
