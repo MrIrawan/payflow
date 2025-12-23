@@ -33,10 +33,10 @@ export default function SignInPage() {
   const onSubmitForm: SubmitHandler<SignInRequest> = async (data) => {
     setIsLoading(true);
     if (isValid) {
-      const response = signInUser(data)
-        .then((result) => console.log(result))
-        .finally(() => setIsLoading(false));
-      reset();
+      const response = signInUser(data).finally(() => {
+        setIsLoading(false)
+        reset();
+      }).then((result) => console.log(result));
     }
   };
   return (

@@ -85,7 +85,7 @@ export function DataTable({ headers, data }: DataTableProps) {
                 {data.gender}
               </TableCell>
               <TableCell className="text-sm font-normal text-black">
-                {data.netSalary.toLocaleString()}
+                {data.netSalary}
               </TableCell>
               <TableCell>
                 <EllipsisIcon />

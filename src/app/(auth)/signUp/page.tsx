@@ -37,9 +37,10 @@ export default function SignUpPage() {
   const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
     setIsLoading(true);
     if (isValid) {
-      const response = signUpUser(data).finally(() => setIsLoading(false));
-      console.log(response);
-      reset();
+      const response = signUpUser(data).finally(() => {
+        setIsLoading(false)
+        reset()
+      }).then((result) => console.log(result));
     }
   };
 
