@@ -3,7 +3,7 @@ import { BookMarked, Users2, Wallet } from "lucide-react";
 
 export const staticSidebarNavigationLinks: SidebarNavigationLinkProps[] = [
   {
-    href: "/admin/data-guru",
+    href: "/admin/teacher",
     Icon: Users2,
     label: "Data guru",
   },
