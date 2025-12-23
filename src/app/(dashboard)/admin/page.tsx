@@ -29,8 +29,6 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { ArrowRightIcon, MarsIcon, Users2Icon, VenusIcon } from "lucide-react";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
-import { DataTable } from "@/components/DataTable/data-table";
-import { staticDataTable } from "../../../../public/data/static-table-data";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import TeacherTable from "@/components/TeacherTable/teacher-table";
@@ -125,17 +123,6 @@ export default function AdminPage() {
         </Card>
         {/* employee table component */}
         <Card className="w-full min-h-[500px] py-6 px-3">
-          {/* <DataTable
-            headers={[
-              "Full Name",
-              "Email",
-              "Job Title",
-              "Company",
-              "Gender",
-              "Net Salary",
-            ]}
-            data={staticDataTable}
-          /> */}
           <TeacherTable />
         </Card>
       </div>

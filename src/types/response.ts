@@ -56,7 +56,7 @@ export interface GetAllTeachersResponse {
   success: boolean;
   statusText: string;
   message: string;
-  data: GetAllTeachersResponseData;
+  data: GetAllTeachers[];
 }
 
 export interface GetAllTeachers {
@@ -69,8 +69,4 @@ export interface GetAllTeachers {
   company: string | null;
   net_salary: number | null;
   jenis_kelamin: string | null;
-}
-
-export interface GetAllTeachersResponseData {
-  data: GetAllTeachers;
 }
