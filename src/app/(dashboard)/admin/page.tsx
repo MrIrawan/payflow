@@ -122,7 +122,7 @@ export default function AdminPage() {
           />
         </Card>
         {/* employee table component */}
-        <Card className="w-full min-h-[500px] py-6 px-3">
+        <Card className="w-full h-fit py-6 px-3">
           <TeacherTable />
         </Card>
       </div>
