@@ -34,7 +34,7 @@ export function DashboardBreadcrumb({ data }: DashboardBreadcrumbProps) {
                                             <p className="text-base font-medium text-muted-foreground">{href.title}</p>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
-                                    <BreadcrumbSeparator className="[&>svg]:size-5">
+                                    <BreadcrumbSeparator className="[&>svg]:size-5" key={index + 1}>
                                         <ArrowRightIcon />
                                     </BreadcrumbSeparator>
                                 </>
