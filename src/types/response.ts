@@ -51,3 +51,26 @@ export interface SignInResponse {
   message: string;
   data: SignInResponseData;
 }
+
+export interface GetAllTeachersResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllTeachersResponseData;
+}
+
+export interface GetAllTeachers {
+  guru_id: string;
+  created_at: string;
+  nama_lengkap: string;
+  date_of_birth: string;
+  home_address: string | null;
+  job_title: string | null;
+  company: string | null;
+  net_salary: number | null;
+  jenis_kelamin: string | null;
+}
+
+export interface GetAllTeachersResponseData {
+  data: GetAllTeachers;
+}
