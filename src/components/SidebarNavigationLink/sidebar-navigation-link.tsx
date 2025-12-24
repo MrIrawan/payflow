@@ -22,9 +22,8 @@ export function SidebarNavigationLink({
       >
         <Link
           href={href}
-          className={`w-full flex flex-row items-center justify-start gap-2 h-6 ${
-            isActive ? "bg-blue-100" : "bg-white"
-          }`}
+          className={`w-full flex flex-row items-center justify-start gap-2 h-6 ${isActive ? "bg-blue-600" : "bg-white"
+            }`}
         >
           {Icon && <Icon size={16} />}
           <p className={cn("text-lg font-medium text-black", className)}>
