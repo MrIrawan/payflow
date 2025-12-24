@@ -10,7 +10,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-import { ArrowRightIcon, SlashIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 
 export function DashboardBreadcrumb({ data }: DashboardBreadcrumbProps) {
     return (
@@ -28,16 +28,16 @@ export function DashboardBreadcrumb({ data }: DashboardBreadcrumbProps) {
                     <>
                         {
                             Array.isArray(data.link) && data.link.map((href, index) => (
-                                <>
-                                    <BreadcrumbItem key={index}>
+                                <div key={index} className="flex flex-wrap gap-1.5">
+                                    <BreadcrumbItem>
                                         <BreadcrumbLink href={href.href}>
                                             <p className="text-base font-medium text-muted-foreground">{href.title}</p>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
-                                    <BreadcrumbSeparator className="[&>svg]:size-5" key={index + 1}>
+                                    <BreadcrumbSeparator className="[&>svg]:size-5">
                                         <ArrowRightIcon />
                                     </BreadcrumbSeparator>
-                                </>
+                                </div>
                             ))
                         }
                         <BreadcrumbItem>
