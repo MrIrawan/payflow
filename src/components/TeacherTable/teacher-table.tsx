@@ -15,9 +15,9 @@ import { filterByKeys } from "@/utils/filterByKeys";
 import { useDebounce } from "@/hooks/use-debounce";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
-    { header: "Full Name", accessor: "nama_lengkap" },
+    { header: "Full Name", accessor: "full_name" },
     { header: "Date of Birth", accessor: "date_of_birth" },
-    { header: "Gender", accessor: "jenis_kelamin" },
+    { header: "Gender", accessor: "gender" },
     { header: "Company", accessor: "company" },
     { header: "Job Title", accessor: "job_title" },
     { header: "Home Address", accessor: "home_address" },
@@ -43,11 +43,7 @@ export default function TeacherTable() {
         getAllTeachersData();
     }, [])
 
-
-
-    const filteredData = filterByKeys(data, debouncedSearch, ["nama_lengkap"])
-
-    console.log(filteredData)
+    const filteredData = filterByKeys(data, debouncedSearch, ["full_name"])
 
     return (
         <div className="w-full flex flex-col gap-6 p-3">

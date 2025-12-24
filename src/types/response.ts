@@ -62,13 +62,13 @@ export interface GetAllTeachersResponse {
 export interface GetAllTeachers {
   guru_id: string;
   created_at: string;
-  nama_lengkap: string;
+  full_name: string;
   date_of_birth: string;
   home_address: string | null;
   job_title: string | null;
   company: string | null;
   net_salary: number | null;
-  jenis_kelamin: string | null;
+  gender: string | null;
 }
 
 export interface GetTeahersByGenderResponse {
@@ -81,11 +81,11 @@ export interface GetTeahersByGenderResponse {
 export interface GetTeahersByGender {
   guru_id: string;
   created_at: string;
-  nama_lengkap: string;
+  full_name: string;
   date_of_birth: string;
   home_address: string | null;
   job_title: string | null;
   company: string | null;
   net_salary: number | null;
-  jenis_kelamin: string | null;
+  gender: string | null;
 }
