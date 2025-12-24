@@ -49,7 +49,7 @@ export default function TeacherTable() {
         <div className="w-full flex flex-col gap-6 p-3">
             <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
                 <div className="flex flex-row gap-2.5 items-end">
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
                         <Label className="font-semibold">Search Teacher</Label>
                         <Input
                             type="text"

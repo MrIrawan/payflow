@@ -1,32 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { GetTeahersByGender } from "@/types/response";
-
-import { DataCard, DataCardBody, DataCardFooter, DataCardHeader } from "../DataCard/data-card";
-import { CardDescription, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
-
-import { ArrowRightIcon, MarsIcon, UsersIcon, VenusIcon } from "lucide-react";
-import { getMaleTeachers } from "@/lib/service/getMaleTeachers";
-import { getFemaleTeachers } from "@/lib/service/getFemaleTeachers";
-import { Spinner } from "../ui/spinner";
 import Link from "next/link";
 
+import { useEffect, useState } from "react";
+import { getAllTeachers } from "@/lib/service/getAllTeachers";
+
+import {
+    DataCard,
+    DataCardBody,
+    DataCardFooter,
+    DataCardHeader
+} from "../DataCard/data-card";
+import { CardDescription, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
+
+import {
+    ArrowRightIcon,
+    MarsIcon,
+    UsersIcon,
+    VenusIcon
+} from "lucide-react";
+
 export function TeachersDataCard() {
-    const [maleTeachers, setMaleTeachers] = useState<GetTeahersByGender[]>([]);
-    const [femaleTeachers, setFemaleTeachers] = useState<GetTeahersByGender[]>([]);
+    const [maleTeachers, setMaleTeachers] = useState<number>(0);
+    const [femaleTeachers, setFemaleTeachers] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setIsLoading(true);
         async function getTeacherByGender() {
             try {
-                const maleTeachers = await getMaleTeachers();
-                setMaleTeachers(maleTeachers.data);
+                const response = await getAllTeachers();
 
-                const femaleTeachers = await getFemaleTeachers();
-                setFemaleTeachers(femaleTeachers.data)
+                const maleCount = response.data.filter((teacher) => teacher.gender === "male").length;
+                const femaleCount = response.data.filter((teacher) => teacher.gender === "female").length;
+
+                setMaleTeachers(maleCount);
+                setFemaleTeachers(femaleCount);
             } catch (error) {
                 console.error("get teacher by gender error:", error);
             } finally {
@@ -52,7 +63,7 @@ export function TeachersDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="p-0 h-full flex flex-col justify-center">
-                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : maleTeachers?.length}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : maleTeachers}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
                     <Link href={"/admin/teacher"}>
@@ -78,7 +89,7 @@ export function TeachersDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="p-0 h-full flex flex-col justify-center">
-                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers?.length}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
                     <Link href={"/admin/teacher"}>
@@ -104,7 +115,7 @@ export function TeachersDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="p-0 h-full flex flex-col justify-center">
-                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers?.length + maleTeachers.length}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers + maleTeachers}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
                     <Link href={"/admin/teacher"}>
