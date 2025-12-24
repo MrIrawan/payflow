@@ -11,6 +11,7 @@ import { ArrowRightIcon, MarsIcon, UsersIcon, VenusIcon } from "lucide-react";
 import { getMaleTeachers } from "@/lib/service/getMaleTeachers";
 import { getFemaleTeachers } from "@/lib/service/getFemaleTeachers";
 import { Spinner } from "../ui/spinner";
+import Link from "next/link";
 
 export function TeachersDataCard() {
     const [maleTeachers, setMaleTeachers] = useState<GetTeahersByGender[]>([]);
@@ -54,12 +55,14 @@ export function TeachersDataCard() {
                     <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : maleTeachers?.length}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
-                    <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-indigo-600 hover:bg-indigo-800">
-                        <p className="text-sm font-medium text-white">
-                            lihat selengkapnya
-                        </p>
-                        <ArrowRightIcon className="text-white" />
-                    </Button>
+                    <Link href={"/admin/teacher"}>
+                        <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-indigo-600 hover:bg-indigo-800">
+                            <p className="text-sm font-medium text-white">
+                                lihat selengkapnya
+                            </p>
+                            <ArrowRightIcon className="text-white" />
+                        </Button>
+                    </Link>
                 </DataCardFooter>
             </DataCard>
             <DataCard>
@@ -78,12 +81,14 @@ export function TeachersDataCard() {
                     <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers?.length}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
-                    <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-fuchsia-600 hover:bg-fuchsia-800">
-                        <p className="text-sm font-medium text-white">
-                            lihat selengkapnya
-                        </p>
-                        <ArrowRightIcon className="text-white" />
-                    </Button>
+                    <Link href={"/admin/teacher"}>
+                        <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-fuchsia-600 hover:bg-fuchsia-800">
+                            <p className="text-sm font-medium text-white">
+                                lihat selengkapnya
+                            </p>
+                            <ArrowRightIcon className="text-white" />
+                        </Button>
+                    </Link>
                 </DataCardFooter>
             </DataCard>
             <DataCard>
@@ -102,12 +107,14 @@ export function TeachersDataCard() {
                     <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : femaleTeachers?.length + maleTeachers.length}</h2>
                 </DataCardBody>
                 <DataCardFooter className="p-0 h-fit">
-                    <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-blue-600 hover:bg-blue-800">
-                        <p className="text-sm font-medium text-white">
-                            lihat selengkapnya
-                        </p>
-                        <ArrowRightIcon className="text-white" />
-                    </Button>
+                    <Link href={"/admin/teacher"}>
+                        <Button className="w-fit h-fit px-6 py-1.5 flex flex-row items-center justify-center gap-1 rounded-full bg-blue-600 hover:bg-blue-800">
+                            <p className="text-sm font-medium text-white">
+                                lihat selengkapnya
+                            </p>
+                            <ArrowRightIcon className="text-white" />
+                        </Button>
+                    </Link>
                 </DataCardFooter>
             </DataCard>
         </div>

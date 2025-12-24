@@ -23,7 +23,7 @@ export function CollabsipleSidebarNavigation({
   Icon,
   sub,
 }: CollapsibleSidebarNavigationProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   return (
     <Collapsible className="w-full" open={isOpen} onOpenChange={setIsOpen}>
