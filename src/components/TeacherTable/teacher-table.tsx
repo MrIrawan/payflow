@@ -13,6 +13,7 @@ import { Input } from "../ui/input";
 
 import { filterByKeys } from "@/utils/filterByKeys";
 import { useDebounce } from "@/hooks/use-debounce";
+import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-button";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Full Name", accessor: "full_name" },
@@ -59,6 +60,7 @@ export default function TeacherTable() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
+                    <GenderOptionsButton />
                 </div>
             </Card>
             <DataTable
