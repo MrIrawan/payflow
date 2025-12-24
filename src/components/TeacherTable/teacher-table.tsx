@@ -12,6 +12,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
 import { filterByKeys } from "@/utils/filterByKeys";
+import { useDebounce } from "@/hooks/use-debounce";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Full Name", accessor: "nama_lengkap" },
@@ -26,6 +27,8 @@ const teacherColumns: TableColumn<GetAllTeachers>[] = [
 export default function TeacherTable() {
     const [data, setData] = useState<GetAllTeachers[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
+
+    const debouncedSearch = useDebounce(searchQuery, 400);
 
     useEffect(() => {
         async function getAllTeachersData() {
@@ -42,7 +45,7 @@ export default function TeacherTable() {
 
 
 
-    const filteredData = filterByKeys(data, searchQuery, ["nama_lengkap"])
+    const filteredData = filterByKeys(data, debouncedSearch, ["nama_lengkap"])
 
     console.log(filteredData)
 
