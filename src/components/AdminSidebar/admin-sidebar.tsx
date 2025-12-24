@@ -49,8 +49,7 @@ export function AdminSidebar() {
               href="/admin/payroll"
               label="penggajian"
               Icon={Wallet}
-              onclick={() => setActiveLink(true)}
-              isActive={activeLink}
+              activeBg
             />
             <CollabsipleSidebarNavigation
               label="Absensi"
@@ -74,8 +73,7 @@ export function AdminSidebar() {
               href="/admin/report"
               label="laporan"
               Icon={Wallet}
-              onclick={() => setActiveLink(true)}
-              isActive={activeLink}
+              activeBg
             />
           </SidebarMenu>
         </SidebarGroup>

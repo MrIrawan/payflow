@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { CollapsibleSidebarNavigationProps } from "@/types/types";
@@ -14,7 +15,6 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from "../ui/sidebar";
-import Link from "next/link";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { ChevronDownIcon } from "lucide-react";
 
@@ -24,7 +24,7 @@ export function CollabsipleSidebarNavigation({
   sub,
 }: CollapsibleSidebarNavigationProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [activeLink, setActiveLink] = useState<null | string>(null);
+
   return (
     <Collapsible className="w-full" open={isOpen} onOpenChange={setIsOpen}>
       <SidebarMenuItem>
@@ -51,10 +51,6 @@ export function CollabsipleSidebarNavigation({
                 key={key}
                 label={subItem.label}
                 href={subItem.href}
-                onclick={() => setActiveLink(subItem.href)}
-                isActive={activeLink === subItem.href}
-                className={`text-base ${activeLink === subItem.href ? "text-blue-600" : "text-black"
-                  }`}
               />
             ))}
           </SidebarMenuSub>

@@ -1,32 +1,29 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { SidebarNavigationLinkProps } from "@/types/types";
-
-import { cn } from "@/lib/utils";
 
 export function SidebarNavigationLink({
   href,
   Icon,
   label,
-  isActive,
-  onclick,
-  className,
+  activeBg
 }: SidebarNavigationLinkProps) {
+  const pathName = usePathname();
+  const isActive = pathName.startsWith(`${href}`)
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem className={`rounded-lg ${activeBg ? isActive ? "bg-blue-100" : "bg-white" : "bg-white"}`}>
       <SidebarMenuButton
         asChild
-        className="[&>svg]:size-7 h-fit"
-        onClick={onclick}
+        className="[&>svg]:size-6 h-fit"
       >
         <Link
           href={href}
-          className={`w-full flex flex-row items-center justify-start gap-2 h-6 ${isActive ? "bg-blue-600" : "bg-white"
-            }`}
+          className="w-full flex flex-row items-center justify-start gap-2 h-6"
         >
-          {Icon && <Icon size={16} />}
-          <p className={cn("text-lg font-medium text-black", className)}>
+          {Icon && <Icon size={14} className={`${isActive ? "text-blue-600" : "text-black"}`} />}
+          <p className={`text-lg font-medium ${isActive ? "text-blue-600" : "text-black"}`}>
             {label}
           </p>
         </Link>
