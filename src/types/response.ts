@@ -89,3 +89,19 @@ export interface GetTeahersByGender {
   net_salary: number | null;
   gender: string | null;
 }
+
+export interface GetAllAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: GetAllAttendance;
+}
+
+export interface GetAllAttendance {
+  attendance_id: string;
+  created_at: string;
+  attendance_date: string;
+  checkin_time: string;
+  checkout_time: string;
+  attendance_status: "present" | "on leave" | "absent";
+  teacher_name: string;
+}
