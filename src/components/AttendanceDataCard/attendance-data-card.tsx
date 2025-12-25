@@ -1,8 +1,50 @@
-import { CheckCircleIcon, ClipboardPasteIcon, FrownIcon } from "lucide-react";
-import { DataCard, DataCardBody, DataCardFooter, DataCardHeader } from "../DataCard/data-card";
+"use client";
+
+import { useState, useEffect } from "react";
+import { getAllAttendance } from "@/lib/service/getAllAtendance";
+
 import { CardDescription, CardTitle } from "../ui/card";
+import {
+    DataCard,
+    DataCardBody,
+    DataCardFooter,
+    DataCardHeader
+} from "../DataCard/data-card";
+import {
+    CheckCircleIcon,
+    ClipboardPasteIcon,
+    FrownIcon
+} from "lucide-react";
 
 export function AttendanceDataCard() {
+    const [presentCount, setPresentCount] = useState<number>(0);
+    const [absentCount, setAbsentCount] = useState<number>(0);
+    const [onLeaveCount, setOnLeaveCount] = useState<number>(0);
+
+    useEffect(() => {
+        async function getAttendanceCount() {
+            try {
+                const result = await getAllAttendance();
+                const currentAttendance = result.data.filter((attendance) => {
+                    const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
+                    const currentDate = new Date().toLocaleDateString("id-ID");
+
+                    if (currentAttendance === currentDate) {
+                        return attendance;
+                    };
+                });
+
+                setPresentCount(currentAttendance.filter((attendance) => attendance.attendance_status === "present").length)
+                setAbsentCount(currentAttendance.filter((attendance) => attendance.attendance_status === "absent").length)
+                setOnLeaveCount(currentAttendance.filter((attendance) => attendance.attendance_status === "on leave").length)
+            } catch (error) {
+                console.error("get attendance count error:", error);
+            }
+        }
+
+        getAttendanceCount();
+    }, [])
+
     return (
         <>
             {/* <present> attendance data card */}
@@ -19,7 +61,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">0</h2>
+                    <h2 className="text-5xl font-medium text-black">{presentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">10 Teacher Remaining</p>
@@ -39,7 +81,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">0</h2>
+                    <h2 className="text-5xl font-medium text-black">{onLeaveCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">Approved leave</p>
@@ -59,7 +101,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">0</h2>
+                    <h2 className="text-5xl font-medium text-black">{absentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">Without information</p>

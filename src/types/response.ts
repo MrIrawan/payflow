@@ -93,7 +93,7 @@ export interface GetTeahersByGender {
 export interface GetAllAttendanceResponse {
   success: boolean;
   message: string;
-  data: GetAllAttendance;
+  data: GetAllAttendance[];
 }
 
 export interface GetAllAttendance {
