@@ -14,14 +14,15 @@ import { Input } from "../ui/input";
 import { filterByKeys } from "@/utils/filterByKeys";
 import { useDebounce } from "@/hooks/use-debounce";
 import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-button";
+import { GenderBadge } from "../GenderBadge/gender-badge";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Full Name", accessor: "full_name" },
     { header: "Date of Birth", accessor: "date_of_birth" },
-    { header: "Gender", accessor: "gender" },
     { header: "Company", accessor: "company" },
     { header: "Job Title", accessor: "job_title" },
     { header: "Home Address", accessor: "home_address" },
+    { header: "Gender", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} variant={value === "male" ? "defaultMale" : "defaultFemale"} /> },
     { header: "Net Salary", accessor: "net_salary" },
 ];
 
