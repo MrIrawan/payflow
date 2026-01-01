@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import Image from "next/image";
 import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg";
 
@@ -14,10 +12,9 @@ import {
 } from "../ui/sidebar";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
-import { BoxIcon, CalendarCheck2, Users, Wallet } from "lucide-react";
+import { CalendarCheck2, Users, Wallet } from "lucide-react";
 
 export function AdminSidebar() {
-  const [activeLink, setActiveLink] = useState<boolean>(false);
   return (
     <Sidebar className="px-2.5">
       <SidebarHeader className="p-4">
