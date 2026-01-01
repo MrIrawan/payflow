@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import Image from "next/image";
 import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
 
-import { useForm, SubmitHandler, Control, Controller } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { SignUpRequest } from "@/types/request";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -33,6 +34,7 @@ export default function SignUpPage() {
     reset,
     formState: { errors, isValid },
   } = useForm<SignUpRequest>();
+  const router = useRouter();
 
   const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
     setIsLoading(true);
@@ -40,7 +42,11 @@ export default function SignUpPage() {
       const response = signUpUser(data).finally(() => {
         setIsLoading(false)
         reset()
-      }).then((result) => console.log(result));
+      }).then((result) => {
+        if (result.success) {
+          router.push("/employee")
+        }
+      });
     }
   };
 

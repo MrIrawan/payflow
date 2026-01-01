@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import SignInIllustration from "../../../../public/images/sign_in_illustration.svg";
@@ -29,6 +30,7 @@ export default function SignInPage() {
     reset,
     formState: { errors, isValid },
   } = useForm<SignInRequest>();
+  const router = useRouter();
 
   const onSubmitForm: SubmitHandler<SignInRequest> = async (data) => {
     setIsLoading(true);
@@ -36,7 +38,11 @@ export default function SignInPage() {
       const response = signInUser(data).finally(() => {
         setIsLoading(false)
         reset();
-      }).then((result) => console.log(result));
+      }).then((result) => {
+        if (result.success) {
+          router.push("/employee")
+        }
+      });
     }
   };
   return (
