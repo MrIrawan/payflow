@@ -11,13 +11,14 @@ import { DataTable } from "../DataTable/data-table";
 import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-button";
 import { GetAllAttendance } from "@/types/response";
 import { TableColumn } from "@/types/table";
+import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 
 const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Teacher Name", accessor: "teacher_name" },
     { header: "Attendance Date", accessor: "attendance_date" },
     { header: "Check-in Time", accessor: "checkin_time" },
     { header: "Check-out Time", accessor: "checkout_time" },
-    { header: "Attendance Status", accessor: "attendance_status" },
+    { header: "Attendance Status", accessor: "attendance_status", cell: (value) => <AttendanceBadge placeholder={value} variant={value} /> },
 ]
 
 export function AttendanceTable() {
@@ -41,7 +42,7 @@ export function AttendanceTable() {
         getTodayAttendance();
     }, [])
 
-    console.log(todayAttendance);
+    // console.log(todayAttendance);
     return (
         <div className="w-full flex flex-col gap-6 p-3">
             <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
