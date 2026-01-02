@@ -12,8 +12,6 @@ import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-butto
 import { GetAllAttendance } from "@/types/response";
 import { TableColumn } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
-import { Button } from "../ui/button";
-import { PlusCircleIcon } from "lucide-react";
 
 const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Teacher Name", accessor: "teacher_name" },
@@ -57,10 +55,7 @@ export function AttendanceTable() {
                             className="min-w-[300px]"
                         />
                     </div>
-                    <Button variant={"outline"} className="border-muted-foreground border-dashed flex flex-row items-center active:bg-muted">
-                        <PlusCircleIcon />
-                        <p className="text-sm font-medium text-black">Add Attendance</p>
-                    </Button>
+
                 </div>
             </Card>
             <DataTable
