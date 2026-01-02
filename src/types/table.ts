@@ -7,4 +7,5 @@ export interface TableColumn<T> {
 export interface DataTableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
+  getRowId?: (row: T) => string;
 }

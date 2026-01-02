@@ -13,7 +13,7 @@ import {
 } from "../ui/table";
 import { DataTableProps } from "@/types/table";
 
-export function DataTable<T>({ columns, data }: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, getRowId }: DataTableProps<T>) {
   return (
     <Table>
       <TableHeader>
@@ -41,7 +41,7 @@ export function DataTable<T>({ columns, data }: DataTableProps<T>) {
               </TableCell>
             ))}
 
-            <TableCell>
+            <TableCell onClick={() => console.log(getRowId ? getRowId(row) : rowIndex)}>
               <EllipsisIcon />
             </TableCell>
           </TableRow>

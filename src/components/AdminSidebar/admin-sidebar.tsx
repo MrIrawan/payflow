@@ -48,23 +48,11 @@ export function AdminSidebar() {
               Icon={Wallet}
               activeBg
             />
-            <CollabsipleSidebarNavigation
-              label="Absensi"
+            <SidebarNavigationLink
+              href="/admin/attendance"
+              label="absensi"
               Icon={CalendarCheck2}
-              sub={[
-                {
-                  label: "lihat data absensi",
-                  href: "/admin/attendance"
-                },
-                {
-                  label: "tambah data absensi",
-                  href: "/admin/attendance/add"
-                },
-                {
-                  label: "edit data absensi",
-                  href: "/admin/attendance/edit"
-                }
-              ]}
+              activeBg
             />
             <SidebarNavigationLink
               href="/admin/report"

@@ -67,6 +67,7 @@ export default function TeacherTable() {
             <DataTable
                 columns={teacherColumns}
                 data={filteredData}
+                getRowId={(row) => row.guru_id}
             />
         </div>
     )
