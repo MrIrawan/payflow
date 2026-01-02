@@ -12,6 +12,8 @@ import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-butto
 import { GetAllAttendance } from "@/types/response";
 import { TableColumn } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
+import { Button } from "../ui/button";
+import { PlusCircleIcon } from "lucide-react";
 
 const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Teacher Name", accessor: "teacher_name" },
@@ -27,16 +29,16 @@ export function AttendanceTable() {
     useEffect(() => {
         async function getTodayAttendance() {
             const result = await getAllAttendance();
-            const todayAttendance = result.data.filter((attendance) => {
-                const currentDate = new Date().toLocaleDateString("id-ID");
-                const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
+            // const todayAttendance = result.data.filter((attendance) => {
+            //     const currentDate = new Date().toLocaleDateString("id-ID");
+            //     const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
 
-                if (currentAttendance === currentDate) {
-                    return attendance;
-                }
-            })
+            //     if (currentAttendance === currentDate) {
+            //         return attendance;
+            //     }
+            // })
 
-            setTodayAttendance(todayAttendance);
+            setTodayAttendance(result.data);
         }
 
         getTodayAttendance();
@@ -46,7 +48,7 @@ export function AttendanceTable() {
     return (
         <div className="w-full flex flex-col gap-6 p-3">
             <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
-                <div className="flex flex-row gap-2.5 items-end">
+                <div className="w-full flex flex-row gap-2.5 justify-between items-end">
                     <div className="flex flex-col gap-2.5">
                         <Label className="font-semibold">search teacher attendance</Label>
                         <Input
@@ -55,12 +57,16 @@ export function AttendanceTable() {
                             className="min-w-[300px]"
                         />
                     </div>
-                    <GenderOptionsButton />
+                    <Button variant={"outline"} className="border-muted-foreground border-dashed flex flex-row items-center active:bg-muted">
+                        <PlusCircleIcon />
+                        <p className="text-sm font-medium text-black">Add Attendance</p>
+                    </Button>
                 </div>
             </Card>
             <DataTable
                 columns={tableColumn}
                 data={todayAttendance}
+                getRowId={(row) => row.attendance_id}
             />
         </div>
     )

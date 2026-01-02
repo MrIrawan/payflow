@@ -25,18 +25,18 @@ export function AttendanceDataCard() {
         async function getAttendanceCount() {
             try {
                 const result = await getAllAttendance();
-                const currentAttendance = result.data.filter((attendance) => {
-                    const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
-                    const currentDate = new Date().toLocaleDateString("id-ID");
+                // const currentAttendance = result.data.filter((attendance) => {
+                //     const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
+                //     const currentDate = new Date().toLocaleDateString("id-ID");
 
-                    if (currentAttendance === currentDate) {
-                        return attendance;
-                    };
-                });
+                //     if (currentAttendance === currentDate) {
+                //         return attendance;
+                //     };
+                // });
 
-                setPresentCount(currentAttendance.filter((attendance) => attendance.attendance_status === "present").length)
-                setAbsentCount(currentAttendance.filter((attendance) => attendance.attendance_status === "absent").length)
-                setOnLeaveCount(currentAttendance.filter((attendance) => attendance.attendance_status === "on leave").length)
+                setPresentCount(result.data.filter((attendance) => attendance.attendance_status === "present").length)
+                setAbsentCount(result.data.filter((attendance) => attendance.attendance_status === "absent").length)
+                setOnLeaveCount(result.data.filter((attendance) => attendance.attendance_status === "on leave").length)
             } catch (error) {
                 console.error("get attendance count error:", error);
             }
