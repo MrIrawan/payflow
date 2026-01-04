@@ -1,11 +1,31 @@
-import { PlusCircleIcon } from "lucide-react";
+"use client";
+
+import { useForm, SubmitHandler } from "react-hook-form";
+import { StoreAttendanceRequest } from "@/types/request";
+
+import {
+    Drawer,
+    DrawerClose,
+    DrawerHeader,
+    DrawerContent,
+    DrawerFooter,
+    DrawerTitle,
+    DrawerDescription,
+    DrawerTrigger
+} from "../ui/drawer";
 import { Button } from "../ui/button";
-import { Drawer, DrawerClose, DrawerHeader, DrawerContent, DrawerFooter, DrawerTitle, DrawerDescription, DrawerTrigger } from "../ui/drawer";
-import { FormComponent, FormContent } from "../Form/Form";
+
 import { InputGroup } from "../InputGroup/input-group";
 import { DatePicker } from "../DatePicker/date-picker";
+import { FormComponent, FormContent } from "../Form/Form";
+
+import { PlusCircleIcon } from "lucide-react";
 
 export function StoreAttendanceDrawer() {
+    const { register, handleSubmit, formState: { errors } } = useForm<StoreAttendanceRequest>();
+    const onSubmit: SubmitHandler<StoreAttendanceRequest> = (data) => {
+        console.log(data);
+    }
     return (
         <Drawer direction="right">
             <DrawerTrigger asChild>
@@ -15,34 +35,34 @@ export function StoreAttendanceDrawer() {
                 </Button>
             </DrawerTrigger>
             <DrawerContent className="min-w-[500px] flex flex-col justify-between">
-                <DrawerHeader className="flex flex-row items-center justify-between">
-                    <div className="flex flex-col gap-1">
-                        <DrawerTitle className="text-2xl font-bold">Store Teacher Attendance</DrawerTitle>
-                        <DrawerDescription className="text-base font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.</DrawerDescription>
-                    </div>
-                </DrawerHeader>
-                <FormComponent asWrapper={false} className="px-4">
-                    <FormContent>
+                <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)}>
+                    <DrawerHeader className="flex flex-row items-center justify-between">
+                        <div className="flex flex-col gap-1">
+                            <DrawerTitle className="text-2xl font-bold">Store Teacher Attendance</DrawerTitle>
+                            <DrawerDescription className="text-base font-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.</DrawerDescription>
+                        </div>
+                    </DrawerHeader>
+                    <FormContent className="px-4">
                         {/* form fields here */}
-                        <InputGroup type="text" label="Teacher Name" htmlFor="teacher_name" />
+                        <InputGroup type="text" label="Teacher Name" htmlFor="teacher_name" {...register("teacher_name")} />
                         <DatePicker label="Attendance Date" htmlFor="attendance_date" placeholder="Pick attendance date" />
                         <div className="flex flex-row gap-2">
-                            <InputGroup type="time" label="Check-in Time" htmlFor="checkin_time" />
-                            <InputGroup type="time" label="Check-out Time" htmlFor="checkout_time" />
+                            <InputGroup type="time" label="Check-in Time" htmlFor="checkin_time" {...register("checkin_time")} />
+                            <InputGroup type="time" label="Check-out Time" htmlFor="checkout_time" {...register("checkout_time")} />
                         </div>
                         <DatePicker label="Attendance Status" htmlFor="attendance_status" placeholder="Pick attendance status" />
                     </FormContent>
-                </FormComponent>
-                <DrawerFooter className="flex flex-col gap-1.5">
-                    <Button variant={"outline"} className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
-                        <p className="text-base font-medium text-white">Store Attendance</p>
-                    </Button>
-                    <DrawerClose asChild>
-                        <Button variant={"outline"} className="border-red-600 bg-red-800/70 hover:bg-red-600/70">
-                            <p className="text-base font-medium text-white">Cancel</p>
+                    <DrawerFooter className="flex flex-col gap-1.5">
+                        <Button variant={"outline"} type="submit" className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
+                            <p className="text-base font-medium text-white">Store Attendance</p>
                         </Button>
-                    </DrawerClose>
-                </DrawerFooter>
+                        <DrawerClose asChild>
+                            <Button variant={"outline"} className="border-red-600 bg-red-800/70 hover:bg-red-600/70">
+                                <p className="text-base font-medium text-white">Cancel</p>
+                            </Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </FormComponent>
             </DrawerContent>
         </Drawer>
     )
