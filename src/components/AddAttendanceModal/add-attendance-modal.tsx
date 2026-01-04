@@ -47,21 +47,20 @@ export function AddAttendanceModal() {
                             />
                             <div className="flex flex-row items-center gap-3">
                                 <InputGroup
-                                    type="text"
-                                    label="Teacher Name"
-                                    htmlFor="teacher_name"
-                                    placeholder="teacher name here..."
+                                    type="time"
+                                    label="Check-in Time"
+                                    htmlFor="checkin_time"
                                 />
-                                <DatePicker
-                                    label="Attendance Date"
-                                    htmlFor="attendance_date"
-                                    placeholder="Pick attendance date"
+                                <InputGroup
+                                    type="time"
+                                    label="Check-out Time"
+                                    htmlFor="checkout_time"
                                 />
                             </div>
                             <DatePicker
-                                label="Attendance Date"
-                                htmlFor="attendance_date"
-                                placeholder="Pick attendance date"
+                                label="Attendance Status"
+                                htmlFor="attendance_status"
+                                placeholder="Pick attendance status"
                             />
                         </FormContent>
                     </FormComponent>
