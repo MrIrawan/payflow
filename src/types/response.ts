@@ -105,3 +105,10 @@ export interface GetAllAttendance {
   attendance_status: "present" | "on leave" | "absent";
   teacher_name: string;
 }
+
+export interface StoreAttendanceResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllAttendance;
+}
