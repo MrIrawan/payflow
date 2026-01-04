@@ -12,7 +12,7 @@ import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-butto
 import { GetAllAttendance } from "@/types/response";
 import { TableColumn } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
-import { AddAttendanceModal } from "../AddAttendanceModal/add-attendance-modal";
+import { StoreAttendanceDrawer } from "../StoreAttendanceDrawer/store-attendance-drawer";
 
 const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Teacher Name", accessor: "teacher_name" },
@@ -56,7 +56,7 @@ export function AttendanceTable() {
                             className="min-w-[300px]"
                         />
                     </div>
-                    <AddAttendanceModal />
+                    <StoreAttendanceDrawer />
                 </div>
             </Card>
             <DataTable
