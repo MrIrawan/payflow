@@ -133,3 +133,15 @@ export interface DashboardBreadcrumbProps {
     page: string;
   }
 }
+
+export interface SelectGroupProps {
+  label: string;
+  onvaluechange?: (val: string) => void;
+  placeholder: string;
+  items: SelectGroupItemProps[] | [];
+}
+
+export interface SelectGroupItemProps {
+  value: string;
+  displayText: string | number | React.ReactElement;
+}
