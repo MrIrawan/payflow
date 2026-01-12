@@ -22,11 +22,16 @@ import { FormComponent, FormContent } from "../Form/Form";
 import { PlusCircleIcon } from "lucide-react";
 import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
+import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 
 export function StoreAttendanceDrawer() {
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
     const onSubmit: SubmitHandler<StoreAttendanceRequest> = (data) => {
-        console.log(data);
+        const formattedData = {
+            ...data,
+            checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
+            checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
+        };
     }
     return (
         <Drawer direction="right">
