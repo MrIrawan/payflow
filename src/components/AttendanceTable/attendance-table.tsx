@@ -19,7 +19,7 @@ const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Attendance Date", accessor: "attendance_date" },
     { header: "Check-in Time", accessor: "checkin_time" },
     { header: "Check-out Time", accessor: "checkout_time" },
-    { header: "Attendance Status", accessor: "attendance_status", cell: (value) => <AttendanceBadge placeholder={value} variant={value} /> },
+    { header: "Attendance Status", accessor: "attendance_status", cell: (value) => <AttendanceBadge placeholder={value} /> },
 ]
 
 export function AttendanceTable() {
