@@ -22,7 +22,7 @@ const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Company", accessor: "company" },
     { header: "Job Title", accessor: "job_title" },
     { header: "Home Address", accessor: "home_address" },
-    { header: "Gender", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} variant={value === "male" ? "defaultMale" : "defaultFemale"} /> },
+    { header: "Gender", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
     { header: "Net Salary", accessor: "net_salary" },
 ];
 
