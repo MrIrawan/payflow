@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { StoreAttendanceRequest } from "@/types/request";
 
 import {
@@ -24,7 +24,7 @@ import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 
 export function StoreAttendanceDrawer() {
-    const { register, handleSubmit, formState: { errors } } = useForm<StoreAttendanceRequest>();
+    const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
     const onSubmit: SubmitHandler<StoreAttendanceRequest> = (data) => {
         console.log(data);
     }
@@ -52,11 +52,17 @@ export function StoreAttendanceDrawer() {
                             <InputGroup type="time" label="Check-in Time" htmlFor="checkin_time" {...register("checkin_time")} />
                             <InputGroup type="time" label="Check-out Time" htmlFor="checkout_time" {...register("checkout_time")} />
                         </div>
-                        <SelectGroupComponent label="Attendance Status" placeholder="Select attendance status" items={[
-                            { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
-                            { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
-                            { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
-                        ]} />
+                        <Controller
+                            control={control}
+                            name="attendance_status"
+                            render={({ field }) => (
+                                <SelectGroupComponent label="Attendance Status" placeholder="Select attendance status" items={[
+                                    { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
+                                    { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
+                                    { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
+                                ]} onvaluechange={field.onChange} />
+                            )}
+                        />
                     </FormContent>
                     <DrawerFooter className="flex flex-col gap-1.5">
                         <Button variant={"outline"} type="submit" className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
