@@ -1,3 +1,5 @@
+import { UserLocation } from "./types";
+
 export interface SignUpRequest {
   first_name: string;
   last_name?: string;
@@ -19,4 +21,5 @@ export interface StoreAttendanceRequest {
   checkin_time: number,
   checkout_time: number,
   attendance_status: "present" | "absent" | "on leave",
+  location?: UserLocation;
 }

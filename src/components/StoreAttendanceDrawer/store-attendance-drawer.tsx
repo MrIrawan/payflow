@@ -24,24 +24,23 @@ import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
+import { getUserLocation } from "@/utils/getUserLocation";
 
 export function StoreAttendanceDrawer() {
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
-    const onSubmit: SubmitHandler<StoreAttendanceRequest> = (data) => {
+    const onSubmitToStoreAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
+        const locationPromise = await getUserLocation();
         const formattedData = {
             ...data,
             checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
             checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
+            location: locationPromise
         };
 
-        const response = storeTeacherAttendance(formattedData)
-            .then((res) => {
-                console.log("Attendance stored successfully:", res);
-            })
-            .catch((error) => {
-                console.error("Error storing attendance:", error);
-            });
+        const response = await storeTeacherAttendance(formattedData);
     }
+
+
     return (
         <Drawer direction="right">
             <DrawerTrigger asChild>
@@ -51,7 +50,7 @@ export function StoreAttendanceDrawer() {
                 </Button>
             </DrawerTrigger>
             <DrawerContent className="min-w-[500px] flex flex-col justify-between">
-                <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)}>
+                <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmitToStoreAttendance)}>
                     <DrawerHeader className="flex flex-row items-center justify-between">
                         <div className="flex flex-col gap-1">
                             <DrawerTitle className="text-2xl font-bold">Tambah Absensi Guru</DrawerTitle>

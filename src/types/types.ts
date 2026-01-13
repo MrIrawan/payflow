@@ -145,3 +145,8 @@ export interface SelectGroupItemProps {
   value: string;
   displayText: string | number | React.ReactElement;
 }
+
+export interface UserLocation {
+  longitude: number;
+  latitude: number;
+}
