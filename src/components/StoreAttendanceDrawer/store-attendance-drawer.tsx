@@ -45,7 +45,7 @@ export function StoreAttendanceDrawer() {
     return (
         <Drawer direction="right">
             <DrawerTrigger asChild>
-                <Button variant={"outline"} className="border-muted-foreground border-dashed">
+                <Button variant={"outline"} className="border-muted-foreground border-dashed hover:bg-blue-50 hover:border-blue-600 duration-500">
                     <PlusCircleIcon />
                     <p className="text-sm font-medium text-black">Tambah Absensi</p>
                 </Button>

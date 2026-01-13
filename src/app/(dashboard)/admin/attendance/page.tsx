@@ -13,8 +13,8 @@ export default function AttendancePage() {
                     {/* content header */}
                     <div className="w-full flex flex-col gap-6">
                         <div className="flex flex-col gap-1">
-                            <CardTitle className="text-2xl font-bold text-black">Teachers Attendance</CardTitle>
-                            <CardDescription className="text-lg font-medium">Analyse attendance record of teachers in today</CardDescription>
+                            <CardTitle className="text-4xl font-bold text-black">Absensi Guru</CardTitle>
+                            <CardDescription className="text-lg font-medium max-w-xl">Analisis data absensi guru hari ini dengan fitur simpan data real-time dan filterisasi data.</CardDescription>
                         </div>
                         <div className="w-full flex flex-row items-center gap-3">
                             <AttendanceDataCard />

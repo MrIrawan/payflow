@@ -56,7 +56,7 @@ export function AttendanceDataCard() {
                     <div className="flex flex-col gap-1 items-start">
                         <CardTitle className="font-semibold">Present Today</CardTitle>
                         <CardDescription className="font-medium">
-                            Show present teachers in today.
+                            Menunjukkan guru yang hadir hari ini.
                         </CardDescription>
                     </div>
                 </DataCardHeader>
@@ -64,7 +64,7 @@ export function AttendanceDataCard() {
                     <h2 className="text-5xl font-medium text-black">{presentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
-                    <p className="text-sm font-medium text-muted-foreground">10 Teacher Remaining</p>
+                    <p className="text-sm font-medium text-muted-foreground">{onLeaveCount + absentCount} Guru Tersisa</p>
                 </DataCardFooter>
             </DataCard>
             {/* <on leave> attendance data card */}
@@ -76,7 +76,7 @@ export function AttendanceDataCard() {
                     <div className="flex flex-col gap-1 items-start">
                         <CardTitle className="font-semibold">On Leave</CardTitle>
                         <CardDescription className="font-medium">
-                            Show on leave teachers in today.
+                            Menunjukkan guru yang sedang cuti hari ini.
                         </CardDescription>
                     </div>
                 </DataCardHeader>
@@ -96,7 +96,7 @@ export function AttendanceDataCard() {
                     <div className="flex flex-col gap-1 items-start">
                         <CardTitle className="font-semibold">Absent</CardTitle>
                         <CardDescription className="font-medium">
-                            Show absent teachers in today.
+                            Menunjukkan guru yang tidak hadir hari ini.
                         </CardDescription>
                     </div>
                 </DataCardHeader>
@@ -104,7 +104,7 @@ export function AttendanceDataCard() {
                     <h2 className="text-5xl font-medium text-black">{absentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
-                    <p className="text-sm font-medium text-muted-foreground">Without information</p>
+                    <p className="text-sm font-medium text-muted-foreground">Tanpa informasi</p>
                 </DataCardFooter>
             </DataCard>
         </>
