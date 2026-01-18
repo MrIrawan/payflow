@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { StoreAttendanceRequest } from "@/types/request";
 
@@ -27,15 +28,17 @@ import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
 import { getUserLocation } from "@/utils/getUserLocation";
 
 export function StoreAttendanceDrawer() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
     const onSubmitToStoreAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
-        const locationPromise = await getUserLocation();
+        const locationPromise = getUserLocation();
         const formattedData = {
             ...data,
             checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
             checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            location: locationPromise
+            location: await locationPromise
         };
+        console.log(formattedData)
 
         const response = await storeTeacherAttendance(formattedData);
     }
@@ -59,11 +62,35 @@ export function StoreAttendanceDrawer() {
                     </DrawerHeader>
                     <FormContent className="px-4">
                         {/* form fields here */}
-                        <InputGroup type="text" label="Nama Guru" htmlFor="teacher_name" {...register("teacher_name")} />
+                        <InputGroup
+                            type="text"
+                            label="Nama Guru"
+                            htmlFor="teacher_name"
+                            errorMsg={errors.teacher_name?.message}
+                            requiredLabel={true}
+                            aria-invalid={errors.teacher_name ? "true" : "false"}
+                            {...register("teacher_name", { required: { message: "Nama guru wajib diisi", value: true } })}
+                        />
                         <DatePicker label="Tanggal Absensi" htmlFor="attendance_date" placeholder="Pilih tanggal absensi" />
                         <div className="flex flex-row gap-2">
-                            <InputGroup type="time" label="Waktu Check-in" htmlFor="checkin_time" {...register("checkin_time")} />
-                            <InputGroup type="time" label="Waktu Check-out" htmlFor="checkout_time" {...register("checkout_time")} />
+                            <InputGroup
+                                type="time"
+                                label="Waktu Check-in"
+                                htmlFor="checkin_time"
+                                requiredLabel={true}
+                                errorMsg={errors.checkin_time?.message}
+                                aria-invalid={errors.checkin_time ? "true" : "false"}
+                                {...register("checkin_time", { required: { message: "Waktu check-in wajib diisi", value: true } })}
+                            />
+                            <InputGroup
+                                type="time"
+                                label="Waktu Check-out"
+                                htmlFor="checkout_time"
+                                requiredLabel={true}
+                                errorMsg={errors.checkout_time?.message}
+                                aria-invalid={errors.checkout_time ? "true" : "false"}
+                                {...register("checkout_time", { required: { message: "Waktu check-out wajib diisi", value: true } })}
+                            />
                         </div>
                         <Controller
                             control={control}
@@ -75,6 +102,7 @@ export function StoreAttendanceDrawer() {
                                     { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
                                 ]} onvaluechange={field.onChange} />
                             )}
+                            rules={{ required: { message: "Status absen wajib di isi.", value: true } }}
                         />
                     </FormContent>
                     <DrawerFooter className="flex flex-col gap-1.5">
