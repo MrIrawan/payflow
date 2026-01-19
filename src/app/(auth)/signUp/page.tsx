@@ -39,14 +39,15 @@ export default function SignUpPage() {
   const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
     setIsLoading(true);
     if (isValid) {
-      const response = signUpUser(data).finally(() => {
-        setIsLoading(false)
-        reset()
-      }).then((result) => {
-        if (result.success) {
-          router.push("/employee")
-        }
-      });
+      const result = await signUpUser(data);
+      if (result.isSuccess) {
+        reset();
+        router.push("/employee");
+        setIsLoading(false);
+      } else {
+        console.log("sign up failed:", result.raw);
+        setIsLoading(false);
+      }
     }
   };
 

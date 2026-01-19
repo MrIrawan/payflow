@@ -35,14 +35,16 @@ export default function SignInPage() {
   const onSubmitForm: SubmitHandler<SignInRequest> = async (data) => {
     setIsLoading(true);
     if (isValid) {
-      const response = signInUser(data).finally(() => {
-        setIsLoading(false)
+      const result = await signInUser(data);
+
+      if (result.isSuccess) {
         reset();
-      }).then((result) => {
-        if (result.success) {
-          router.push("/employee")
-        }
-      });
+        router.push("/employee");
+        setIsLoading(false);
+      } else {
+        console.log("sign in failed:", result.raw);
+        setIsLoading(false);
+      }
     }
   };
   return (

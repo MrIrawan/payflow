@@ -9,5 +9,18 @@ export const signInUser = async (data: SignInRequest) => {
     credentials: "include"
   })
 
-  return response;
+  if (!response.ok) {
+    return {
+      isSuccess: false,
+      message: response.message,
+      status: response.status,
+      raw: response.raw,
+    }
+  }
+
+  return {
+    isSuccess: true,
+    status: response.status,
+    data: response.data,
+  }
 }
