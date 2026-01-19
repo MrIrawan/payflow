@@ -23,7 +23,7 @@ const tableColumn: TableColumn<GetAllAttendance>[] = [
 ]
 
 export function AttendanceTable() {
-    const [todayAttendance, setTodayAttendance] = useState<GetAllAttendance[]>([]);
+    const [todayAttendance, setTodayAttendance] = useState<GetAllAttendance[] | undefined>([]);
 
     useEffect(() => {
         async function getTodayAttendance() {
@@ -37,7 +37,7 @@ export function AttendanceTable() {
             //     }
             // })
 
-            setTodayAttendance(result.data);
+            setTodayAttendance(result.data?.data);
         }
 
         getTodayAttendance();
@@ -61,7 +61,7 @@ export function AttendanceTable() {
             </Card>
             <DataTable
                 columns={tableColumn}
-                data={todayAttendance}
+                data={todayAttendance || []}
                 getRowId={(row) => row.attendance_id}
             />
         </div>

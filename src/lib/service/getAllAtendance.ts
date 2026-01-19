@@ -6,5 +6,18 @@ export const getAllAttendance = async () => {
         method: "GET"
     });
 
-    return response;
+    if (!response.ok) {
+        return {
+            isSuccess: false,
+            message: response.message,
+            status: response.status
+        }
+    }
+
+    return {
+        isSuccess: true,
+        status: response.status,
+        message: response.data.message,
+        data: response.data,
+    };
 }
