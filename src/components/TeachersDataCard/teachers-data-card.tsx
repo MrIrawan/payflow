@@ -33,11 +33,11 @@ export function TeachersDataCard() {
             try {
                 const response = await getAllTeachers();
 
-                const maleCount = response.data.filter((teacher) => teacher.gender === "male").length;
-                const femaleCount = response.data.filter((teacher) => teacher.gender === "female").length;
+                const maleCount = response.data?.data.filter((teacher) => teacher.gender === "male").length;
+                const femaleCount = response.data?.data.filter((teacher) => teacher.gender === "female").length;
 
-                setMaleTeachers(maleCount);
-                setFemaleTeachers(femaleCount);
+                setMaleTeachers(maleCount || 0);
+                setFemaleTeachers(femaleCount || 0);
             } catch (error) {
                 console.error("get teacher by gender error:", error);
             } finally {

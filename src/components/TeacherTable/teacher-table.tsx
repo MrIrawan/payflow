@@ -27,7 +27,7 @@ const teacherColumns: TableColumn<GetAllTeachers>[] = [
 ];
 
 export default function TeacherTable() {
-    const [data, setData] = useState<GetAllTeachers[]>([]);
+    const [data, setData] = useState<GetAllTeachers[] | undefined>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     const debouncedSearch = useDebounce(searchQuery, 400);
@@ -36,7 +36,7 @@ export default function TeacherTable() {
         async function getAllTeachersData() {
             try {
                 const response = await getAllTeachers();
-                setData(response.data)
+                setData(response.data?.data)
             } catch (error) {
                 console.error("Get all teachers error:", error);
             }
@@ -45,7 +45,7 @@ export default function TeacherTable() {
         getAllTeachersData();
     }, [])
 
-    const filteredData = filterByKeys(data, debouncedSearch, ["full_name"])
+    const filteredData = filterByKeys(data || [], debouncedSearch, ["full_name"])
 
     return (
         <div className="w-full flex flex-col gap-6 p-3">

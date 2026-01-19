@@ -18,20 +18,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-import {
-  DataCard,
-  DataCardBody,
-  DataCardFooter,
-  DataCardHeader,
-} from "@/components/DataCard/data-card";
-import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { ArrowRightIcon, MarsIcon, Users2Icon, VenusIcon } from "lucide-react";
+import TeacherTable from "@/components/TeacherTable/teacher-table";
+import { Card } from "@/components/ui/card";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import TeacherTable from "@/components/TeacherTable/teacher-table";
 import { TeachersDataCard } from "@/components/TeachersDataCard/teachers-data-card";
 
 export default function AdminPage() {
