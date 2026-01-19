@@ -8,5 +8,18 @@ export async function storeTeacherAttendance(data: StoreAttendanceRequest) {
         body: JSON.stringify(data),
     });
 
-    return response;
+    if (!response.ok) {
+        return {
+            isSuccess: false,
+            message: response.message,
+            status: response.status,
+            raw: response.raw,
+        }
+    }
+
+    return {
+        isSuccess: true,
+        status: response.status,
+        data: response.data,
+    }
 }

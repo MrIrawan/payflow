@@ -15,13 +15,16 @@ import {
     ClipboardPasteIcon,
     FrownIcon
 } from "lucide-react";
+import { Spinner } from "../ui/spinner";
 
 export function AttendanceDataCard() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [presentCount, setPresentCount] = useState<number>(0);
     const [absentCount, setAbsentCount] = useState<number>(0);
     const [onLeaveCount, setOnLeaveCount] = useState<number>(0);
 
     useEffect(() => {
+        setIsLoading(true);
         async function getAttendanceCount() {
             try {
                 const result = await getAllAttendance();
@@ -39,6 +42,8 @@ export function AttendanceDataCard() {
                 setOnLeaveCount(result.data?.data.filter((attendance) => attendance.attendance_status === "on leave").length || 0)
             } catch (error) {
                 console.error("get attendance count error:", error);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -61,10 +66,10 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">{presentCount}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : presentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
-                    <p className="text-sm font-medium text-muted-foreground">{onLeaveCount + absentCount} Guru Tersisa</p>
+                    <p className="text-sm font-medium text-muted-foreground">{isLoading ? (<Spinner className="size-4" />) : `${onLeaveCount + absentCount} Guru Tersisa`}</p>
                 </DataCardFooter>
             </DataCard>
             {/* <on leave> attendance data card */}
@@ -81,7 +86,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">{onLeaveCount}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : onLeaveCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">Approved leave</p>
@@ -101,7 +106,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">{absentCount}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : absentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">Tanpa informasi</p>
