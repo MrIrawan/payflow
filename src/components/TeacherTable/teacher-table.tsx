@@ -15,6 +15,9 @@ import { filterByKeys } from "@/utils/filterByKeys";
 import { useDebounce } from "@/hooks/use-debounce";
 import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-button";
 import { GenderBadge } from "../GenderBadge/gender-badge";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { PlusCircleIcon } from "lucide-react";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
@@ -50,7 +53,7 @@ export default function TeacherTable() {
     return (
         <div className="w-full flex flex-col gap-6">
             <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
-                <div className="flex flex-row gap-2.5 items-end">
+                <div className="w-full flex flex-row gap-2.5 items-end">
                     <div className="flex flex-col gap-2.5">
                         <Label className="font-semibold">Search Teacher</Label>
                         <Input
@@ -62,6 +65,12 @@ export default function TeacherTable() {
                         />
                     </div>
                     <GenderOptionsButton />
+                    <Link href={"admin/add-teacher"} className="ml-auto">
+                        <Button variant={"outline"} className="border-dashed">
+                            <PlusCircleIcon />
+                            <p className="text-sm font-medium text-black">Tambah Guru</p>
+                        </Button>
+                    </Link>
                 </div>
             </Card>
             <DataTable
