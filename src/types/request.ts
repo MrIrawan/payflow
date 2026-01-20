@@ -17,7 +17,7 @@ export interface SignInRequest {
 
 export interface StoreAttendanceRequest {
   teacher_name: string,
-  attendance_date: string,
+  attendance_date: Date,
   checkin_time: number,
   checkout_time: number,
   attendance_status: "present" | "absent" | "on leave",

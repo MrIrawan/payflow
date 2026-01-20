@@ -61,6 +61,7 @@ export interface DatePickerProps {
   requiredLabel?: boolean;
   value?: Date | undefined;
   onchange?: (date?: Date) => void;
+  errorMessage?: string | React.ReactElement | undefined;
 }
 
 export interface RadioOptionsProps {

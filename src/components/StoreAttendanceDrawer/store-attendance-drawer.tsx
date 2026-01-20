@@ -26,11 +26,13 @@ import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
 import { getUserLocation } from "@/utils/getUserLocation";
+import { Spinner } from "../ui/spinner";
 
 export function StoreAttendanceDrawer() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
     const onSubmitToStoreAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
+        setIsLoading(true);
         const locationPromise = getUserLocation();
         const formattedData = {
             ...data,
@@ -41,6 +43,9 @@ export function StoreAttendanceDrawer() {
         console.log(formattedData)
 
         const response = await storeTeacherAttendance(formattedData);
+
+        console.log(response);
+        setIsLoading(false);
     }
 
 
@@ -71,7 +76,26 @@ export function StoreAttendanceDrawer() {
                             aria-invalid={errors.teacher_name ? "true" : "false"}
                             {...register("teacher_name", { required: { message: "Nama guru wajib diisi", value: true } })}
                         />
-                        <DatePicker label="Tanggal Absensi" htmlFor="attendance_date" placeholder="Pilih tanggal absensi" />
+                        <Controller
+                            control={control}
+                            name="attendance_date"
+                            render={({ field: { onChange, value }, formState: { errors } }) => (
+                                <DatePicker
+                                    label="Tanggal Absensi"
+                                    htmlFor="attendance_date"
+                                    placeholder="Pilih tanggal absensi"
+                                    onchange={onChange}
+                                    value={value}
+                                    errorMessage={errors.attendance_date?.message}
+                                />
+                            )}
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: "Tanggal absensi wajib di isi."
+                                }
+                            }}
+                        />
                         <div className="flex flex-row gap-2">
                             <InputGroup
                                 type="time"
@@ -107,7 +131,7 @@ export function StoreAttendanceDrawer() {
                     </FormContent>
                     <DrawerFooter className="flex flex-col gap-1.5">
                         <Button variant={"outline"} type="submit" className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
-                            <p className="text-base font-medium text-white">Simpan Absensi</p>
+                            {isLoading ? (<Spinner />) : (<p className="text-base font-medium text-white">Simpan Absensi</p>)}
                         </Button>
                         <DrawerClose asChild>
                             <Button variant={"outline"} className="border-red-600 bg-red-800/70 hover:bg-red-600/70">

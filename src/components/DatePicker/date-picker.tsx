@@ -25,6 +25,7 @@ export function DatePicker({
   requiredLabel = false,
   value,
   onchange,
+  errorMessage,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   // local fallback if parent doesn't control it
@@ -44,7 +45,8 @@ export function DatePicker({
           <Button
             variant="outline"
             id={htmlFor}
-            className="w-full justify-between font-normal text-black focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px]"
+            className="w-full justify-between font-normal text-black focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px] aria-invalid:ring-red-100 aria-invalid:ring-[3px]"
+            aria-invalid={errorMessage ? "true" : "false"}
           >
             {selected ? selected.toLocaleDateString() : placeholder}
             <ChevronDownIcon />
@@ -65,6 +67,9 @@ export function DatePicker({
           />
         </PopoverContent>
       </Popover>
+      {errorMessage && (
+        <p className="text-sm font-medium text-destructive">{errorMessage}</p>
+      )}
     </div>
   );
 }
