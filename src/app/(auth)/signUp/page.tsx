@@ -95,17 +95,24 @@ export default function SignUpPage() {
           <Controller
             control={control}
             name="date_of_birth"
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, formState: { errors } }) => (
               <DatePicker
                 label="Date of birth"
                 htmlFor="date_of_birth"
                 placeholder="Select your date of birth"
                 aria-invalid={errors ? true : false}
+                errorMessage={errors.date_of_birth?.message}
                 requiredLabel
                 onchange={onChange}
                 value={value}
               />
             )}
+            rules={{
+              required: {
+                value: true,
+                message: "date of birth is required"
+              }
+            }}
           />
           <Controller
             control={control}

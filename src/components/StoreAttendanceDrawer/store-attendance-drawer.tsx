@@ -86,6 +86,7 @@ export function StoreAttendanceDrawer() {
                                     placeholder="Pilih tanggal absensi"
                                     onchange={onChange}
                                     value={value}
+                                    requiredLabel={true}
                                     errorMessage={errors.attendance_date?.message}
                                 />
                             )}
@@ -120,7 +121,7 @@ export function StoreAttendanceDrawer() {
                             control={control}
                             name="attendance_status"
                             render={({ field }) => (
-                                <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" items={[
+                                <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" requiredLabel htmlFor="attendance_status" items={[
                                     { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
                                     { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
                                     { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }

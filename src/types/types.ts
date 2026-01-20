@@ -137,8 +137,10 @@ export interface DashboardBreadcrumbProps {
 
 export interface SelectGroupProps {
   label: string;
+  htmlFor: string;
   onvaluechange?: (val: string) => void;
   placeholder: string;
+  requiredLabel?: boolean;
   items: SelectGroupItemProps[] | [];
 }
 
