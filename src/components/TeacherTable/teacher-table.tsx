@@ -17,13 +17,13 @@ import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-butto
 import { GenderBadge } from "../GenderBadge/gender-badge";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
-    { header: "Full Name", accessor: "full_name" },
-    { header: "Date of Birth", accessor: "date_of_birth" },
-    { header: "Company", accessor: "company" },
-    { header: "Job Title", accessor: "job_title" },
-    { header: "Home Address", accessor: "home_address" },
-    { header: "Gender", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
-    { header: "Net Salary", accessor: "net_salary" },
+    { header: "Nama Lengkap", accessor: "full_name" },
+    { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
+    { header: "Perusahaan", accessor: "company", cell: (value) => value ? value : "-" },
+    { header: "Jabatan", accessor: "job_title", cell: (value) => value ? value : "-" },
+    { header: "Alamat Rumah", accessor: "home_address", cell: (value) => value ? value : "-" },
+    { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
+    { header: "Gaji Tetap", accessor: "net_salary", cell: (value) => value ? `Rp ${value.toLocaleString("id-ID")}` : "-" },
 ];
 
 export default function TeacherTable() {
@@ -48,7 +48,7 @@ export default function TeacherTable() {
     const filteredData = filterByKeys(data || [], debouncedSearch, ["full_name"])
 
     return (
-        <div className="w-full flex flex-col gap-6 p-3">
+        <div className="w-full flex flex-col gap-6">
             <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
                 <div className="flex flex-row gap-2.5 items-end">
                     <div className="flex flex-col gap-2.5">
