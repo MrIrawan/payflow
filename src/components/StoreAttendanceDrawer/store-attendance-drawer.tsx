@@ -132,7 +132,7 @@ export function StoreAttendanceDrawer() {
                     </FormContent>
                     <DrawerFooter className="flex flex-col gap-1.5">
                         <Button variant={"outline"} type="submit" className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
-                            {isLoading ? (<Spinner />) : (<p className="text-base font-medium text-white">Simpan Absensi</p>)}
+                            {isLoading ? (<Spinner className="text-white" />) : (<p className="text-base font-medium text-white">Simpan Absensi</p>)}
                         </Button>
                         <DrawerClose asChild>
                             <Button variant={"outline"} className="border-red-600 bg-red-800/70 hover:bg-red-600/70">
