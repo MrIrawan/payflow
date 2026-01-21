@@ -11,7 +11,7 @@ export function SidebarNavigationLink({
   activeBg
 }: SidebarNavigationLinkProps) {
   const pathName = usePathname();
-  const isActive = pathName.startsWith(`${href}`)
+  const isActive = pathName === href;
   return (
     <SidebarMenuItem className={`rounded-lg ${activeBg ? isActive ? "bg-blue-100" : "bg-white" : "bg-white"}`}>
       <SidebarMenuButton

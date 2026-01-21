@@ -112,3 +112,10 @@ export interface StoreAttendanceResponse {
   message: string;
   data: GetAllAttendance;
 }
+
+export interface StoreTeacherDataResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllTeachers;
+}

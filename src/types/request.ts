@@ -23,3 +23,14 @@ export interface StoreAttendanceRequest {
   attendance_status: "present" | "absent" | "on leave",
   location?: UserLocation;
 }
+
+export interface StoreTeacherDataRequest {
+  full_name: string;
+  date_of_birth: Date;
+  gender: "male" | "female";
+  email_address: string;
+  home_address: string;
+  net_salary: number;
+  job_title: string;
+  company: string;
+}

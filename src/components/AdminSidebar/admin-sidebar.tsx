@@ -34,7 +34,7 @@ export function AdminSidebar() {
                 },
                 {
                   label: "tambah data guru",
-                  href: "/admin/teacher/add"
+                  href: "/admin/teacher/add-teacher"
                 },
                 {
                   label: "edit data guru",
