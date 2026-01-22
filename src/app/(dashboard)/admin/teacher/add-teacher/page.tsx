@@ -17,6 +17,7 @@ import { CardDescription, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Spinner } from "@/components/ui/spinner";
+import { GenderBadge } from "@/components/GenderBadge/gender-badge";
 
 export default function AddTeacherPage() {
     const router = useRouter();
@@ -111,8 +112,8 @@ export default function AddTeacherPage() {
                                             placeholder="Pilih jenis kelamin"
                                             requiredLabel
                                             items={[
-                                                { value: "male", displayText: "Laki-laki" },
-                                                { value: "female", displayText: "Perempuan" }
+                                                { value: "male", displayText: <GenderBadge placeholder={"male"} size="sm" /> },
+                                                { value: "female", displayText: <GenderBadge placeholder={"female"} size="sm" /> }
                                             ]}
                                             onvaluechange={field.onChange}
                                         />
