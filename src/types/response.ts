@@ -64,6 +64,7 @@ export interface GetAllTeachers {
   created_at: string;
   full_name: string;
   date_of_birth: string;
+  email_address: string;
   home_address: string | null;
   job_title: string | null;
   company: string | null;

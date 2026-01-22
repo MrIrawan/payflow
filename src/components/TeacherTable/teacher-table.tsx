@@ -25,8 +25,8 @@ const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
     { header: "Perusahaan", accessor: "company", cell: (value) => value ? value : "-" },
     { header: "Jabatan", accessor: "job_title", cell: (value) => value ? value : "-" },
+    { header: "Alamat Email", accessor: "email_address" },
     { header: "Alamat Rumah", accessor: "home_address", cell: (value) => value ? value : "-" },
-    { header: "Gaji Tetap", accessor: "net_salary", cell: (value) => value ? `Rp ${value.toLocaleString("id-ID")}` : "-" },
 ];
 
 export default function TeacherTable() {
