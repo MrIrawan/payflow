@@ -22,10 +22,10 @@ import { PlusCircleIcon } from "lucide-react";
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
     { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
+    { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
     { header: "Perusahaan", accessor: "company", cell: (value) => value ? value : "-" },
     { header: "Jabatan", accessor: "job_title", cell: (value) => value ? value : "-" },
     { header: "Alamat Rumah", accessor: "home_address", cell: (value) => value ? value : "-" },
-    { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
     { header: "Gaji Tetap", accessor: "net_salary", cell: (value) => value ? `Rp ${value.toLocaleString("id-ID")}` : "-" },
 ];
 
