@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { StoreAttendanceRequest } from "@/types/request";
 
@@ -30,7 +32,10 @@ import { Spinner } from "../ui/spinner";
 
 export function StoreAttendanceDrawer() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
+    const router = useRouter();
+
     const onSubmitToStoreAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
         setIsLoading(true);
         const locationPromise = getUserLocation();
@@ -44,13 +49,20 @@ export function StoreAttendanceDrawer() {
 
         const response = await storeTeacherAttendance(formattedData);
 
-        console.log(response);
+        if (response.isSuccess) {
+            toast.success("anjayyy", {
+                position: "bottom-right",
+                richColors: true,
+            });
+
+            setIsOpen(false);
+        }
         setIsLoading(false);
     }
 
 
     return (
-        <Drawer direction="right">
+        <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
                 <Button variant={"outline"} className="border-muted-foreground border-dashed hover:bg-blue-50 hover:border-blue-600 duration-500">
                     <PlusCircleIcon />
