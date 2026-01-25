@@ -14,7 +14,7 @@ import {
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, Users, Wallet } from "lucide-react";
+import { CalendarCheck2, House, Users, Wallet } from "lucide-react";
 
 export function EmployeeSidebar() {
     return (
@@ -26,27 +26,29 @@ export function EmployeeSidebar() {
                 <SidebarGroup className="h-full">
                     {/* Sidebar items go here */}
                     <SidebarMenu className="gap-4">
+                        <SidebarNavigationLink
+                            href="/employee"
+                            label="dashboard"
+                            Icon={House}
+                            activeBg
+                        />
                         <CollabsipleSidebarNavigation
-                            label="data guru"
+                            label="profil anda"
                             Icon={Users}
                             sub={[
                                 {
-                                    label: "lihat data guru",
-                                    href: "/admin/teacher"
+                                    label: "lihat profil anda",
+                                    href: "/employee/my-profile"
                                 },
                                 {
-                                    label: "tambah data guru",
-                                    href: "/admin/teacher/add"
-                                },
-                                {
-                                    label: "edit data guru",
-                                    href: "/admin/teacher/edit"
+                                    label: "edit profil anda",
+                                    href: "/employee/edit-profile"
                                 }
                             ]}
                         />
                         <SidebarNavigationLink
-                            href="/admin/payroll"
-                            label="penggajian"
+                            href="/employee/kalkulator-gaji"
+                            label="kalkulator gaji"
                             Icon={Wallet}
                             activeBg
                         />
@@ -55,22 +57,18 @@ export function EmployeeSidebar() {
                             Icon={CalendarCheck2}
                             sub={[
                                 {
-                                    label: "lihat data absensi",
-                                    href: "/admin/attendance"
+                                    label: "absensi mandiri",
+                                    href: "/employee/absensi-mandiri"
                                 },
                                 {
-                                    label: "tambah data absensi",
-                                    href: "/admin/attendance/add"
+                                    label: "statistik absensi anda",
+                                    href: "/employee/statistik-absen"
                                 },
-                                {
-                                    label: "edit data absensi",
-                                    href: "/admin/attendance/edit"
-                                }
                             ]}
                         />
                         <SidebarNavigationLink
-                            href="/admin/report"
-                            label="laporan"
+                            href="/employee/cetak-laporan-gaji"
+                            label="cetak laporan gaji"
                             Icon={Wallet}
                             activeBg
                         />
