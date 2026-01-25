@@ -12,6 +12,10 @@ export default function EmployeePage() {
                         <PageHeader />
                         <Separator />
                     </div>
+                    <div className="flex flex-col gap-2 py-3">
+                        <h2 className="text-4xl text-black font-bold capitalize">👋 selamat datang, farrel Irawan.</h2>
+                        <h3 className="text-lg font-medium text-muted-foreground">lihat apa yang terjadi dalam penggajian anda hari ini.</h3>
+                    </div>
                     <EmployeeDataCard />
                 </div>
             </section>
