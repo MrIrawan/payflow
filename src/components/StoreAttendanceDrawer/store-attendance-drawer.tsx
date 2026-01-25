@@ -29,6 +29,7 @@ import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
 import { getUserLocation } from "@/utils/getUserLocation";
 import { Spinner } from "../ui/spinner";
+import { Toaster } from "../Toaster/toaster";
 
 export function StoreAttendanceDrawer() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,12 +51,13 @@ export function StoreAttendanceDrawer() {
         const response = await storeTeacherAttendance(formattedData);
 
         if (response.isSuccess) {
-            toast.success("anjayyy", {
-                position: "bottom-right",
-                richColors: true,
-            });
-
+            toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response.data?.message} variant="success" />)
             setIsOpen(false);
+            router.refresh();
+        } else {
+            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response.message} variant="error" />)
+            setIsOpen(false);
+            router.refresh();
         }
         setIsLoading(false);
     }

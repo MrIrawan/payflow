@@ -22,7 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
         {children}
-        <Toaster />
+        <Toaster toastOptions={{
+          style: {
+            fontFamily: poppins.style.fontFamily,
+          }
+        }} />
       </body>
     </html>
   );

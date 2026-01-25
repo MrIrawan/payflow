@@ -153,3 +153,10 @@ export interface UserLocation {
   longitude: number;
   latitude: number;
 }
+
+export interface ToasterVariants {
+  background: string;
+  backgroundIcon: string;
+  icon: string;
+  title: string;
+}

@@ -18,6 +18,8 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Spinner } from "@/components/ui/spinner";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
 
 export default function AddTeacherPage() {
     const router = useRouter();
@@ -30,13 +32,10 @@ export default function AddTeacherPage() {
         const response = await storeTeacherData(data);
 
         if (response.isSuccess) {
-            router.push("/admin/teacher");
-            setIsLoading(false);
-            reset();
+            toast.custom(() => <Toaster title="berhasil menyimpan data guru" description={response.data?.message} variant="success" />)
+            router.push("/admin/teacher")
         } else {
-            console.log(response.message);
-            setIsLoading(false);
-            reset();
+            toast.custom(() => <Toaster title="gagal menyimpan data guru" description={response.message} variant="error" />)
         }
     }
 
@@ -162,6 +161,19 @@ export default function AddTeacherPage() {
                                             value: true,
                                             message: "Gaji tetap wajib diisi"
                                         }, valueAsNumber: true
+                                    })}
+                                />
+                                <InputGroup
+                                    label="Alamat Rumah"
+                                    htmlFor="home_address"
+                                    type="text"
+                                    aria-invalid={errors.home_address ? "true" : "false"}
+                                    errorMsg={errors.home_address?.message}
+                                    {...register("home_address", {
+                                        required: {
+                                            value: true,
+                                            message: "Alamat Rumah wajib diisi"
+                                        }
                                     })}
                                 />
                             </FormContent>
