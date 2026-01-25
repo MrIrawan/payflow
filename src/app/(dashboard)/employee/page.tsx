@@ -1,4 +1,5 @@
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb"
+import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
@@ -11,6 +12,7 @@ export default function EmployeePage() {
                         <PageHeader />
                         <Separator />
                     </div>
+                    <EmployeeDataCard />
                 </div>
             </section>
         </>
