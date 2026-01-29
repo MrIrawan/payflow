@@ -1,4 +1,5 @@
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb"
+import { EmployeeAttendanceGraph } from "@/components/EmployeeAttendanceGraph/employee-attendance-graph"
 import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -17,6 +18,7 @@ export default function EmployeePage() {
                         <h3 className="text-lg font-medium text-muted-foreground">lihat apa yang terjadi dalam penggajian anda hari ini.</h3>
                     </div>
                     <EmployeeDataCard />
+                    <EmployeeAttendanceGraph />
                 </div>
             </section>
         </>
