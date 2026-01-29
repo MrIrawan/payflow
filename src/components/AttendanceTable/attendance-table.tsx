@@ -62,7 +62,6 @@ export function AttendanceTable() {
             <DataTable
                 columns={tableColumn}
                 data={todayAttendance || []}
-                getRowId={(row) => row.attendance_id}
             />
         </div>
     )

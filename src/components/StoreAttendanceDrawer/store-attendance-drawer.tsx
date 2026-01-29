@@ -62,7 +62,6 @@ export function StoreAttendanceDrawer() {
         setIsLoading(false);
     }
 
-
     return (
         <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>

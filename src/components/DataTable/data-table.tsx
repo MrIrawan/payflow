@@ -1,9 +1,6 @@
 "use client";
 
 import {
-  EllipsisIcon,
-} from "lucide-react";
-import {
   Table,
   TableHeader,
   TableBody,
@@ -13,7 +10,11 @@ import {
 } from "../ui/table";
 import { DataTableProps } from "@/types/table";
 
-export function DataTable<T>({ columns, data, getRowId }: DataTableProps<T>) {
+export function DataTable<T>({
+  columns,
+  data,
+  renderRowAction,
+}: DataTableProps<T>) {
   return (
     <Table>
       <TableHeader>
@@ -23,7 +24,9 @@ export function DataTable<T>({ columns, data, getRowId }: DataTableProps<T>) {
               {col.header}
             </TableHead>
           ))}
-          <TableHead />
+
+          {/* Action column hanya muncul jika dibutuhkan */}
+          {renderRowAction && <TableHead />}
         </TableRow>
       </TableHeader>
 
@@ -41,9 +44,12 @@ export function DataTable<T>({ columns, data, getRowId }: DataTableProps<T>) {
               </TableCell>
             ))}
 
-            <TableCell onClick={() => console.log(getRowId ? getRowId(row) : rowIndex)}>
-              <EllipsisIcon />
-            </TableCell>
+            {/* SLOT action */}
+            {renderRowAction && (
+              <TableCell>
+                {renderRowAction(row)}
+              </TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>
