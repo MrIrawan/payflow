@@ -13,6 +13,7 @@ import { GetAllAttendance } from "@/types/response";
 import { TableColumn } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { StoreAttendanceDrawer } from "../StoreAttendanceDrawer/store-attendance-drawer";
+import { AttendanceActionPopover } from "../AttendanceActionPopover/attendance-action-popover";
 
 const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Nama Guru", accessor: "teacher_name" },
@@ -62,6 +63,9 @@ export function AttendanceTable() {
             <DataTable
                 columns={tableColumn}
                 data={todayAttendance || []}
+                renderRowAction={(row) => (
+                    <AttendanceActionPopover attendanceId={row.attendance_id} />
+                )}
             />
         </div>
     )
