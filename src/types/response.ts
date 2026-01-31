@@ -120,3 +120,9 @@ export interface StoreTeacherDataResponse {
   message: string;
   data: GetAllTeachers;
 }
+
+export interface DeleteTeacherDataResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+}
