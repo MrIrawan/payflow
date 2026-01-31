@@ -18,6 +18,7 @@ import { GenderBadge } from "../GenderBadge/gender-badge";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
+import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
 
 const teacherColumns: TableColumn<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
@@ -76,6 +77,7 @@ export default function TeacherTable() {
             <DataTable
                 columns={teacherColumns}
                 data={filteredData}
+                renderRowAction={(row) => <TeacherActionPopover teacherId={row.guru_id} />}
             />
         </div>
     )
