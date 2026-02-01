@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { getAllTeachers } from "@/lib/service/getAllTeachers";
@@ -15,7 +16,6 @@ import { filterByKeys } from "@/utils/filterByKeys";
 import { useDebounce } from "@/hooks/use-debounce";
 import { GenderOptionsButton } from "../GenderOptionsButton/gender-options-button";
 import { GenderBadge } from "../GenderBadge/gender-badge";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
