@@ -5,6 +5,7 @@ import {
   HTMLAttributes,
   InputHTMLAttributes,
 } from "react";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -51,7 +52,7 @@ export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   requiredLabel?: boolean;
   htmlFor: string;
   className?: string;
-  errorMsg?: string | React.ReactElement | undefined;
+  errorMsg?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 }
 
 export interface DatePickerProps {
@@ -61,7 +62,7 @@ export interface DatePickerProps {
   requiredLabel?: boolean;
   value?: Date | undefined;
   onchange?: (date?: Date) => void;
-  errorMessage?: string | React.ReactElement | undefined;
+  errorMessage?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 }
 
 export interface RadioOptionsProps {
