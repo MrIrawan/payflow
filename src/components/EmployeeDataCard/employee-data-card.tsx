@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { EmployeeDataCardData } from "@/types/types";
 
 import { DataCard, DataCardBody, DataCardFooter, DataCardHeader } from "../DataCard/data-card";
 import { WalletIcon, CalendarCheckIcon, ScrollTextIcon } from "lucide-react";
 import { CardDescription, CardTitle } from "../ui/card";
 
 export function EmployeeDataCard() {
+    const [employeeData, setEmployeeData] = useState<EmployeeDataCardData>();
+
     return (
         <div className="w-full flex flex-row justify-between items-center gap-3">
             <DataCard className="h-[200px] flex flex-col justify-between">

@@ -161,3 +161,8 @@ export interface ToasterVariants {
   icon: string;
   title: string;
 }
+
+export interface EmployeeDataCardData {
+  currentSalary: string | number;
+  countAttendance: string | number;
+}

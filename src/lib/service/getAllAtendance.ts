@@ -3,7 +3,8 @@ import { GetAllAttendanceResponse } from "@/types/response";
 
 export const getAllAttendance = async () => {
     const response = await fetcher<GetAllAttendanceResponse>("/attendance", {
-        method: "GET"
+        method: "GET",
+        credentials: "include",
     });
 
     if (!response.ok) {

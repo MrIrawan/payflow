@@ -7,6 +7,7 @@ export async function storeTeacherData(teacherData: StoreTeacherDataRequest) {
     const response = await fetcher<StoreTeacherDataResponse>("/store/teacher", {
         method: "POST",
         body: JSON.stringify(teacherData),
+        credentials: "include",
     });
 
     if (!response.ok) {

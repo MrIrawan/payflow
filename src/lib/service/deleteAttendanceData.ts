@@ -2,7 +2,8 @@ import { fetcher } from "../fetcher/fetcher"
 
 export const deleteAttendanceData = async (identifier: string) => {
     const response = await fetcher(`/attendance/delete/${identifier}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include",
     });
 
     if (!response.ok) {

@@ -3,7 +3,8 @@ import { GetAllTeachersResponse } from "@/types/response";
 
 export const getAllTeachers = async () => {
     const response = await fetcher<GetAllTeachersResponse>("/teachers", {
-        method: "GET"
+        method: "GET",
+        credentials: "include",
     })
 
     if (!response.ok) {
