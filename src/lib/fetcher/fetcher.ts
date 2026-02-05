@@ -8,8 +8,14 @@ type FetcherResult<T> =
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
+// ======================
+// 🔐 refresh lock
+// ======================
+let isRefreshing = false;
+let refreshPromise: Promise<boolean> | null = null;
+
 /**
- * low-level request helper (biar bisa dipakai ulang saat retry)
+ * low-level request helper
  */
 async function doRequest(
   endpoint: string,
@@ -23,13 +29,25 @@ async function doRequest(
     : "";
 
   return fetch(`${BASE_URL}${endpoint}${query}`, {
-    credentials: "include", // 🔑 WAJIB untuk HTTPOnly cookie
+    credentials: "include", // 🔑 HTTPOnly cookie
     headers: {
       "Content-Type": "application/json",
       ...(config?.headers || {}),
     },
     ...config,
   });
+}
+
+/**
+ * refresh session (server-side supabase)
+ */
+async function refreshSession(): Promise<boolean> {
+  try {
+    const res = await doRequest("/refresh", { method: "POST" });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function fetcher<T>(
@@ -44,7 +62,7 @@ export async function fetcher<T>(
     let body = await response.json().catch(() => null);
 
     // =====================
-    // 2️⃣ kalau bukan 401
+    // 2️⃣ bukan 401 → normal flow
     // =====================
     if (response.status !== 401) {
       if (!response.ok) {
@@ -54,7 +72,7 @@ export async function fetcher<T>(
           message:
             typeof body?.message === "string"
               ? body.message
-              : "Request failed",
+              : leadingError(response.status),
           raw: body,
         };
       }
@@ -67,19 +85,35 @@ export async function fetcher<T>(
     }
 
     // =====================
-    // 3️⃣ handle 401 → refresh
+    // ⛔ jangan refresh ulang /refresh
     // =====================
-    const refreshResponse = await doRequest("/refresh", {
-      method: "POST",
-    });
-
-    if (!refreshResponse.ok) {
-      // refresh token invalid / expired
+    if (endpoint === "/refresh") {
+      handleLogout();
       return {
         ok: false,
         status: 401,
         message: "Unauthenticated",
-        raw: await refreshResponse.json().catch(() => null),
+      };
+    }
+
+    // =====================
+    // 3️⃣ handle 401 → refresh (LOCKED)
+    // =====================
+    if (!isRefreshing) {
+      isRefreshing = true;
+      refreshPromise = refreshSession().finally(() => {
+        isRefreshing = false;
+      });
+    }
+
+    const refreshed = await refreshPromise;
+
+    if (!refreshed) {
+      handleLogout();
+      return {
+        ok: false,
+        status: 401,
+        message: "Session expired",
       };
     }
 
@@ -114,4 +148,22 @@ export async function fetcher<T>(
       raw: err,
     };
   }
+}
+
+/**
+ * helper message (optional tapi rapi)
+ */
+function leadingError(status: number) {
+  if (status === 403) return "Forbidden";
+  if (status === 404) return "Not found";
+  if (status >= 500) return "Server error";
+  return "Request failed";
+}
+
+function handleLogout() {
+  // optional: clear client state
+  // zustand.reset()
+  // queryClient.clear()
+
+  window.location.href = "/signIn";
 }
