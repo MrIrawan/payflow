@@ -88,7 +88,6 @@ export async function fetcher<T>(
     // ⛔ jangan refresh ulang /refresh
     // =====================
     if (endpoint === "/refresh") {
-      handleLogout();
       return {
         ok: false,
         status: 401,
@@ -109,7 +108,6 @@ export async function fetcher<T>(
     const refreshed = await refreshPromise;
 
     if (!refreshed) {
-      handleLogout();
       return {
         ok: false,
         status: 401,
@@ -151,19 +149,11 @@ export async function fetcher<T>(
 }
 
 /**
- * helper message (optional tapi rapi)
+ * helper message
  */
 function leadingError(status: number) {
   if (status === 403) return "Forbidden";
   if (status === 404) return "Not found";
   if (status >= 500) return "Server error";
   return "Request failed";
-}
-
-function handleLogout() {
-  // optional: clear client state
-  // zustand.reset()
-  // queryClient.clear()
-
-  window.location.href = "/signIn";
 }
