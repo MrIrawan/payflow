@@ -1,18 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { AdminSignInRequest } from '@/types/request';
 
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 
 import { InputGroup } from '@/components/InputGroup/input-group';
 
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
-
 export default function AdminLoginPage() {
     const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm<AdminSignInRequest>();
+
+    const onSubmit: SubmitHandler<AdminSignInRequest> = async (data) => {
+        setIsLoading(true);
+        // Simulate API call
+        setTimeout(() => {
+            console.log('Admin Sign In Data:', data);
+            setIsLoading(false);
+        }, 2000);
+    }
 
     return (
         <>
@@ -34,7 +42,7 @@ export default function AdminLoginPage() {
                     </div>
 
                     {/* Login Form */}
-                    <form className="flex flex-col gap-6">
+                    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
                         {/* Email Input */}
                         <InputGroup
                             label='Admin Username'
@@ -43,6 +51,9 @@ export default function AdminLoginPage() {
                             type='text'
                             className='placeholder:text-sm placeholder:font-medium text-4xl'
                             placeholder='Admin PayFlow'
+                            aria-invalid={errors.username ? "true" : "false"}
+                            errorMsg={errors.username?.message}
+                            {...register('username', { required: 'Admin Username is required' })}
                         />
 
                         {/* Password Input */}
@@ -53,6 +64,9 @@ export default function AdminLoginPage() {
                             type='password'
                             className='placeholder:text-sm placeholder:font-medium text-4xl'
                             placeholder='**********'
+                            aria-invalid={errors.password ? "true" : "false"}
+                            errorMsg={errors.password?.message}
+                            {...register('password', { required: 'Admin Password is required' })}
                         />
 
                         {/* Remember Me & Forgot Password */}

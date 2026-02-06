@@ -15,6 +15,11 @@ export interface SignInRequest {
   password_email: string;
 }
 
+export interface AdminSignInRequest {
+  username: string;
+  password: string;
+}
+
 export interface StoreAttendanceRequest {
   teacher_name: string,
   attendance_date: Date,
