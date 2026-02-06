@@ -13,7 +13,7 @@ export default async function AuthLayout({
   }
   return (
     <section className="w-full h-screen">
-      <div className="container w-full mx-auto h-full flex flex-row items-center justify-between">
+      <div className="container w-full mx-auto h-full flex flex-row items-center justify-center">
         {children}
       </div>
     </section>
