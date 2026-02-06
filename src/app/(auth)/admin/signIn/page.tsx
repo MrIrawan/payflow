@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { AdminSignInRequest } from '@/types/request';
 
@@ -8,18 +9,34 @@ import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 
 import { InputGroup } from '@/components/InputGroup/input-group';
+import { signInAdmin } from '@/lib/service/admin/signInAdmin';
+import { toast } from 'sonner';
+import { Toaster } from '@/components/Toaster/toaster';
 
 export default function AdminLoginPage() {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<AdminSignInRequest>();
 
     const onSubmit: SubmitHandler<AdminSignInRequest> = async (data) => {
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            console.log('Admin Sign In Data:', data);
+
+        try {
+            // call signInAdmin service
+            const response = await signInAdmin(data);
+
+            if (response?.isSuccess) {
+                // redirect to admin dashboard
+                toast.custom(() => <Toaster variant='success' title='success to sign in as an admin.' description='You have been successfully signed in as an admin.' />)
+                router.push('/admin');
+            } else {
+                toast.custom(() => <Toaster variant='error' title='failed to sign in as an admin.' description={response?.message || 'An error occurred while signing in as an admin.'} />)
+            }
+        } catch (error) {
+            toast.custom(() => <Toaster variant='error' title='failed to sign in as an admin.' description='An unexpected error occurred while signing in as an admin.' />)
+        } finally {
             setIsLoading(false);
-        }, 2000);
+        }
     }
 
     return (

@@ -126,3 +126,8 @@ export interface DeleteTeacherDataResponse {
   statusText: string;
   message: string;
 }
+
+export interface AdminSignInResponse {
+  success: boolean;
+  message: string;
+}
