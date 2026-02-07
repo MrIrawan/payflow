@@ -22,16 +22,17 @@ import { InputGroup } from "../InputGroup/input-group";
 import { DatePicker } from "../DatePicker/date-picker";
 import { FormComponent, FormContent } from "../Form/Form";
 
-import { FilePenLineIcon, PlusCircleIcon } from "lucide-react";
+import { FilePenLineIcon } from "lucide-react";
 import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
-import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
-import { getUserLocation } from "@/utils/getUserLocation";
 import { Spinner } from "../ui/spinner";
 import { Toaster } from "../Toaster/toaster";
+import { updateAttendanceData } from "@/lib/service/admin/attendance/updateAttendanceData";
 
-export function UpdateAttendanceDrawer() {
+export function UpdateAttendanceDrawer({ attendanceId }: {
+    attendanceId: string;
+}) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
@@ -39,26 +40,32 @@ export function UpdateAttendanceDrawer() {
 
     const onSubmitToUpdateAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
         setIsLoading(true);
-        const locationPromise = getUserLocation();
-        const formattedData = {
-            ...data,
-            checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
-            checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            location: await locationPromise
-        };
+        try {
+            const formattedData = {
+                ...data,
+                checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
+                checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
+            };
 
-        const response = await storeTeacherAttendance(formattedData);
+            const response = await updateAttendanceData(attendanceId, formattedData);
 
-        if (response.isSuccess) {
-            toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response.data?.message} variant="success" />)
-            setIsOpen(false);
-            router.refresh();
-        } else {
-            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response.message} variant="error" />)
-            setIsOpen(false);
-            router.refresh();
+            if (response?.isSuccess === false) {
+                toast.custom(() => <Toaster title="gagal mengupdate data absensi" description={response.message} variant="error" />)
+                setIsOpen(false);
+                router.refresh();
+                return;
+            }
+
+            if (response?.isSuccess) {
+                toast.custom(() => <Toaster title="berhasil mengupdate data absensi" description={response.data?.message} variant="success" />)
+                setIsOpen(false);
+                router.refresh();
+            }
+        } catch (error) {
+            toast.custom(() => <Toaster title="terjadi kesalahan" description="gagal mengupdate data absensi" variant="error" />)
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }
 
     return (

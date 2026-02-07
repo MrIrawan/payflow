@@ -62,7 +62,7 @@ export function AttendanceActionPopover({ attendanceId }: {
                         <CardDescription className="text-xs font-medium">Attendance Actions</CardDescription>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <UpdateAttendanceDrawer />
+                        <UpdateAttendanceDrawer attendanceId={attendanceId} />
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
