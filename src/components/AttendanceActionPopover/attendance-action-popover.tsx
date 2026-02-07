@@ -24,6 +24,7 @@ import { Spinner } from "../ui/spinner";
 import { deleteAttendanceData } from "@/lib/service/deleteAttendanceData";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
+import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
 
 export function AttendanceActionPopover({ attendanceId }: {
     attendanceId: string;
@@ -61,10 +62,7 @@ export function AttendanceActionPopover({ attendanceId }: {
                         <CardDescription className="text-xs font-medium">Attendance Actions</CardDescription>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-white hover:bg-muted-foreground/20">
-                            <FilePenLineIcon className="text-black" />
-                            <p className="text-black text-sm font-semibold">Edit data absensi</p>
-                        </Button>
+                        <UpdateAttendanceDrawer />
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">

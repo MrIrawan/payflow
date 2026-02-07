@@ -34,16 +34,16 @@ export function AttendanceTable() {
     useEffect(() => {
         async function getTodayAttendance() {
             const result = await getAllAttendance();
-            const todayAttendance = result.data?.data.filter((attendance) => {
-                const currentDate = new Date().toLocaleDateString("id-ID");
-                const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
+            // const todayAttendance = result.data?.data.filter((attendance) => {
+            //     const currentDate = new Date().toLocaleDateString("id-ID");
+            //     const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
 
-                if (currentAttendance === currentDate) {
-                    return attendance;
-                }
-            })
+            //     if (currentAttendance === currentDate) {
+            //         return attendance;
+            //     }
+            // })
 
-            setTodayAttendance(todayAttendance);
+            setTodayAttendance(result.data?.data || []);
         }
 
         getTodayAttendance();
