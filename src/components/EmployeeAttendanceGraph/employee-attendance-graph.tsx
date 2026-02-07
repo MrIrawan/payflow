@@ -7,7 +7,7 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { ChartLegend, ChartLegendContent, type ChartConfig } from "@/components/ui/chart"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { GetAllAttendance } from "@/types/response";
-import { getAllAttendance } from "@/lib/service/getAllAtendance";
+import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
 

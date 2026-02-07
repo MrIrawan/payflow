@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllAttendance } from "@/lib/service/getAllAtendance";
+import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
 
 import { useDebounce } from "@/hooks/use-debounce";
 import { filterByKeys } from "@/utils/filterByKeys";
@@ -34,16 +34,16 @@ export function AttendanceTable() {
     useEffect(() => {
         async function getTodayAttendance() {
             const result = await getAllAttendance();
-            // const todayAttendance = result.data?.data.filter((attendance) => {
-            //     const currentDate = new Date().toLocaleDateString("id-ID");
-            //     const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
+            const todayAttendance = result?.data?.data.filter((attendance) => {
+                const currentDate = new Date().toLocaleDateString("id-ID");
+                const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
 
-            //     if (currentAttendance === currentDate) {
-            //         return attendance;
-            //     }
-            // })
+                if (currentAttendance === currentDate) {
+                    return attendance;
+                }
+            })
 
-            setTodayAttendance(result.data?.data || []);
+            setTodayAttendance(todayAttendance);
         }
 
         getTodayAttendance();

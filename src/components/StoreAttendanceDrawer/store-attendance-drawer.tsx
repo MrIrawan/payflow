@@ -26,7 +26,7 @@ import { PlusCircleIcon } from "lucide-react";
 import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
-import { storeTeacherAttendance } from "@/lib/service/storeTeacherAttendance";
+import { storeTeacherAttendance } from "@/lib/service/admin/attendance/storeTeacherAttendance";
 import { getUserLocation } from "@/utils/getUserLocation";
 import { Spinner } from "../ui/spinner";
 import { Toaster } from "../Toaster/toaster";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllAttendance } from "@/lib/service/getAllAtendance";
+import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
 
 import { CardDescription, CardTitle } from "../ui/card";
 import {

@@ -1,4 +1,6 @@
-import { fetcher } from "../fetcher/fetcher";
+import { fetcher } from "../../../fetcher/fetcher";
+import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
+
 import { GetAllAttendanceResponse } from "@/types/response";
 
 export const getAllAttendance = async () => {
@@ -8,6 +10,8 @@ export const getAllAttendance = async () => {
     });
 
     if (!response.ok) {
+        if (adminAuthValidator(response.status)) return;
+
         return {
             isSuccess: false,
             message: response.message,

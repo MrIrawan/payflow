@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
 import { CardDescription } from "../ui/card";
@@ -18,10 +17,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-import { EllipsisIcon, FilePenLineIcon, Trash2Icon } from "lucide-react";
+import { EllipsisIcon, Trash2Icon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Spinner } from "../ui/spinner";
-import { deleteAttendanceData } from "@/lib/service/deleteAttendanceData";
+import { deleteAttendanceData } from "@/lib/service/admin/attendance/deleteAttendanceData";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
 import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
@@ -36,12 +35,12 @@ export function AttendanceActionPopover({ attendanceId }: {
         try {
             const response = await deleteAttendanceData(attendanceId);
 
-            if (response.isSuccess === true) {
+            if (response?.isSuccess === true) {
                 console.log(response);
                 toast.custom(() => <Toaster title="success to delete attendance data" description={response.message} variant="success" />)
             } else {
                 console.log(response);
-                toast.custom(() => <Toaster title="failed to delete attendance data" description={response.message} variant="error" />)
+                toast.custom(() => <Toaster title="failed to delete attendance data" description={response?.message} variant="error" />)
             }
         } catch (error) {
             toast.custom(() => <Toaster title="something went error" description="there is an error while delete attendance data" variant="error" />)
