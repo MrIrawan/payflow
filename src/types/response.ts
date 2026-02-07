@@ -138,3 +138,17 @@ export interface UpdateAttendanceResponse {
   message: string;
   data: GetAllAttendance;
 }
+
+export interface UpdateTeacherDataResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllTeachers;
+}
+
+export interface GetTeacherByIdResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllTeachers;
+}

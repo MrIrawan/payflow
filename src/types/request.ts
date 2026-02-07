@@ -47,3 +47,14 @@ export interface UpdateAttendanceRequest {
   checkout_time: number,
   attendance_status: "present" | "absent" | "on leave",
 }
+
+export interface UpdateTeacherDataRequest {
+  full_name: string;
+  date_of_birth: Date;
+  gender: "male" | "female";
+  email_address: string;
+  home_address: string;
+  net_salary: number;
+  job_title: string;
+  company: string;
+}
