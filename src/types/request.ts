@@ -39,3 +39,11 @@ export interface StoreTeacherDataRequest {
   job_title: string;
   company: string;
 }
+
+export interface UpdateAttendanceRequest {
+  teacher_name: string,
+  attendance_date: Date,
+  checkin_time: number,
+  checkout_time: number,
+  attendance_status: "present" | "absent" | "on leave",
+}

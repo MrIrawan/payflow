@@ -131,3 +131,10 @@ export interface AdminSignInResponse {
   success: boolean;
   message: string;
 }
+
+export interface UpdateAttendanceResponse {
+  success: boolean;
+  statusText: string;
+  message: string;
+  data: GetAllAttendance;
+}
