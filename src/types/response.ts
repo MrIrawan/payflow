@@ -65,11 +65,11 @@ export interface GetAllTeachers {
   full_name: string;
   date_of_birth: string;
   email_address: string;
-  home_address: string | null;
-  job_title: string | null;
-  company: string | null;
-  net_salary: number | null;
-  gender: "male" | "female" | null;
+  home_address: string | undefined;
+  job_title: string | undefined;
+  company: string | undefined;
+  net_salary: number | undefined;
+  gender: "male" | "female" | undefined;
 }
 
 export interface GetTeahersByGenderResponse {

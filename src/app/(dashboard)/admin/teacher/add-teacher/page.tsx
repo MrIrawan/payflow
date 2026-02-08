@@ -111,7 +111,7 @@ function TeacherIdentitySection() {
                         htmlFor="date_of_birth"
                         placeholder="Pilih tanggal lahir"
                         requiredLabel
-                        onchange={field.onChange}
+                        onChange={field.onChange}
                         value={field.value}
                         errorMessage={errors.date_of_birth?.message}
                     />
@@ -136,7 +136,7 @@ function TeacherIdentitySection() {
                                 { value: "male", displayText: <GenderBadge placeholder={"male"} size="sm" /> },
                                 { value: "female", displayText: <GenderBadge placeholder={"female"} size="sm" /> }
                             ]}
-                            onvaluechange={field.onChange}
+                            onChange={field.onChange}
                         />
                     )}
                     rules={{

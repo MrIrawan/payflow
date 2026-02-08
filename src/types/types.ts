@@ -62,7 +62,7 @@ export interface DatePickerProps {
   requiredLabel?: boolean;
   value?: Date;
   onChange?: (date?: Date) => void;
-  errorMessage?: string | React.ReactElement | FieldError;
+  errorMessage?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 }
 
 
