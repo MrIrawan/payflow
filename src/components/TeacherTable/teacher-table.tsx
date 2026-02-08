@@ -77,7 +77,7 @@ export default function TeacherTable() {
             <DataTable
                 columns={teacherColumns}
                 data={filteredData}
-                renderRowAction={(row) => <TeacherActionPopover teacherId={row.guru_id} />}
+                renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
             />
         </div>
     )

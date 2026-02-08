@@ -69,7 +69,7 @@ export interface GetAllTeachers {
   job_title: string | null;
   company: string | null;
   net_salary: number | null;
-  gender: string | null;
+  gender: "male" | "female" | null;
 }
 
 export interface GetTeahersByGenderResponse {

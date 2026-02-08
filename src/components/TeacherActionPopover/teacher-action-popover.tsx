@@ -22,18 +22,45 @@ import {
 } from "../ui/alert-dialog";
 import { Spinner } from "../ui/spinner";
 import { EllipsisIcon, FilePenLineIcon, Trash2Icon } from "lucide-react";
+import Link from "next/link";
+import { GetAllTeachers } from "@/types/response";
 
-export function TeacherActionPopover({ teacherId }: {
-    teacherId: string;
+export function TeacherActionPopover({ teacherData }: {
+    teacherData: GetAllTeachers;
 }) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    return (
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger>
+                <EllipsisIcon />
+            </PopoverTrigger>
+            <PopoverContent align="end" asChild className="p-0">
+                <div className="w-[250px] flex flex-col gap-2.5 p-2.5">
+                    <CardDescription className="text-xs font-medium">Teacher Actions</CardDescription>
+                    {/* action buttons here */}
+                    <Link href={`/admin/teacher/update-teacher/${teacherData.guru_id}`}>
+                        <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-white hover:bg-muted-foreground/20">
+                            <FilePenLineIcon className="text-black" />
+                            <p className="text-black text-sm font-semibold">Edit data absensi</p>
+                        </Button>
+                    </Link>
+                    {/* delete teacher alert dialog */}
+                    <DeleteTeacherDialog dataId={teacherData.guru_id} />
+                </div>
+            </PopoverContent>
+        </Popover>
+    )
+}
+
+function DeleteTeacherDialog({ dataId }: { dataId: string }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function deleteTeacherHandler() {
         setIsLoading(true);
 
         try {
-            const response = await deleteTeacherData(teacherId);
+            const response = await deleteTeacherData(dataId);
 
             if (response.isSuccess === true) {
                 console.log(response);
@@ -46,52 +73,35 @@ export function TeacherActionPopover({ teacherId }: {
             toast.custom(() => <Toaster title="something went error" description="there is an error while delete teacher data proccess" variant="error" />)
         } finally {
             setIsLoading(false);
-            setIsOpen(false);
         }
     }
-
     return (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger>
-                <EllipsisIcon />
-            </PopoverTrigger>
-            <PopoverContent align="end" asChild className="p-0">
-                <div className="w-[250px] flex flex-col gap-2.5 p-2.5">
-                    <CardDescription className="text-xs font-medium">Teacher Actions</CardDescription>
-                    {/* action buttons here */}
-                    <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-white hover:bg-muted-foreground/20">
-                        <FilePenLineIcon className="text-black" />
-                        <p className="text-black text-sm font-semibold">Edit data absensi</p>
-                    </Button>
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
-                                <Trash2Icon className="text-white" />
-                                <p className="text-white text-sm font-medium">Hapus data guru</p>
-                            </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent size="default">
-                            <AlertDialogHeader>
-                                <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                                    <Trash2Icon />
-                                </AlertDialogMedia>
-                                <AlertDialogTitle>Delete teacher?</AlertDialogTitle>
-                                <AlertDialogDescription className="font-medium">
-                                    This will permanently delete this teacher data. are you sure to choose delete option?
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel variant="outline" className="w-20">
-                                    <p className="text-sm font-medium">Cancel</p>
-                                </AlertDialogCancel>
-                                <AlertDialogAction variant="destructive" className="w-20" onClick={deleteTeacherHandler}>
-                                    {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Delete</p>)}
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                </div>
-            </PopoverContent>
-        </Popover>
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
+                    <Trash2Icon className="text-white" />
+                    <p className="text-white text-sm font-medium">Hapus data guru</p>
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="default">
+                <AlertDialogHeader>
+                    <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                        <Trash2Icon />
+                    </AlertDialogMedia>
+                    <AlertDialogTitle>Delete teacher?</AlertDialogTitle>
+                    <AlertDialogDescription className="font-medium">
+                        This will permanently delete this teacher data. are you sure to choose delete option?
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel variant="outline" className="w-20">
+                        <p className="text-sm font-medium">Cancel</p>
+                    </AlertDialogCancel>
+                    <AlertDialogAction variant="destructive" className="w-20" onClick={deleteTeacherHandler}>
+                        {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Delete</p>)}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
 }
