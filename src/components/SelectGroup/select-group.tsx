@@ -1,5 +1,6 @@
+"use client";
+
 import { SelectGroupProps } from "@/types/types";
-import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { Label } from "../ui/label";
 import {
     Select,
@@ -8,21 +9,40 @@ import {
     SelectLabel,
     SelectItem,
     SelectTrigger,
-    SelectValue
+    SelectValue,
 } from "../ui/select";
 
-export function SelectGroupComponent({ label, htmlFor, placeholder, items, requiredLabel, onvaluechange }: SelectGroupProps) {
+export function SelectGroupComponent({
+    label,
+    htmlFor,
+    placeholder,
+    items,
+    requiredLabel = false,
+    value,
+    onChange,
+    errorMessage,
+}: SelectGroupProps) {
     return (
         <div className="w-full flex flex-col gap-2 items-start">
-            <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
-                {label}{" "}
-                <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
-            </Label>
-            <Select onValueChange={onvaluechange}>
-                <SelectTrigger className="w-full px-2">
+            {label && (
+                <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
+                    {label}
+                    {requiredLabel && (
+                        <span className="text-destructive ml-0.5">*</span>
+                    )}
+                </Label>
+            )}
+
+            <Select value={value} onValueChange={onChange}>
+                <SelectTrigger
+                    id={htmlFor}
+                    className="w-full px-2 aria-invalid:ring-red-100 aria-invalid:border-red-600 aria-invalid:ring-[3px]"
+                    aria-invalid={errorMessage ? "true" : "false"}
+                >
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
-                <SelectContent position="popper" id={htmlFor}>
+
+                <SelectContent position="popper">
                     <SelectGroup>
                         <SelectLabel className="font-medium">{label}</SelectLabel>
                         {items.map((item) => (
@@ -33,6 +53,12 @@ export function SelectGroupComponent({ label, htmlFor, placeholder, items, requi
                     </SelectGroup>
                 </SelectContent>
             </Select>
+
+            {errorMessage && (
+                <p className="text-sm font-medium text-destructive">
+                    {String(errorMessage)}
+                </p>
+            )}
         </div>
-    )
+    );
 }

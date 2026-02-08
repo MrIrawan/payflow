@@ -60,10 +60,11 @@ export interface DatePickerProps {
   htmlFor: string;
   placeholder: string;
   requiredLabel?: boolean;
-  value?: Date | undefined;
-  onchange?: (date?: Date) => void;
-  errorMessage?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  value?: Date;
+  onChange?: (date?: Date) => void;
+  errorMessage?: string | React.ReactElement | FieldError;
 }
+
 
 export interface RadioOptionsProps {
   label: string;
@@ -139,16 +140,19 @@ export interface DashboardBreadcrumbProps {
 export interface SelectGroupProps {
   label: string;
   htmlFor: string;
-  onvaluechange?: (val: string) => void;
   placeholder: string;
   requiredLabel?: boolean;
-  items: SelectGroupItemProps[] | [];
+  items: SelectGroupItemProps[];
+  value?: string;
+  onChange?: (val: string) => void;
+  errorMessage?: string | React.ReactElement | FieldError;
 }
 
 export interface SelectGroupItemProps {
   value: string;
   displayText: string | number | React.ReactElement;
 }
+
 
 export interface UserLocation {
   longitude: number;

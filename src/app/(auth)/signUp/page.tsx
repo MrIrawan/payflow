@@ -103,7 +103,7 @@ export default function SignUpPage() {
                 aria-invalid={errors ? true : false}
                 errorMessage={errors.date_of_birth?.message}
                 requiredLabel
-                onchange={onChange}
+                onChange={onChange}
                 value={value}
               />
             )}

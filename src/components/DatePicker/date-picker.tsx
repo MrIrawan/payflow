@@ -1,4 +1,3 @@
-// DatePicker.tsx (tidak lagi mem-manage state internal untuk tanggal; mendukung controlled)
 "use client";
 
 import { useState } from "react";
@@ -13,62 +12,60 @@ import {
 } from "@/components/ui/popover";
 import { DatePickerProps } from "@/types/types";
 
-/**
- * Props extended:
- * - value: Date | undefined  (controlled value)
- * - onChange: (date?: Date) => void
- */
 export function DatePicker({
   label,
   htmlFor,
   placeholder,
   requiredLabel = false,
   value,
-  onchange,
+  onChange,
   errorMessage,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
-  // local fallback if parent doesn't control it
-  const [local, setLocal] = useState<Date | undefined>(undefined);
-  const selected = value ?? local;
 
   return (
     <div className="flex flex-col gap-2 w-full">
       {label && (
         <Label htmlFor={htmlFor} className="text-sm font-medium gap-0.5">
-          {label}{" "}
-          <span className="text-destructive">{requiredLabel ? "*" : ""}</span>
+          {label}
+          {requiredLabel && (
+            <span className="text-destructive ml-0.5">*</span>
+          )}
         </Label>
       )}
+
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button
+            type="button"
             variant="outline"
             id={htmlFor}
             className="w-full justify-between font-normal text-black focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px] aria-invalid:ring-red-100 aria-invalid:ring-[3px]"
             aria-invalid={errorMessage ? "true" : "false"}
           >
-            {selected ? selected.toLocaleDateString() : placeholder}
+            {value ? value.toLocaleDateString() : placeholder}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
+
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="single"
-            selected={selected}
+            selected={value}
             captionLayout="dropdown"
             className="min-w-[350px]"
-            onSelect={(d) => {
-              // propagate to parent if exists else update local state
-              if (onchange) onchange(d ?? undefined);
-              else setLocal(d ?? undefined);
+            onSelect={(date) => {
+              onChange?.(date);
               setOpen(false);
             }}
           />
         </PopoverContent>
       </Popover>
+
       {errorMessage && (
-        <p className="text-sm font-medium text-destructive">{errorMessage}</p>
+        <p className="text-sm font-medium text-destructive">
+          {String(errorMessage)}
+        </p>
       )}
     </div>
   );

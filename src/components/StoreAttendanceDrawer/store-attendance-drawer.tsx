@@ -50,12 +50,12 @@ export function StoreAttendanceDrawer() {
 
         const response = await storeTeacherAttendance(formattedData);
 
-        if (response.isSuccess) {
-            toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response.data?.message} variant="success" />)
+        if (response?.isSuccess) {
+            toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response?.data?.message} variant="success" />)
             setIsOpen(false);
             router.refresh();
         } else {
-            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response.message} variant="error" />)
+            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response?.message} variant="error" />)
             setIsOpen(false);
             router.refresh();
         }
@@ -97,7 +97,7 @@ export function StoreAttendanceDrawer() {
                                     label="Tanggal Absensi"
                                     htmlFor="attendance_date"
                                     placeholder="Pilih tanggal absensi"
-                                    onchange={onChange}
+                                    onChange={onChange}
                                     value={value}
                                     requiredLabel={true}
                                     errorMessage={errors.attendance_date?.message}
@@ -138,7 +138,7 @@ export function StoreAttendanceDrawer() {
                                     { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
                                     { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
                                     { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
-                                ]} onvaluechange={field.onChange} />
+                                ]} onChange={field.onChange} />
                             )}
                             rules={{ required: { message: "Status absen wajib di isi.", value: true } }}
                         />
