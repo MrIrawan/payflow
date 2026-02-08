@@ -12,7 +12,7 @@ import {
 } from "../ui/sidebar";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
-import { CalendarCheck2, Users, Wallet } from "lucide-react";
+import { CalendarCheck2, House, Users, Wallet } from "lucide-react";
 
 export function AdminSidebar() {
   return (
@@ -24,6 +24,12 @@ export function AdminSidebar() {
         <SidebarGroup className="h-full">
           {/* Sidebar items go here */}
           <SidebarMenu className="gap-4">
+            <SidebarNavigationLink
+              href="/admin"
+              label="dashboard"
+              Icon={House}
+              activeBg
+            />
             <CollabsipleSidebarNavigation
               label="data guru"
               Icon={Users}

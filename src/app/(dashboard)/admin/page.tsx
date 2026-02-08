@@ -1,23 +1,5 @@
 "use client";
 
-import { type ChartConfig } from "@/components/ui/chart";
-import { staticAttendanceChartData } from "../../../../public/data/static-attendance-chart";
-
-const chartConfig = {
-  hadir: {
-    label: "Hadir",
-    color: "#2563eb",
-  },
-  sakit: {
-    label: "Sakit",
-    color: "#60a5fa",
-  },
-  alfa: {
-    label: "Alfa",
-    color: "#4b5563",
-  },
-} satisfies ChartConfig;
-
 import TeacherTable from "@/components/TeacherTable/teacher-table";
 import { Card } from "@/components/ui/card";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
@@ -36,10 +18,7 @@ export default function AdminPage() {
         {/* attendance graph */}
         <Card className="shadow-none">
           <ChartHeader />
-          <AttendanceChart
-            config={chartConfig}
-            data={staticAttendanceChartData}
-          />
+          <AttendanceChart />
         </Card>
         {/* employee table component */}
         <Card className="w-full h-fit py-6 px-3">
