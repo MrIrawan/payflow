@@ -152,3 +152,20 @@ export interface GetTeacherByIdResponse {
   message: string;
   data: GetAllTeachers;
 }
+
+export interface GetAllAttendanceChart {
+  month: number,
+  year: 2025,
+  data: {
+    month: string,
+    present: number,
+    absent: number,
+    onLeave: number
+  }[],
+}
+
+export interface GetAllAttendanceChartResponse {
+  success: boolean;
+  message: string;
+  data: GetAllAttendanceChart;
+}
