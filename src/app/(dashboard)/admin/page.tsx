@@ -1,6 +1,7 @@
 "use client";
 
 import TeacherTable from "@/components/TeacherTable/teacher-table";
+
 import { Card } from "@/components/ui/card";
 import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";

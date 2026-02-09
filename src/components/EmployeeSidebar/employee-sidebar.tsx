@@ -38,7 +38,7 @@ export function EmployeeSidebar() {
                             sub={[
                                 {
                                     label: "lihat profil anda",
-                                    href: "/employee/my-profile"
+                                    href: "/employee/me"
                                 },
                                 {
                                     label: "edit profil anda",

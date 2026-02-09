@@ -1,10 +1,36 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb"
 import { EmployeeAttendanceGraph } from "@/components/EmployeeAttendanceGraph/employee-attendance-graph"
 import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { getUserProfile } from "@/lib/service/user/profile/getUserProfile";
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
 
 export default function EmployeePage() {
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        async function getProfile() {
+            const response = await getUserProfile();
+
+            if (!response?.isSuccess) {
+                toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data profile." description={response?.message} />)
+                console.log(response)
+                return;
+            }
+
+            toast.custom(() => <Toaster variant="success" title={`selamat datang!`} description={response.message} />);
+            console.log(response);
+        }
+
+        getProfile();
+    }, []);
+
     return (
         <>
             <section className="w-full p-6">

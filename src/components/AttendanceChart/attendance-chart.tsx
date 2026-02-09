@@ -12,7 +12,7 @@ import { type ChartConfig } from "../ui/chart";
 import { AttendanceChartProps } from "@/types/chart";
 import { useEffect, useState } from "react";
 import { getAllAttendanceChart } from "@/lib/service/admin/attendance/getAllAttendanceChart";
-import { GetAllAttendanceChart, GetAllAttendanceChartData } from "@/types/response";
+import { GetAllAttendanceChartData } from "@/types/response";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
 
