@@ -12,7 +12,7 @@ export async function storeTeacherAttendance(data: StoreAttendanceRequest) {
     });
 
     if (!response.ok) {
-        if (adminAuthValidator(response.status)) return;
+        // if (adminAuthValidator(response.status)) return;
         return {
             isSuccess: false,
             message: response.message,

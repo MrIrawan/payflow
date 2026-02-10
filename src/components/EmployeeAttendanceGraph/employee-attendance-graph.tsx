@@ -6,10 +6,6 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import { ChartLegend, ChartLegendContent, type ChartConfig } from "@/components/ui/chart"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
-import { GetAllAttendance } from "@/types/response";
-import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
-import { toast } from "sonner";
-import { Toaster } from "../Toaster/toaster";
 
 const chartData = [
     { month: "Januari", present: 20, absent: 0, onLeave: 10 },
@@ -42,31 +38,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function EmployeeAttendanceGraph() {
-    const [employeeName, setEmployeeName] = useState<string | null>(null);
-    const [attendanceData, setAttendanceData] = useState<GetAllAttendance[]>([]);
-    const [monthAndYear, setMonthAndYear] = useState<Record<string, string | null>>({
-        month: null,
-        year: null
-    });
-
-    useEffect(() => {
-        async function fetchEmployeeAttendance(identifier: string) {
-            const employeeName = identifier.toLocaleLowerCase();
-            // fetch employee attendance here
-            const response = await getAllAttendance();
-
-            if (!response.isSuccess) {
-                toast.custom(() => <Toaster title="Gagal mendapatkan data absensi" description={response.data?.message} variant="error" />)
-                return;
-            }
-
-            console.log(response.data?.data)
-        }
-
-        fetchEmployeeAttendance("Farrel Irawan")
-    }, [])
-
-    console.log(attendanceData)
+    const [attendanceData, setAttendanceData] = useState();
 
     return (
         <ChartContainer config={chartConfig} className="h-[500px] w-full">

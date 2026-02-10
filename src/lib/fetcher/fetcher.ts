@@ -62,6 +62,17 @@ export async function fetcher<T>(
     let body = await response.json().catch(() => null);
 
     // =====================
+    // 🚨 HANDLE REDIRECT (307 / 302)
+    // =====================
+    if (response.status === 307 || response.status === 302) {
+      return {
+        ok: false,
+        status: response.status,
+        message: "Redirected",
+      };
+    }
+
+    // =====================
     // 2️⃣ bukan 401 → normal flow
     // =====================
     if (response.status !== 401) {

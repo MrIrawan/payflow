@@ -10,7 +10,7 @@ export async function getTeacherById(identifier: string) {
     });
 
     if (!response.ok) {
-        if (adminAuthValidator(response.status)) return;
+        // if (adminAuthValidator(response.status)) return;
 
         return {
             isSuccess: false,

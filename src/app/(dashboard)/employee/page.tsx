@@ -10,9 +10,10 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { getUserProfile } from "@/lib/service/user/profile/getUserProfile";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
+import { GuruDashboardResponse } from "@/types/response";
 
 export default function EmployeePage() {
-    const [data, setData] = useState();
+    const [data, setData] = useState<GuruDashboardResponse>();
 
     useEffect(() => {
         async function getProfile() {
@@ -26,6 +27,7 @@ export default function EmployeePage() {
 
             toast.custom(() => <Toaster variant="success" title={`selamat datang!`} description={response.message} />);
             console.log(response);
+            setData(response.data)
         }
 
         getProfile();
@@ -40,7 +42,7 @@ export default function EmployeePage() {
                         <Separator />
                     </div>
                     <div className="flex flex-col gap-2 py-3">
-                        <h2 className="text-4xl text-black font-bold capitalize">👋 selamat datang, farrel Irawan.</h2>
+                        <h2 className="text-4xl text-black font-bold capitalize">👋 selamat datang, {data?.data.profile.full_name}.</h2>
                         <h3 className="text-lg font-medium text-muted-foreground">lihat apa yang terjadi dalam penggajian anda hari ini.</h3>
                     </div>
                     <EmployeeDataCard />

@@ -171,3 +171,59 @@ export interface GetAllAttendanceChartResponse {
   message: string;
   data: GetAllAttendanceChart;
 }
+
+// 1. Interface untuk Profil Guru
+export interface GuruProfile {
+  guru_id: string;
+  created_at: string; // ISO Date string
+  full_name: string;
+  date_of_birth: string; // YYYY-MM-DD
+  home_address: string | null; // Bisa null
+  job_title: string | null;    // Bisa null
+  company: string;
+  gender: 'male' | 'female';   // Menggunakan Union Type agar lebih spesifik
+  email_address: string;
+  join_date: string; // ISO Date string
+  subject_name: string | null; // Bisa null
+}
+
+// 2. Interface untuk Ringkasan Kehadiran
+export interface AttendanceSummary {
+  month: number;
+  year: number;
+  present: number;
+  absent: number;
+  onLeave: number;
+}
+
+// 3. Interface untuk Item Chart (Grafik)
+export interface AttendanceChartItem {
+  month: number;
+  present: number;
+  absent: number;
+  onLeave: number;
+}
+
+// 4. Interface untuk Data Gaji
+export interface SalaryInfo {
+  base_salary: number;
+  attendance_bonus: number;
+  deduction: number;
+  estimated_salary: number;
+  last_updated: string; // ISO Date string
+}
+
+// 5. Interface untuk Objek "Data" Utama
+export interface DashboardData {
+  profile: GuruProfile;
+  attendanceSummary: AttendanceSummary;
+  attendanceChart: AttendanceChartItem[]; // Array of chart items
+  salary: SalaryInfo;
+}
+
+// 6. Interface Utama (Root Response API)
+export interface GuruDashboardResponse {
+  success: boolean;
+  guruId: string;
+  data: DashboardData;
+}

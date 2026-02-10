@@ -12,7 +12,7 @@ export async function updateAttendanceData(identifier: string, data: UpdateAtten
     });
 
     if (!response.ok) {
-        if (adminAuthValidator(response.status)) return;
+        // if (adminAuthValidator(response.status)) return;
 
         return {
             isSuccess: false,
