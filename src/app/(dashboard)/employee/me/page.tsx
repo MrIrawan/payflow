@@ -9,10 +9,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Loader2 } from "lucide-react";
+import { Loader2, SquarePenIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
+import Link from "next/link";
 
 export default function EmployeePage() {
     const [data, setData] = useState<DashboardData | undefined>(undefined);
@@ -156,17 +157,22 @@ export default function EmployeePage() {
 
 function PageHeader() {
     return (
-        <div className="h-fit w-full flex flex-row items-center gap-3">
-            <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
-            <DashboardBreadcrumb data={{
-                page: "Your Profile",
-                link: [
-                    {
-                        title: "Dashboard",
-                        href: "/employee"
-                    }
-                ]
-            }} />
+        <div className="h-fit w-full flex flex-row items-center gap-0 justify-between">
+            <div className="h-fit w-full flex flex-row items-center gap-3">
+                <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
+                <DashboardBreadcrumb data={{
+                    page: "Your Profile",
+                    link: [
+                        {
+                            title: "Dashboard",
+                            href: "/employee"
+                        }
+                    ]
+                }} />
+            </div>
+            <Link href={"/employee/me/edit"}>
+                <SquarePenIcon className="text-muted-foreground" />
+            </Link>
         </div>
     )
 }

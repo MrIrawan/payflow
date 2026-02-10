@@ -58,3 +58,14 @@ export interface UpdateTeacherDataRequest {
   job_title: string | undefined;
   company: string | undefined;
 }
+
+export interface EditUserProfileRequest {
+  full_name?: string | undefined;
+  date_of_birth?: Date | undefined;
+  join_date?: Date | undefined;
+  home_address?: string | undefined;
+  subject_name?: string[] | undefined;
+  job_title?: string[] | undefined;
+  company?: string | undefined;
+  gender?: string | undefined;
+}

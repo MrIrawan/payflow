@@ -32,19 +32,11 @@ export function EmployeeSidebar() {
                             Icon={House}
                             activeBg
                         />
-                        <CollabsipleSidebarNavigation
-                            label="profil anda"
+                        <SidebarNavigationLink
+                            href="/employee/me"
+                            label="Profile anda"
                             Icon={Users}
-                            sub={[
-                                {
-                                    label: "lihat profil anda",
-                                    href: "/employee/me"
-                                },
-                                {
-                                    label: "edit profil anda",
-                                    href: "/employee/edit-profile"
-                                }
-                            ]}
+                            activeBg
                         />
                         <SidebarNavigationLink
                             href="/employee/kalkulator-gaji"
