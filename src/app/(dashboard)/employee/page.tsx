@@ -14,6 +14,8 @@ import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-
 import { EmployeeAttendanceGraph } from "@/components/EmployeeAttendanceGraph/employee-attendance-graph";
 
 import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRightCircleIcon } from "lucide-react";
 
 export default function EmployeePage() {
     const [data, setData] = useState<GuruDashboardResponse>();
@@ -49,6 +51,36 @@ export default function EmployeePage() {
                     </div>
                     <EmployeeDataCard employeeSummary={data?.data} />
                     <EmployeeAttendanceGraph attendanceChartData={data?.data.attendanceChart} />
+                    <div className="w-full flex flex-row gap-6">
+                        <Card className="w-[800px] shadow-none h-[500px] flex flex-col justify-between gap-3 p-4">
+                            {/* card header */}
+                            <CardHeader className="p-0">
+                                <CardTitle>Riwayat Slip Gaji</CardTitle>
+                                <CardDescription>Riwayat slip gaji yang anda terima berdasarkan data</CardDescription>
+                            </CardHeader>
+                            <Separator />
+                            <div className="w-full h-full"></div>
+                            <Separator />
+                            <CardFooter className="w-full h-[50px] flex flex-row justify-center items-center gap-2.5">
+                                <ArrowRightCircleIcon className="text-blue-800" />
+                                <p className="text-base font-medium text-blue-800">Lihat selengkapnya</p>
+                            </CardFooter>
+                        </Card>
+                        <Card className="w-full shadow-none h-[500px] flex flex-col justify-between gap-3 p-4">
+                            {/* card header */}
+                            <CardHeader className="p-0">
+                                <CardTitle>Riwayat Absensi</CardTitle>
+                                <CardDescription>Riwayat absensi milik anda berdasarkan data</CardDescription>
+                            </CardHeader>
+                            <Separator />
+                            <div className="w-full h-full"></div>
+                            <Separator />
+                            <CardFooter className="w-full h-[50px] flex flex-row justify-center items-center gap-2.5">
+                                <ArrowRightCircleIcon className="text-blue-800" />
+                                <p className="text-base font-medium text-blue-800">Lihat selengkapnya</p>
+                            </CardFooter>
+                        </Card>
+                    </div>
                 </div>
             </section>
         </>
