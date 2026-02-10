@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb"
-import { EmployeeAttendanceGraph } from "@/components/EmployeeAttendanceGraph/employee-attendance-graph"
-import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
-import { Separator } from "@/components/ui/separator"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { GuruDashboardResponse } from "@/types/response";
 import { getUserProfile } from "@/lib/service/user/profile/getUserProfile";
+
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
-import { GuruDashboardResponse } from "@/types/response";
+
+import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
+import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
+import { EmployeeAttendanceGraph } from "@/components/EmployeeAttendanceGraph/employee-attendance-graph";
+
+import { EmployeeDataCard } from "@/components/EmployeeDataCard/employee-data-card"
 
 export default function EmployeePage() {
     const [data, setData] = useState<GuruDashboardResponse>();
@@ -21,13 +24,12 @@ export default function EmployeePage() {
 
             if (!response?.isSuccess) {
                 toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data profile." description={response?.message} />)
-                console.log(response)
                 return;
             }
 
-            toast.custom(() => <Toaster variant="success" title={`selamat datang!`} description={response.message} />);
-            console.log(response);
+            toast.custom(() => <Toaster variant="success" title={`selamat datang!`} description={`Selamat datang di PayFlow, ${response.data?.data.profile.full_name}! lihat apa yang terjadi di penggajian mu hari ini`} />);
             setData(response.data)
+            console.log(response.data?.data)
         }
 
         getProfile();
@@ -42,11 +44,11 @@ export default function EmployeePage() {
                         <Separator />
                     </div>
                     <div className="flex flex-col gap-2 py-3">
-                        <h2 className="text-4xl text-black font-bold capitalize">👋 selamat datang, {data?.data.profile.full_name}.</h2>
+                        <h2 className="text-4xl text-black font-bold capitalize">👋 selamat datang, {data?.data.profile.full_name || "user"}.</h2>
                         <h3 className="text-lg font-medium text-muted-foreground">lihat apa yang terjadi dalam penggajian anda hari ini.</h3>
                     </div>
-                    <EmployeeDataCard />
-                    <EmployeeAttendanceGraph />
+                    <EmployeeDataCard employeeSummary={data?.data} />
+                    <EmployeeAttendanceGraph attendanceChartData={data?.data.attendanceChart} />
                 </div>
             </section>
         </>

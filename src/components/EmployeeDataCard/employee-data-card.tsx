@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { EmployeeDataCardData } from "@/types/types";
 
 import { DataCard, DataCardBody, DataCardFooter, DataCardHeader } from "../DataCard/data-card";
 import { WalletIcon, CalendarCheckIcon, ScrollTextIcon } from "lucide-react";
 import { CardDescription, CardTitle } from "../ui/card";
 
-export function EmployeeDataCard() {
-    const [employeeData, setEmployeeData] = useState<EmployeeDataCardData>();
-
+export function EmployeeDataCard({ employeeSummary }: {
+    employeeSummary: EmployeeDataCardData | undefined;
+}) {
     return (
         <div className="w-full flex flex-row justify-between items-center gap-3">
             <DataCard className="h-[200px] flex flex-col justify-between">
@@ -20,8 +19,10 @@ export function EmployeeDataCard() {
                     <p className="text-sm font-medium text-muted-foreground">This Month</p>
                 </DataCardHeader>
                 <DataCardBody className="p-0 flex flex-col gap-1.5">
-                    <CardTitle className="text-3xl font-bold">Rp. 2.500.000.00,-</CardTitle>
-                    <CardDescription className="font-medium">Current Salary</CardDescription>
+                    <CardTitle className="text-3xl font-bold">
+                        Rp. {employeeSummary === undefined ? "000000" : new Intl.NumberFormat("id-ID").format(employeeSummary?.salary.estimated_salary)},-
+                    </CardTitle>
+                    <CardDescription className="font-medium">Real-Time Current Salary</CardDescription>
                 </DataCardBody>
                 <DataCardFooter className="p-0">
                     <p className="text-sm font-medium text-muted-foreground">Berdasarkan perhitungan dari data.</p>
@@ -32,11 +33,11 @@ export function EmployeeDataCard() {
                     <span className="p-2.5 rounded-md bg-gray-200 flex flex-row items-center justify-center">
                         <CalendarCheckIcon className="size-6 text-black" />
                     </span>
-                    <p className="text-sm font-medium text-muted-foreground">January</p>
+                    <p className="text-sm font-medium text-muted-foreground">{new Date().toLocaleString("default", { month: "long" })}</p>
                 </DataCardHeader>
                 <DataCardBody className="p-0 flex flex-col gap-1.5">
-                    <CardTitle className="text-3xl font-bold">14</CardTitle>
-                    <CardDescription className="font-medium">Day's Worked</CardDescription>
+                    <CardTitle className="text-3xl font-bold">{employeeSummary?.attendanceSummary.present}</CardTitle>
+                    <CardDescription className="font-medium">Total Hari Kerja</CardDescription>
                 </DataCardBody>
                 <DataCardFooter className="p-0">
                     <p className="text-sm font-medium text-muted-foreground">Anda telah berkerja keras!</p>
@@ -51,7 +52,7 @@ export function EmployeeDataCard() {
                 </DataCardHeader>
                 <DataCardBody className="p-0 flex flex-col gap-1.5">
                     <CardTitle className="text-3xl font-bold">14</CardTitle>
-                    <CardDescription className="font-medium">Receiving Payslips</CardDescription>
+                    <CardDescription className="font-medium">Menerima Slip Gaji</CardDescription>
                 </DataCardBody>
                 <DataCardFooter className="p-0">
                     <p className="text-sm font-medium text-muted-foreground">Hasil kerja keras anda!</p>

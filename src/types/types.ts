@@ -6,6 +6,7 @@ import {
   InputHTMLAttributes,
 } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { AttendanceChartItem, AttendanceSummary, SalaryInfo } from "./response";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -167,6 +168,7 @@ export interface ToasterVariants {
 }
 
 export interface EmployeeDataCardData {
-  currentSalary: string | number;
-  countAttendance: string | number;
+  attendanceSummary: AttendanceSummary;
+  attendanceChart: AttendanceChartItem[]; // Array of chart items
+  salary: SalaryInfo;
 }

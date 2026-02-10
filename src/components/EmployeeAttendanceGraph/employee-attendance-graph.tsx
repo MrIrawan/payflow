@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { AttendanceChartItem } from "@/types/response";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
@@ -37,12 +38,14 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-export function EmployeeAttendanceGraph() {
-    const [attendanceData, setAttendanceData] = useState();
+export function EmployeeAttendanceGraph({ attendanceChartData }: {
+    attendanceChartData: AttendanceChartItem[] | undefined;
+}) {
+    const [attendanceData, setAttendanceData] = useState<AttendanceChartItem[] | undefined>(attendanceChartData || undefined);
 
     return (
         <ChartContainer config={chartConfig} className="h-[500px] w-full">
-            <BarChart accessibilityLayer data={chartData}>
+            <BarChart accessibilityLayer data={attendanceData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                     dataKey="month"

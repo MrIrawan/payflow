@@ -66,7 +66,7 @@ export default function TeacherTable() {
                         />
                     </div>
                     <GenderOptionsButton />
-                    <Link href={"admin/add-teacher"} className="ml-auto">
+                    <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
                         <Button variant={"outline"} className="border-dashed">
                             <PlusCircleIcon />
                             <p className="text-sm font-medium text-black">Tambah Guru</p>
