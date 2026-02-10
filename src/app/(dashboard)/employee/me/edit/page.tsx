@@ -27,9 +27,11 @@ import { FormComponent, FormContent, FormFooter } from "@/components/Form/Form";
 import { CircleXIcon, FilePenIcon, X } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
+import { editUserProfile } from "@/lib/service/user/profile/editUserProfile";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function EditUserProfilePage() {
-    // const [currentData, setCurrentData] = useState<EditUserProfileRequest>();
+    const [isLoading, setIsLoading] = useState<boolean>();
     const { register, control, handleSubmit, reset, formState: { errors } } = useForm<EditUserProfileRequest>();
 
     useEffect(() => {
@@ -55,7 +57,23 @@ export default function EditUserProfilePage() {
     }, [])
 
     const onSubmit: SubmitHandler<EditUserProfileRequest> = async (data) => {
-        console.log(data);
+        setIsLoading(true)
+
+        try {
+            const response = await editUserProfile(data);
+
+            if (!response.isSuccess) {
+                toast.custom(() => <Toaster variant="error" title="gagal! profil kamu gagal di ubah" description={response.message} />)
+                console.log(response)
+                return;
+            } else {
+                toast.custom(() => <Toaster variant="success" title="berhasil! profil kamu berhasil diubah." description="kamu telah berhasil mengubah profil kamu." />)
+            }
+        } catch (error) {
+            toast.custom(() => <Toaster variant="error" title="gagal edit profil kamu" description="sesuatu telah terjadi sehingga kami tidak bisa memproses data kamu." />)
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -245,11 +263,15 @@ export default function EditUserProfilePage() {
                         </FormContent>
                         <Separator />
                         <FormFooter className="flex flex-row gap-3">
-                            <Button variant={"default"} className="bg-blue-600 hover:bg-blue-800 flex flex-row gap-2">
-                                <p className="text-sm font-medium text-white">simpan profil</p>
-                                <FilePenIcon className="text-white" />
+                            <Button variant={"default"} className="min-w-36 bg-blue-600 hover:bg-blue-800 flex flex-row gap-2">
+                                {isLoading ? (<Spinner />) : (
+                                    <>
+                                        <p className="text-sm font-medium text-white">simpan profil</p>
+                                        <FilePenIcon className="text-white" />
+                                    </>
+                                )}
                             </Button>
-                            <Button variant={"default"} className="bg-red-600 hover:bg-red-800 flex flex-row gap-2">
+                            <Button variant={"default"} className="min-w-36 bg-red-600 hover:bg-red-800 flex flex-row gap-2">
                                 <p className="text-sm font-medium text-white">batal simpan</p>
                                 <CircleXIcon className="text-white" />
                             </Button>
