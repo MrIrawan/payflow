@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 import { GetTeacherByIdResponse } from "@/types/response";
 
@@ -10,7 +9,6 @@ export async function getTeacherById(identifier: string) {
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
 
         return {
             isSuccess: false,

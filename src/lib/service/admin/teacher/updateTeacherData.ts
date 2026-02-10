@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 import { UpdateTeacherDataRequest } from "@/types/request";
 import { UpdateTeacherDataResponse } from "@/types/response";
@@ -12,7 +11,6 @@ export async function updateTeacherData(identifier: string, data: UpdateTeacherD
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
 
         return {
             isSuccess: false,

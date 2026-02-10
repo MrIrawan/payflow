@@ -1,5 +1,4 @@
 import { fetcher } from "../../../fetcher/fetcher"
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 export const deleteAttendanceData = async (identifier: string) => {
     const response = await fetcher(`/attendance/delete/${identifier}`, {
@@ -8,8 +7,6 @@ export const deleteAttendanceData = async (identifier: string) => {
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
-
         return {
             isSuccess: false,
             message: response.message,

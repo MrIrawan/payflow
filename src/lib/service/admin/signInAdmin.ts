@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 import { AdminSignInRequest } from "@/types/request";
 import { AdminSignInResponse } from "@/types/response";
@@ -12,8 +11,6 @@ export async function signInAdmin(data: AdminSignInRequest) {
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
-
         return {
             isSuccess: false,
             message: response.message,

@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 import { UpdateAttendanceRequest } from "@/types/request";
 import { UpdateAttendanceResponse } from "@/types/response";
@@ -12,8 +11,6 @@ export async function updateAttendanceData(identifier: string, data: UpdateAtten
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
-
         return {
             isSuccess: false,
             message: response.message,

@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { adminAuthValidator } from "@/lib/auth/adminAuthValidator";
 
 import { GetAllAttendanceChartResponse } from "@/types/response";
 
@@ -10,8 +9,6 @@ export async function getAllAttendanceChart() {
     });
 
     if (!response.ok) {
-        // if (adminAuthValidator(response.status)) return;
-
         return {
             isSuccess: false,
             message: response.message,

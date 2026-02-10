@@ -1,5 +1,4 @@
 import { fetcher } from "@/lib/fetcher/fetcher";
-import { userAuthValidator } from "@/lib/auth/userAuthValidator";
 
 import { GuruDashboardResponse } from "@/types/response";
 
@@ -10,8 +9,6 @@ export async function getUserProfile() {
     });
 
     if (!response.ok) {
-        // if (userAuthValidator(response.status)) return;
-
         return {
             isSuccess: false,
             message: response.message,
