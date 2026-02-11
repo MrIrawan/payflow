@@ -42,10 +42,6 @@ export function AdminSidebar() {
                   label: "tambah data guru",
                   href: "/admin/teacher/add-teacher"
                 },
-                {
-                  label: "edit data guru",
-                  href: "/admin/teacher/edit"
-                }
               ]}
             />
             <SidebarNavigationLink
