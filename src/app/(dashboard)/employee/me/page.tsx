@@ -1,5 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
+import { toast } from "sonner";
+
 import { useEffect, useState } from "react";
 import { getUserProfile } from "@/lib/service/user/profile/getUserProfile";
 import { DashboardData } from "@/types/response";
@@ -9,11 +13,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Loader2, SquarePenIcon } from "lucide-react";
-import { toast } from "sonner";
+import { SquarePenIcon } from "lucide-react";
 import { Toaster } from "@/components/Toaster/toaster";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
-import Link from "next/link";
+
+import { InfoBadge, jobBadgeMap } from "@/components/InfoBadge/info-badge";
 
 export default function EmployeePage() {
     const [data, setData] = useState<DashboardData | undefined>(undefined);
@@ -108,7 +112,9 @@ export default function EmployeePage() {
                                 <ul className="w-full flex flex-col gap-3">
                                     <li className="flex flex-col gap-0">
                                         <h3 className="text-sm font-semibold text-muted-foreground">Nama Jabatan</h3>
-                                        <p className="text-lg font-semibold text-black">{data?.profile.job_title || "Tidak diketahui"}</p>
+                                        {Array(2).map((index, key) => (
+                                            <InfoBadge label={data?.profile.job_title[index]} />
+                                        ))}
                                     </li>
                                     <li className="flex flex-col gap-0">
                                         <h3 className="text-sm font-semibold text-muted-foreground">Nama Perusahaan</h3>

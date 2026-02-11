@@ -39,7 +39,7 @@ export function EmployeeSidebar() {
                             activeBg
                         />
                         <SidebarNavigationLink
-                            href="/employee/kalkulator-gaji"
+                            href="/employee/payroll"
                             label="kalkulator gaji"
                             Icon={Wallet}
                             activeBg
@@ -58,12 +58,12 @@ export function EmployeeSidebar() {
                                 },
                             ]}
                         />
-                        <SidebarNavigationLink
+                        {/* <SidebarNavigationLink
                             href="/employee/cetak-laporan-gaji"
                             label="cetak laporan gaji"
                             Icon={Wallet}
                             activeBg
-                        />
+                        /> */}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
