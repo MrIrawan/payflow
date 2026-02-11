@@ -1,12 +1,50 @@
 "use client";
 
+import { useState } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Calculator, Clock, Receipt } from "lucide-react"
+import { ArrowRightCircle, Calculator, Clock, Receipt } from "lucide-react"
+import { UserPayrollCalculation } from "@/types/response";
+import { UserPayrollCalculationRequest } from "@/types/request";
+import { FormComponent, FormContent, FormFooter, FormHeader } from "@/components/Form/Form";
+import { InputGroup } from "@/components/InputGroup/input-group";
+import { SelectGroupComponent } from "@/components/SelectGroup/select-group";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
+import { userPayrollCalculation } from "@/lib/service/user/payroll/userPayrollCalculation";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function PayrollCalculatePage() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { register, handleSubmit, control, formState: { errors } } = useForm<UserPayrollCalculationRequest>();
+
+    const onSubmit: SubmitHandler<UserPayrollCalculationRequest> = async (data) => {
+        setIsLoading(true);
+
+        try {
+            const response = await userPayrollCalculation(data);
+
+            if (!response.isSuccess) {
+                toast.custom(() => <Toaster variant="error" title="kami gagal menghitung." description={response.message} />)
+                console.log(response);
+            } else {
+                toast.custom(() => <Toaster variant="success" title="kami berhasil menghitung!" description="berhasil! perhitungan kalkulasi yang tepat dan cepat" />)
+                console.log(response);
+            }
+
+        } catch (error) {
+            toast.custom(() => <Toaster variant="error" title="gagal! kami gagal menghitung kalkulasi gaji anda." description="ada sesuatu yang terjadi sehingga kami tidak bisa memproses permintaan kamu." />)
+        } finally {
+            setIsLoading(false);
+            console.log(data)
+        }
+    }
+
     return (
         <section className="w-full p-6">
             <div className="w-full flex flex-col gap-6">
@@ -14,98 +52,109 @@ export default function PayrollCalculatePage() {
                     <PageHeader />
                     <Separator />
                 </div>
-                <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                        {/* Kolom Input Form */}
-                        <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                            <div className="flex items-center gap-2 mb-6 text-blue-600 font-semibold">
+                <div className="w-full flex flex-row justify-between gap-4 h-[350px]">
+                    {/* calc form here */}
+                    <FormComponent asWrapper={false} className="w-3/6 bg-white p-4 rounded-2xl border border-blue-100 shadow-md flex flex-col gap-0 justify-between h-full" onSubmit={handleSubmit(onSubmit)}>
+                        <FormHeader className="p-0">
+                            <div className="flex items-center gap-2 text-blue-600 font-semibold">
                                 <Calculator size={20} />
                                 <h2>Input Parameter Gaji</h2>
                             </div>
-
-                            <form className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Total Jam/Minggu</label>
-                                    <div className="relative">
-                                        <Clock className="absolute left-3 top-2.5 text-gray-400" size={18} />
-                                        <input
-                                            type="number"
-                                            placeholder="Contoh: 12"
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
-                                        <select
-                                            className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-
-                                        >
-                                            {[...Array(12)].map((_, i) => (
-                                                <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('id-ID', { month: 'long' })}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-300 mb-1">Tahun</label>
-                                        <input
-                                            type="number"
-                                            className="w-full px-4 py-2 border border-gray-100 bg-gray-50 rounded-xl text-gray-500 cursor-not-allowed"
-                                            readOnly
-                                        />
-                                    </div>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition flex items-center justify-center gap-2"
-                                >
-                                    Hitung Gaji
-                                </button>
-                            </form>
-                        </div>
-
-                        {/* Kolom Hasil/Summary */}
-                        <div className="lg:col-span-2 space-y-6">
-                            <div className="bg-white p-8 rounded-2xl border border-blue-100 shadow-md relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-5">
-                                    <Receipt size={120} />
-                                </div>
-
+                        </FormHeader>
+                        <FormContent className="flex flex-col gap-2">
+                            <InputGroup
+                                label="Total Jam per-Minggu"
+                                htmlFor="totalWeeklyHours"
+                                type="number"
+                                requiredLabel
+                                aria-invalid={errors.totalWeeklyHours?.message ? "true" : "false"}
+                                errorMsg={errors.totalWeeklyHours?.message}
+                                {...register("totalWeeklyHours", {
+                                    required: { value: true, message: "total jam/minggu wajib di isi." }
+                                })}
+                            />
+                            <Controller
+                                control={control}
+                                name="month"
+                                render={({ field, formState: { errors } }) => (
+                                    <SelectGroupComponent
+                                        label="Bulan"
+                                        htmlFor="month"
+                                        placeholder="Pilih bulan"
+                                        items={[
+                                            { value: "1", displayText: "Januari" },
+                                            { value: "2", displayText: "Februari" },
+                                            { value: "3", displayText: "Maret" },
+                                            { value: "4", displayText: "April" },
+                                            { value: "5", displayText: "Mei" },
+                                            { value: "6", displayText: "Juni" },
+                                            { value: "7", displayText: "Juli" },
+                                            { value: "8", displayText: "Agustus" },
+                                            { value: "9", displayText: "September" },
+                                            { value: "10", displayText: "Oktober" },
+                                            { value: "11", displayText: "November" },
+                                            { value: "12", displayText: "Desember" },
+                                        ]}
+                                        onChange={field.onChange}
+                                        value={field.value}
+                                        errorMessage={errors.month?.message}
+                                    />
+                                )}
+                                rules={{
+                                    required: { value: true, message: "pilihan bulan wajib di isi." }
+                                }}
+                            />
+                            <InputGroup
+                                label="Tahun"
+                                htmlFor="year"
+                                type="number"
+                                requiredLabel
+                                errorMsg={errors.year?.message}
+                                {...register("year", {
+                                    required: { value: true, message: "tahun wajib di isi." }
+                                })}
+                            />
+                        </FormContent>
+                        <FormFooter>
+                            <Button variant={"default"} className="bg-blue-700 w-full hover:bg-blue-800">
+                                {isLoading ? (<Spinner />) : (
+                                    <>
+                                        <ArrowRightCircle className="text-white" />
+                                        <p className="text-sm font-medium text-white">hitung kalkulasi</p>
+                                    </>
+                                )}
+                            </Button>
+                        </FormFooter>
+                    </FormComponent>
+                    {/* calc result here */}
+                    <div className="w-full bg-white p-4 rounded-2xl border border-blue-100 shadow-md flex flex-col gap-0 justify-between h-[90%]">
+                        <div className="flex flex-row justify-between items-start">
+                            <div className="flex flex-col gap-0">
                                 <h3 className="text-gray-500 font-medium mb-1">Estimasi Gaji Bersih</h3>
                                 <div className="text-4xl font-bold text-gray-900 mb-8">
-                                    Rp 2.000.000.00,-
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="p-4 bg-blue-50 rounded-xl">
-                                        <p className="text-sm text-blue-600 font-medium mb-1">Honor Mengajar</p>
-                                        <p className="text-xl font-bold text-blue-900">Rp 500.000.00,-</p>
-                                        <p className="text-xs text-blue-400 mt-1">25k × 4 JP × 4 Minggu</p>
-                                    </div>
-                                    <div className="p-4 bg-green-50 rounded-xl">
-                                        <p className="text-sm text-green-600 font-medium mb-1">Uang Transport</p>
-                                        <p className="text-xl font-bold text-green-900">Rp 300.000.00,-</p>
-                                        <p className="text-xs text-green-400 mt-1">45k × Total Kehadiran</p>
-                                    </div>
+                                    Belum diketahui
                                 </div>
                             </div>
-
-                            {/* <div className="h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center">
-                                <div className="bg-gray-50 p-4 rounded-full mb-4">
-                                    <Receipt className="text-gray-300" size={40} />
-                                </div>
-                                <h3 className="text-gray-400 font-medium">Belum ada data untuk dihitung</h3>
-                                <p className="text-gray-400 text-sm max-w-xs">Silahkan isi parameter di samping untuk melihat rincian gaji kamu.</p>
-                            </div> */}
+                            <div className="opacity-5">
+                                <Receipt size={120} />
+                            </div>
                         </div>
 
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="p-4 bg-blue-50 rounded-xl">
+                                <p className="text-sm text-blue-600 font-medium mb-1">Honor Mengajar</p>
+                                <p className="text-xl font-bold text-blue-900">Belum diketahui</p>
+                                <p className="text-xs text-blue-400 mt-1">25k × 4 JP × 4 Minggu</p>
+                            </div>
+                            <div className="p-4 bg-green-50 rounded-xl">
+                                <p className="text-sm text-green-600 font-medium mb-1">Uang Transport</p>
+                                <p className="text-xl font-bold text-green-900">Belum diketahui</p>
+                                <p className="text-xs text-green-400 mt-1">45k × Total Kehadiran</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {/* history goes here */}
             </div>
         </section>
     )

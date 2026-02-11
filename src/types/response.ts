@@ -227,3 +227,23 @@ export interface GuruDashboardResponse {
   guruId: string;
   data: DashboardData;
 }
+
+export interface UserPayrollCalculation {
+  payroll_id: string;
+  teacher_id: string;
+  teacher_name: string;
+  total_weekly_hours: number;
+  total_hadir: number;
+  bonus_tambahan: number;
+  teaching_salary: number;
+  transport_salary: number;
+  total_salary: number;
+  period_month: number;
+  period_year: number;
+  created_at: string;
+}
+
+export interface UserPayrollCalculationResponse {
+  message: string | number;
+  data: UserPayrollCalculation;
+}

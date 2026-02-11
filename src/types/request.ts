@@ -69,3 +69,10 @@ export interface EditUserProfileRequest {
   company?: string | undefined;
   gender?: string | undefined;
 }
+
+export interface UserPayrollCalculationRequest {
+  teacherId: string;
+  totalWeeklyHours: number;
+  month: number;
+  year: number;
+}

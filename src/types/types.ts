@@ -144,13 +144,13 @@ export interface SelectGroupProps {
   placeholder: string;
   requiredLabel?: boolean;
   items: SelectGroupItemProps[];
-  value?: string;
+  value?: string | number;
   onChange?: (val: string) => void;
   errorMessage?: string | React.ReactElement | FieldError;
 }
 
 export interface SelectGroupItemProps {
-  value: string;
+  value: string | number;
   displayText: string | number | React.ReactElement;
 }
 
