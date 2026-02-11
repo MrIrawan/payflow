@@ -58,12 +58,12 @@ export function EmployeeSidebar() {
                                 },
                             ]}
                         />
-                        {/* <SidebarNavigationLink
+                        <SidebarNavigationLink
                             href="/employee/cetak-laporan-gaji"
                             label="cetak laporan gaji"
                             Icon={Wallet}
                             activeBg
-                        /> */}
+                        />
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>

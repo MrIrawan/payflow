@@ -56,12 +56,12 @@ export function AdminSidebar() {
               Icon={CalendarCheck2}
               activeBg
             />
-            {/* <SidebarNavigationLink
+            <SidebarNavigationLink
               href="/admin/report"
               label="laporan"
               Icon={Wallet}
               activeBg
-            /> */}
+            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
