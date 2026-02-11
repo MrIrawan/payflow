@@ -18,8 +18,6 @@ export default function TeacherPage() {
                     </div>
                     <Separator />
                     <TeacherTable />
-                    <Card className="w-full shadow-none p-3">
-                    </Card>
                 </div>
             </div>
         </section>

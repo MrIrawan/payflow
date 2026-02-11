@@ -19,7 +19,7 @@ import { GenderBadge } from "../GenderBadge/gender-badge";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
-import { InfoBadge, jobBadgeMap } from "../InfoBadge/info-badge";
+import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "../InfoBadge/info-badge";
 
 const teacherColumns: Column<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
@@ -27,7 +27,7 @@ const teacherColumns: Column<GetAllTeachers>[] = [
     { header: "Jenis Kelamin", accessor: "gender", cell: (value: string) => <GenderBadge placeholder={value} /> },
     {
         header: "Jabatan", accessor: "job_title", cell: (value: string[]) => (
-            <div className="w-[280px] bg-red-200 flex flex-row gap-1 flex-wrap">
+            <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
                 {value?.map((job, index) => {
                     return (
                         <InfoBadge
@@ -42,7 +42,22 @@ const teacherColumns: Column<GetAllTeachers>[] = [
         )
     },
     { header: "Alamat Email", accessor: "email_address", cell: (value: string) => <p className="font-medium">{value}</p> },
-    { header: "Alamat Rumah", accessor: "home_address", cell: (value: string) => value ? <p className="line-clamp-3">{value}</p> : "-" },
+    {
+        header: "Mata Pelajaran", accessor: "subject_name", cell: (value: string[]) => (
+            <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
+                {value?.map((subject, index) => {
+                    return (
+                        <InfoBadge
+                            key={index}
+                            label={subject}
+                            icon={subjectBadgeMap[subject]?.icon}
+                            className={subjectBadgeMap[subject]?.className}
+                        />
+                    )
+                })}
+            </div>
+        )
+    },
 ];
 
 export default function TeacherTable() {

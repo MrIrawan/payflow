@@ -41,6 +41,7 @@ export default function AddTeacherPage() {
             router.push("/admin/teacher")
         } else {
             toast.custom(() => <Toaster title="gagal menyimpan data guru" description={response.message} variant="error" />)
+            setIsLoading(false);
         }
     }
 
@@ -67,6 +68,8 @@ export default function AddTeacherPage() {
                                                 htmlFor="full_name"
                                                 type="text"
                                                 requiredLabel
+                                                aria-invalid={errors.full_name ? "true" : "false"}
+                                                errorMsg={errors.full_name?.message}
                                                 {...register("full_name", {
                                                     required: { value: true, message: "nama lengkap wajib di isi." },
                                                     minLength: { value: 3, message: "minimal panjang nama lengkap adalah 3 huruf." }
@@ -82,7 +85,7 @@ export default function AddTeacherPage() {
                                                         placeholder="Pilih tanggal"
                                                         onChange={field.onChange}
                                                         value={field.value}
-                                                        errorMessage={errors.date_of_birth}
+                                                        errorMessage={errors.date_of_birth?.message}
                                                     />
                                                 )}
                                                 rules={{
@@ -105,7 +108,7 @@ export default function AddTeacherPage() {
                                                         ]}
                                                         onChange={field.onChange}
                                                         value={field.value}
-                                                        errorMessage={errors.gender}
+                                                        errorMessage={errors.gender?.message}
                                                     />
                                                 )}
                                                 rules={{
@@ -117,6 +120,8 @@ export default function AddTeacherPage() {
                                                 htmlFor="home_address"
                                                 type="text"
                                                 requiredLabel
+                                                aria-invalid={errors.home_address ? "true" : "false"}
+                                                errorMsg={errors.home_address?.message}
                                                 {...register("home_address", {
                                                     required: { value: true, message: "alamat rumah wajib di isi." },
                                                     minLength: { value: 8, message: "minimal panjang alamat rumah adalah 8 huruf." }
@@ -134,6 +139,8 @@ export default function AddTeacherPage() {
                                             htmlFor="email_address"
                                             type="email"
                                             requiredLabel
+                                            aria-invalid={errors.email_address ? "true" : "false"}
+                                            errorMsg={errors.email_address?.message}
                                             {...register("email_address", {
                                                 required: { value: true, message: "alamat email wajib di isi." },
                                                 minLength: { value: 3, message: "minimal panjang alamat email adalah 3 huruf." }
@@ -144,6 +151,8 @@ export default function AddTeacherPage() {
                                             htmlFor="password_email"
                                             type="password"
                                             requiredLabel
+                                            aria-invalid={errors.password_email ? "true" : "false"}
+                                            errorMsg={errors.password_email?.message}
                                             {...register("password_email", {
                                                 required: { value: true, message: "password email wajib di isi." },
                                                 minLength: { value: 3, message: "minimal panjang password email adalah 3 huruf." }
@@ -160,6 +169,8 @@ export default function AddTeacherPage() {
                                             htmlFor="company"
                                             type="text"
                                             requiredLabel
+                                            aria-invalid={errors.company ? "true" : "false"}
+                                            errorMsg={errors.company?.message}
                                             {...register("company", {
                                                 required: { value: true, message: "nama perusahaan wajib di isi." },
                                                 minLength: { value: 5, message: "minimal panjang huruf nama perusahaan adalah 5 huruf." }
