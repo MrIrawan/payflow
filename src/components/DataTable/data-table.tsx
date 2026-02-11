@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   Table,
   TableHeader,
@@ -16,43 +17,60 @@ export function DataTable<T>({
   renderRowAction,
 }: DataTableProps<T>) {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {columns.map((col, index) => (
-            <TableHead key={index} className="capitalize">
-              {col.header}
-            </TableHead>
-          ))}
-
-          {/* Action column hanya muncul jika dibutuhkan */}
-          {renderRowAction && <TableHead />}
-        </TableRow>
-      </TableHeader>
-
-      <TableBody>
-        {data.map((row, rowIndex) => (
-          <TableRow
-            key={rowIndex}
-            className="hover:bg-gray-100 transition"
-          >
-            {columns.map((col, colIndex) => (
-              <TableCell key={colIndex}>
-                {col.cell
-                  ? col.cell(row[col.accessor], row)
-                  : String(row[col.accessor])}
-              </TableCell>
+    <div className="rounded-xl border border-gray-100 bg-white overflow-hidden shadow-sm p-3">
+      <Table>
+        <TableHeader className="bg-gray-50/50">
+          <TableRow>
+            {columns.map((col, index) => (
+              <TableHead key={String(col.accessor) + index} className="capitalize font-semibold text-blue-900">
+                {col.header}
+              </TableHead>
             ))}
-
-            {/* SLOT action */}
-            {renderRowAction && (
-              <TableCell>
-                {renderRowAction(row)}
-              </TableCell>
-            )}
+            {/* {renderRowAction && <TableHead className="text-right">Aksi</TableHead>} */}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+
+        <TableBody>
+          {data.length > 0 ? (
+            data.map((row, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                className="hover:bg-blue-50/30 transition-colors font-medium"
+              >
+                {columns.map((col, colIndex) => {
+                  const value = row[col.accessor];
+
+                  return (
+                    <TableCell key={colIndex}>
+                      {col.cell ? (
+                        // Jika ada custom render (cell)
+                        col.cell(value, row)
+                      ) : (
+                        // Default render: Handle jika value adalah array (seperti job_title)
+                        Array.isArray(value)
+                          ? value.join(", ")
+                          : String(value ?? "-")
+                      )}
+                    </TableCell>
+                  );
+                })}
+
+                {renderRowAction && (
+                  <TableCell className="text-right">
+                    {renderRowAction(row)}
+                  </TableCell>
+                )}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length + (renderRowAction ? 1 : 0)} className="h-24 text-center text-gray-400">
+                Tidak ada data tersedia.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

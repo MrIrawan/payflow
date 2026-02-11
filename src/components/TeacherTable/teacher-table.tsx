@@ -7,7 +7,7 @@ import { getAllTeachers } from "@/lib/service/getAllTeachers";
 import { GetAllTeachers } from "@/types/response";
 
 import { DataTable } from "../DataTable/data-table";
-import { TableColumn } from "@/types/table";
+import { Column } from "@/types/table";
 import { Card } from "../ui/card";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -19,15 +19,30 @@ import { GenderBadge } from "../GenderBadge/gender-badge";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
+import { InfoBadge, jobBadgeMap } from "../InfoBadge/info-badge";
 
-const teacherColumns: TableColumn<GetAllTeachers>[] = [
+const teacherColumns: Column<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
-    { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
-    { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={value} /> },
-    { header: "Perusahaan", accessor: "company", cell: (value) => value ? value : "-" },
-    { header: "Jabatan", accessor: "job_title", cell: (value) => value ? value : "-" },
-    { header: "Alamat Email", accessor: "email_address" },
-    { header: "Alamat Rumah", accessor: "home_address", cell: (value) => value ? value : "-" },
+    { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value: Date) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
+    { header: "Jenis Kelamin", accessor: "gender", cell: (value: string) => <GenderBadge placeholder={value} /> },
+    {
+        header: "Jabatan", accessor: "job_title", cell: (value: string[]) => (
+            <div className="w-[280px] bg-red-200 flex flex-row gap-1 flex-wrap">
+                {value?.map((job, index) => {
+                    return (
+                        <InfoBadge
+                            key={index}
+                            label={job}
+                            icon={jobBadgeMap[job]?.icon}
+                            className={jobBadgeMap[job]?.className}
+                        />
+                    )
+                })}
+            </div>
+        )
+    },
+    { header: "Alamat Email", accessor: "email_address", cell: (value: string) => <p className="font-medium">{value}</p> },
+    { header: "Alamat Rumah", accessor: "home_address", cell: (value: string) => value ? <p className="line-clamp-3">{value}</p> : "-" },
 ];
 
 export default function TeacherTable() {

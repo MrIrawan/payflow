@@ -65,11 +65,12 @@ export interface GetAllTeachers {
   full_name: string;
   date_of_birth: string;
   email_address: string;
-  home_address: string | undefined;
-  job_title: string | undefined;
-  company: string | undefined;
-  net_salary: number | undefined;
-  gender: "male" | "female" | undefined;
+  home_address: string;
+  job_title: string[]; // Ini array
+  company: string;
+  gender: "male" | "female";
+  join_date: string;    // Tambahkan ini agar sinkron dengan API
+  subject_name: string[]; // Ini array
 }
 
 export interface GetTeahersByGenderResponse {
