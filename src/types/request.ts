@@ -30,14 +30,16 @@ export interface StoreAttendanceRequest {
 }
 
 export interface StoreTeacherDataRequest {
-  full_name: string;
-  date_of_birth: Date;
-  gender: "male" | "female";
+  full_name: string | undefined;
+  date_of_birth: Date | undefined;
+  join_date: Date | undefined;
   email_address: string;
-  home_address: string;
-  net_salary: number;
-  job_title: string;
-  company: string;
+  password_email: string;
+  home_address: string | undefined;
+  subject_name: string[] | undefined;
+  job_title: string[] | undefined;
+  company: string | undefined;
+  gender: string | undefined;
 }
 
 export interface UpdateAttendanceRequest {

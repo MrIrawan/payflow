@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler, Controller, FormProvider, useFormContext } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { StoreTeacherDataRequest } from "@/types/request";
 import { storeTeacherData } from "@/lib/service/storeTeacherData";
 
@@ -20,10 +20,15 @@ import { Spinner } from "@/components/ui/spinner";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
+import { CircleXIcon, FilePenIcon } from "lucide-react";
+import { jobTitle } from "../../../../../../public/static/jobTitle";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { subjectArray } from "../../../../../../public/static/subject";
 
 export default function AddTeacherPage() {
     const router = useRouter();
-    const form = useForm<StoreTeacherDataRequest>();
+    const { register, handleSubmit, control, formState: { errors } } = useForm<StoreTeacherDataRequest>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const onSubmit: SubmitHandler<StoreTeacherDataRequest> = async (data) => {
@@ -50,216 +55,226 @@ export default function AddTeacherPage() {
                             <CardDescription className="text-lg font-medium max-w-xl">Tambah data guru baru dengan lengkap dan cepat secara real-time dengan fitur manajemen data guru.</CardDescription>
                         </div>
                         <Separator />
-                        <FormProvider {...form}>
-                            <FormComponent asWrapper={false} onSubmit={form.handleSubmit(onSubmit)}>
-                                <FormContent className="flex flex-col gap-6">
-                                    <TeacherIdentitySection />
-                                    <Separator />
-                                    <JobInfoSection />
-                                    <Separator />
-                                    <ContactInfoSection />
-                                </FormContent>
-                                <FormFooter>
-                                    {/* Form footer actions like submit button */}
-                                    <Button className="bg-blue-600 hover:bg-blue-800 w-40">
-                                        {isLoading ? (<Spinner />) : (<p className="text-sm font-medium text-white">Simpan data guru</p>)}
-                                    </Button>
-                                </FormFooter>
-                            </FormComponent>
-                        </FormProvider>
+                        <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)} className="w-full shadow-none flex flex-col gap-6">
+                            <FormContent>
+                                <div className="flex flex-col gap-3">
+                                    <CardTitle className="text-xl font-semibold text-black">Informasi diri guru</CardTitle>
+                                    <Separator className="ring-border ring border-none bg-border" />
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex flex-row gap-4">
+                                            <InputGroup
+                                                label="Nama Lengkap"
+                                                htmlFor="full_name"
+                                                type="text"
+                                                requiredLabel
+                                                {...register("full_name", {
+                                                    required: { value: true, message: "nama lengkap wajib di isi." },
+                                                    minLength: { value: 3, message: "minimal panjang nama lengkap adalah 3 huruf." }
+                                                })}
+                                            />
+                                            <Controller
+                                                control={control}
+                                                name="date_of_birth"
+                                                render={({ field, formState: { errors } }) => (
+                                                    <DatePicker
+                                                        label="Tanggal Lahir"
+                                                        htmlFor="date_of_birth"
+                                                        placeholder="Pilih tanggal"
+                                                        onChange={field.onChange}
+                                                        value={field.value}
+                                                        errorMessage={errors.date_of_birth}
+                                                    />
+                                                )}
+                                                rules={{
+                                                    required: { value: true, message: "tanggal lahir wajib di isi." }
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex flex-row gap-3">
+                                            <Controller
+                                                control={control}
+                                                name="gender"
+                                                render={({ field, formState: { errors } }) => (
+                                                    <SelectGroupComponent
+                                                        label="Jenis Kelamin"
+                                                        htmlFor="gender"
+                                                        placeholder="Pilih jenis kelamin"
+                                                        items={[
+                                                            { value: "male", displayText: <GenderBadge placeholder={"male"} size="sm" /> },
+                                                            { value: "female", displayText: <GenderBadge placeholder={"female"} size="sm" /> },
+                                                        ]}
+                                                        onChange={field.onChange}
+                                                        value={field.value}
+                                                        errorMessage={errors.gender}
+                                                    />
+                                                )}
+                                                rules={{
+                                                    required: { value: true, message: "jenis kelamin wajib di isi." }
+                                                }}
+                                            />
+                                            <InputGroup
+                                                label="Alamat Rumah"
+                                                htmlFor="home_address"
+                                                type="text"
+                                                requiredLabel
+                                                {...register("home_address", {
+                                                    required: { value: true, message: "alamat rumah wajib di isi." },
+                                                    minLength: { value: 8, message: "minimal panjang alamat rumah adalah 8 huruf." }
+                                                })}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <CardTitle className="text-xl font-semibold text-black">Informasi kontak guru</CardTitle>
+                                    <Separator className="ring-border ring border-none bg-border" />
+                                    <div className="flex flex-row gap-4">
+                                        <InputGroup
+                                            label="Alamat Email"
+                                            htmlFor="email_address"
+                                            type="email"
+                                            requiredLabel
+                                            {...register("email_address", {
+                                                required: { value: true, message: "alamat email wajib di isi." },
+                                                minLength: { value: 3, message: "minimal panjang alamat email adalah 3 huruf." }
+                                            })}
+                                        />
+                                        <InputGroup
+                                            label="Password Email"
+                                            htmlFor="password_email"
+                                            type="password"
+                                            requiredLabel
+                                            {...register("password_email", {
+                                                required: { value: true, message: "password email wajib di isi." },
+                                                minLength: { value: 3, message: "minimal panjang password email adalah 3 huruf." }
+                                            })}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-3">
+                                    <CardTitle className="text-xl font-semibold text-black">Informasi pekerjaan guru</CardTitle>
+                                    <Separator className="ring-border ring border-none bg-border" />
+                                    <div className="flex flex-row gap-3">
+                                        <InputGroup
+                                            label="Nama Perusahaan"
+                                            htmlFor="company"
+                                            type="text"
+                                            requiredLabel
+                                            {...register("company", {
+                                                required: { value: true, message: "nama perusahaan wajib di isi." },
+                                                minLength: { value: 5, message: "minimal panjang huruf nama perusahaan adalah 5 huruf." }
+                                            })}
+                                        />
+                                        <Controller
+                                            control={control}
+                                            name="join_date"
+                                            render={({ field }) => (
+                                                <DatePicker
+                                                    label="Tanggal Bergabung"
+                                                    htmlFor="join_date"
+                                                    placeholder="Pilih tanggal bergabung"
+                                                    onChange={field.onChange}
+                                                    value={field.value}
+                                                />
+                                            )}
+                                            rules={{
+                                                required: { value: true, message: "tanggal bergabung wajib di isi." }
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                {/* input checkbox by shadcn */}
+                                <div className="w-full flex flex-row gap-3">
+                                    <div className="w-full flex flex-col gap-3">
+                                        <CardTitle className="text-xl font-semibold text-black">Informasi jabatan guru</CardTitle>
+                                        <Separator className="ring-border ring border-none bg-border" />
+                                        {/* job title checkbox */}
+                                        <Controller
+                                            control={control}
+                                            name="job_title"
+                                            render={({ field }) => (
+                                                <div className="w-full grid grid-cols-3 gap-6">
+                                                    {jobTitle.map((job) => (
+                                                        <div className="flex flex-row gap-2" key={job}>
+                                                            <Checkbox
+                                                                id={job}
+                                                                checked={field.value?.includes(job)}
+                                                                onCheckedChange={(checked) => {
+                                                                    if (checked) {
+                                                                        field.onChange([...(field.value ?? []), job]);
+                                                                    } else {
+                                                                        field.onChange(
+                                                                            field.value?.filter((item) => item !== job)
+                                                                        );
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <Label htmlFor={job}>{job}</Label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            rules={{
+                                                required: { value: true, message: "informasi jabatan wajib di isi." }
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="w-full flex flex-col gap-3">
+                                        <CardTitle className="text-xl font-semibold text-black">Informasi mata pelajaran guru</CardTitle>
+                                        <Separator className="ring-border ring border-none bg-border" />
+                                        {/* subject name checkbox */}
+                                        <Controller
+                                            control={control}
+                                            name="subject_name"
+                                            render={({ field }) => (
+                                                <div className="w-full grid grid-cols-3 gap-6">
+                                                    {subjectArray.map((subject) => (
+                                                        <div className="flex flex-row gap-2" key={subject}>
+                                                            <Checkbox
+                                                                id={subject}
+                                                                checked={field.value?.includes(subject)}
+                                                                onCheckedChange={(checked) => {
+                                                                    if (checked) {
+                                                                        field.onChange([...(field.value ?? []), subject]);
+                                                                    } else {
+                                                                        field.onChange(
+                                                                            field.value?.filter((item) => item !== subject)
+                                                                        );
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <Label htmlFor={subject}>{subject}</Label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            rules={{
+                                                required: { value: true, message: "informasi mata pelajaran wajib di isi." }
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </FormContent>
+                            <Separator />
+                            <FormFooter className="flex flex-row gap-3">
+                                <Button variant={"default"} className="min-w-36 bg-blue-600 hover:bg-blue-800 flex flex-row gap-2">
+                                    {isLoading ? (<Spinner />) : (
+                                        <>
+                                            <p className="text-sm font-medium text-white">simpan profil</p>
+                                            <FilePenIcon className="text-white" />
+                                        </>
+                                    )}
+                                </Button>
+                                <Button variant={"default"} className="min-w-36 bg-red-600 hover:bg-red-800 flex flex-row gap-2">
+                                    <p className="text-sm font-medium text-white">batal simpan</p>
+                                    <CircleXIcon className="text-white" />
+                                </Button>
+                            </FormFooter>
+                        </FormComponent>
                     </div>
                 </div>
             </section>
         </>
-    )
-}
-
-function TeacherIdentitySection() {
-    const { register, control, formState: { errors } } = useFormContext();
-
-    return (
-        <div className="w-full flex flex-col gap-5">
-            <div className="flex flex-row items-start gap-3">
-                <span className="rounded-full w-8 h-8 ring-[1.5px] ring-blue-600 flex flex-row justify-center items-center">
-                    <h3 className="text-base font-medium text-blue-600">1</h3>
-                </span>
-                <div className="flex flex-col gap-0">
-                    <CardTitle className="text-xl font-semibold text-black">isi identitas guru</CardTitle>
-                    <CardDescription className="text-base font-medium max-w-md">kami memerlukan identitas guru untuk kami simpan. semua kolom identitas guru wajib di isi.</CardDescription>
-                </div>
-            </div>
-            {/* input column goes here */}
-            <div className="w-full flex flex-row gap-3 items-start">
-                <InputGroup
-                    label="Nama Lengkap"
-                    htmlFor="full_name"
-                    type="text"
-                    placeholder="Ex: Budi Hermawan"
-                    requiredLabel
-                    errorMsg={errors.full_name?.message}
-                    aria-invalid={errors.full_name ? "true" : "false"}
-                    {...register("full_name", {
-                        required: {
-                            value: true,
-                            message: "Nama lengkap wajib diisi"
-                        }
-                    })}
-                />
-                <Controller control={control} name="date_of_birth" render={({ field, formState: { errors } }) => (
-                    <DatePicker
-                        label="Tanggal Lahir"
-                        htmlFor="date_of_birth"
-                        placeholder="Pilih tanggal lahir"
-                        requiredLabel
-                        onChange={field.onChange}
-                        value={field.value}
-                        errorMessage={errors.date_of_birth?.message}
-                    />
-                )}
-                    rules={{
-                        required: {
-                            value: true,
-                            message: "Tanggal lahir wajib di isi"
-                        }
-                    }}
-                />
-                <Controller
-                    control={control}
-                    name="gender"
-                    render={({ field, formState: { errors } }) => (
-                        <SelectGroupComponent
-                            label="Jenis Kelamin"
-                            htmlFor="gender"
-                            placeholder="Pilih jenis kelamin"
-                            requiredLabel
-                            items={[
-                                { value: "male", displayText: <GenderBadge placeholder={"male"} size="sm" /> },
-                                { value: "female", displayText: <GenderBadge placeholder={"female"} size="sm" /> }
-                            ]}
-                            onChange={field.onChange}
-                        />
-                    )}
-                    rules={{
-                        required: {
-                            value: true,
-                            message: "Jenis kelamin wajib di isi, pilih antara 'Laki-laki' atau 'Perempuan'"
-                        }
-                    }}
-                />
-            </div>
-        </div>
-    )
-}
-
-function JobInfoSection() {
-    const { register, formState: { errors } } = useFormContext();
-
-    return (
-        <div className="w-full flex flex-col gap-5">
-            <div className="flex flex-row items-start gap-3">
-                <span className="rounded-full w-8 h-8 ring-[1.5px] ring-blue-600 flex flex-row justify-center items-center">
-                    <h3 className="text-base font-medium text-blue-600">2</h3>
-                </span>
-                <div className="flex flex-col gap-0">
-                    <CardTitle className="text-xl font-semibold text-black">isi informasi pekerjaan</CardTitle>
-                    <CardDescription className="text-base font-medium max-w-xl">kami memerlukan informasi pekerjaan dari guru untuk kami perhitungkan dengan fitur penggajian kami. informasi ini wajib di isi.</CardDescription>
-                </div>
-            </div>
-            {/* input column goes here */}
-            <div className="w-full flex flex-row gap-3 items-start">
-                <InputGroup
-                    label="Nama Jabatan"
-                    htmlFor="job_title"
-                    type="text"
-                    requiredLabel
-                    errorMsg={errors.job_title?.message}
-                    aria-invalid={errors.job_title ? "true" : "false"}
-                    {...register("job_title", {
-                        required: {
-                            value: true,
-                            message: "Nama jabatan wajib diisi"
-                        }
-                    })}
-                />
-                <InputGroup
-                    label="Nama Prusahaan"
-                    htmlFor="company"
-                    type="text"
-                    requiredLabel
-                    aria-invalid={errors.company ? "true" : "false"}
-                    errorMsg={errors.company?.message}
-                    {...register("company", {
-                        required: {
-                            value: true,
-                            message: "Nama perusahaan wajib diisi"
-                        }
-                    })}
-                />
-                <InputGroup
-                    label="Gaji Tetap"
-                    htmlFor="net_salary"
-                    type="number"
-                    requiredLabel
-                    aria-invalid={errors.net_salary ? "true" : "false"}
-                    errorMsg={errors.net_salary?.message}
-                    {...register("net_salary", {
-                        required: {
-                            value: true,
-                            message: "Gaji tetap wajib diisi"
-                        }, valueAsNumber: true
-                    })}
-                />
-            </div>
-        </div>
-    )
-}
-
-function ContactInfoSection() {
-    const { register, formState: { errors } } = useFormContext();
-    return (
-        <div className="w-full flex flex-col gap-5">
-            <div className="flex flex-row items-start gap-3">
-                <span className="rounded-full w-8 h-8 ring-[1.5px] ring-blue-600 flex flex-row justify-center items-center">
-                    <h3 className="text-base font-medium text-blue-600">3</h3>
-                </span>
-                <div className="flex flex-col gap-0">
-                    <CardTitle className="text-xl font-semibold text-black">isi informasi kontak</CardTitle>
-                    <CardDescription className="text-base font-medium max-w-xl">kami memerlukan informasi kontak guru untuk kami simpan. informasi ini opsional boleh di isi boleh juga tidak.</CardDescription>
-                </div>
-            </div>
-            {/* input column goes here */}
-            <div className="w-full flex flex-row gap-3 items-start">
-                <InputGroup
-                    label="Alamat Email"
-                    htmlFor="email_address"
-                    type="email"
-                    placeholder="Ex: budihermawan@mail.com"
-                    requiredLabel
-                    errorMsg={errors.email_address?.message}
-                    aria-invalid={errors.email_address ? "true" : "false"}
-                    {...register("email_address", {
-                        required: {
-                            value: true,
-                            message: "Alamat email wajib diisi"
-                        }
-                    })}
-                />
-
-                <InputGroup
-                    label="Alamat Rumah"
-                    htmlFor="home_address"
-                    type="text"
-                    aria-invalid={errors.home_address ? "true" : "false"}
-                    errorMsg={errors.home_address?.message}
-                    {...register("home_address", {
-                        required: {
-                            value: true,
-                            message: "Alamat Rumah wajib diisi"
-                        }
-                    })}
-                />
-            </div>
-        </div>
     )
 }
 
