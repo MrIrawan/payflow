@@ -1,3 +1,5 @@
+import { Attendance, Teacher } from "./base";
+
 export interface SignUpUser {
   id: string;
   email: string;
@@ -59,19 +61,7 @@ export interface GetAllTeachersResponse {
   data: GetAllTeachers[];
 }
 
-export interface GetAllTeachers {
-  guru_id: string;
-  created_at: string;
-  full_name: string;
-  date_of_birth: string;
-  email_address: string;
-  home_address: string;
-  job_title: string[]; // Ini array
-  company: string;
-  gender: "male" | "female";
-  join_date: string;    // Tambahkan ini agar sinkron dengan API
-  subject_name: string[]; // Ini array
-}
+export interface GetAllTeachers extends Teacher { };
 
 export interface GetTeahersByGenderResponse {
   success: boolean;
@@ -98,14 +88,9 @@ export interface GetAllAttendanceResponse {
   data: GetAllAttendance[];
 }
 
-export interface GetAllAttendance {
-  attendance_id: string;
-  created_at: string;
-  attendance_date: string;
+export interface GetAllAttendance extends Omit<Attendance, "checkin_time" | "checkout_time"> {
   checkin_time: string;
   checkout_time: string;
-  attendance_status: "present" | "on leave" | "absent";
-  teacher_name: string;
 }
 
 export interface StoreAttendanceResponse {
@@ -174,18 +159,24 @@ export interface GetAllAttendanceChartResponse {
 }
 
 // 1. Interface untuk Profil Guru
-export interface GuruProfile {
-  guru_id: string;
-  created_at: string; // ISO Date string
-  full_name: string;
-  date_of_birth: string; // YYYY-MM-DD
-  home_address: string | null; // Bisa null
-  job_title: string | null;    // Bisa null
-  company: string;
-  gender: 'male' | 'female';   // Menggunakan Union Type agar lebih spesifik
-  email_address: string;
-  join_date: string; // ISO Date string
-  subject_name: string | null; // Bisa null
+// export interface GuruProfile {
+//   guru_id: string;
+//   created_at: string; // ISO Date string
+//   full_name: string;
+//   date_of_birth: string; // YYYY-MM-DD
+//   home_address: string | null; // Bisa null
+//   job_title: string | null;    // Bisa null
+//   company: string;
+//   gender: 'male' | 'female';   // Menggunakan Union Type agar lebih spesifik
+//   email_address: string;
+//   join_date: string; // ISO Date string
+//   subject_name: string | null; // Bisa null
+// }
+
+export interface TeacherProfile extends Omit<Teacher, "home_address" | "job_title" | "subject_name"> {
+  home_address: string | null;
+  job_title: string[] | null;
+  subject_name: string[] | null;
 }
 
 // 2. Interface untuk Ringkasan Kehadiran
@@ -215,8 +206,8 @@ export interface SalaryInfo {
 }
 
 // 5. Interface untuk Objek "Data" Utama
-export interface DashboardData {
-  profile: GuruProfile;
+export interface GetTeacherInfo {
+  profile: TeacherProfile;
   attendanceSummary: AttendanceSummary;
   attendanceChart: AttendanceChartItem[]; // Array of chart items
   salary: SalaryInfo;
@@ -226,7 +217,7 @@ export interface DashboardData {
 export interface GuruDashboardResponse {
   success: boolean;
   guruId: string;
-  data: DashboardData;
+  data: GetTeacherInfo;
 }
 
 export interface UserPayrollCalculation {
