@@ -3,7 +3,6 @@
 import TeacherTable from "@/components/TeacherTable/teacher-table";
 
 import { Card } from "@/components/ui/card";
-import { ChartHeader } from "@/components/ChartHeader/chart-header";
 import { AttendanceChart } from "@/components/AttendanceChart/attendance-chart";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -17,10 +16,7 @@ export default function AdminPage() {
         {/* Data card component */}
         <TeachersDataCard />
         {/* attendance graph */}
-        <Card className="shadow-none">
-          <ChartHeader />
-          <AttendanceChart />
-        </Card>
+        <AttendanceChart />
         {/* employee table component */}
         <Card className="w-full h-fit py-6 px-3">
           <TeacherTable />
