@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import EmptyStateDataTable from "../../../public/images/empty-state-data-table.svg";
+
 import { useState, useEffect } from "react";
 
 import { getAllTeachers } from "@/lib/service/getAllTeachers";
@@ -8,7 +11,7 @@ import { GetAllTeachers } from "@/types/response";
 
 import { DataTable } from "../DataTable/data-table";
 import { Column } from "@/types/table";
-import { Card } from "../ui/card";
+import { Card, CardDescription, CardTitle } from "../ui/card";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
@@ -20,6 +23,9 @@ import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "../InfoBadge/info-badge";
+import { toast } from "sonner";
+import { Toaster } from "../Toaster/toaster";
+import { Spinner } from "../ui/spinner";
 
 const teacherColumns: Column<GetAllTeachers>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
@@ -63,52 +69,103 @@ const teacherColumns: Column<GetAllTeachers>[] = [
 export default function TeacherTable() {
     const [data, setData] = useState<GetAllTeachers[] | undefined>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [isLoading, setIsloading] = useState<boolean>(false);
 
     const debouncedSearch = useDebounce(searchQuery, 400);
 
     useEffect(() => {
         async function getAllTeachersData() {
+            setIsloading(true);
             try {
                 const response = await getAllTeachers();
                 setData(response.data?.data)
             } catch (error) {
-                console.error("Get all teachers error:", error);
+                toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data guru." description={`${error || "terjadi sesuatu sehingga kami tidak bisa memproses permintaan anda."}`} />)
+            } finally {
+                setIsloading(false);
             }
         }
 
         getAllTeachersData();
     }, [])
 
-    const filteredData = filterByKeys(data || [], debouncedSearch, ["full_name"])
+    const filteredData = filterByKeys(data || [], debouncedSearch, ["full_name"]);
 
     return (
-        <div className="w-full flex flex-col gap-6">
-            <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
-                <div className="w-full flex flex-row gap-2.5 items-end">
-                    <div className="flex flex-col gap-2.5">
-                        <Label className="font-semibold">Search Teacher</Label>
-                        <Input
-                            type="text"
-                            placeholder="teacher neame here..."
-                            className="min-w-[300px]"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+        <div className={`w-full flex gap-6 ${isLoading ? "h-[500px] flex-row justify-center items-center" : "h-fit flex-col"}`}>
+            {isLoading ? (
+                <Spinner className="size-10" />
+            ) : (
+                <>
+                    {data?.length === 0 ? (
+                        <>
+                            <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
+                                <div className="w-full flex flex-row gap-2.5 items-end">
+                                    <div className="flex flex-col gap-2.5">
+                                        <Label className="font-semibold">Search Teacher</Label>
+                                        <Input
+                                            type="text"
+                                            placeholder="teacher neame here..."
+                                            className="min-w-[300px]"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                        />
+                                    </div>
+                                    <GenderOptionsButton />
+                                    <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
+                                        <Button variant={"outline"} className="border-dashed">
+                                            <PlusCircleIcon />
+                                            <p className="text-sm font-medium text-black">Tambah Guru</p>
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </Card>
+                            <div className="w-full flex flex-row justify-center items-center">
+                                <div className="w-fit h-fit flex flex-col gap-3 items-center">
+                                    <Image
+                                        src={EmptyStateDataTable}
+                                        alt="empty state data table image"
+                                        width={250}
+                                    />
+                                    <div className="flex flex-col gap-1 items-center">
+                                        <CardTitle className="text-xl text-black">belum ada data guru yang dapat di tampilkan.</CardTitle>
+                                        <CardDescription className="text-base font-medium max-w-md text-center">
+                                            kami tidak bisa menampilkan data guru, ayo daftarkan guru pada halaman <Link href={"/admin/teacher/add-teacher"} className="hover:underline">tambah data guru.</Link>
+                                        </CardDescription>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (<>
+                        <Card className="w-full flex flex-row items-end justify-between p-0 shadow-none border-none">
+                            <div className="w-full flex flex-row gap-2.5 items-end">
+                                <div className="flex flex-col gap-2.5">
+                                    <Label className="font-semibold">Search Teacher</Label>
+                                    <Input
+                                        type="text"
+                                        placeholder="teacher neame here..."
+                                        className="min-w-[300px]"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                                <GenderOptionsButton />
+                                <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
+                                    <Button variant={"outline"} className="border-dashed">
+                                        <PlusCircleIcon />
+                                        <p className="text-sm font-medium text-black">Tambah Guru</p>
+                                    </Button>
+                                </Link>
+                            </div>
+                        </Card>
+                        <DataTable
+                            columns={teacherColumns}
+                            data={filteredData}
+                            renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
                         />
-                    </div>
-                    <GenderOptionsButton />
-                    <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
-                        <Button variant={"outline"} className="border-dashed">
-                            <PlusCircleIcon />
-                            <p className="text-sm font-medium text-black">Tambah Guru</p>
-                        </Button>
-                    </Link>
-                </div>
-            </Card>
-            <DataTable
-                columns={teacherColumns}
-                data={filteredData}
-                renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
-            />
+                    </>)}
+                </>
+            )}
         </div>
     )
 }
