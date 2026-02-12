@@ -21,9 +21,10 @@ import {
     AlertDialogTrigger
 } from "../ui/alert-dialog";
 import { Spinner } from "../ui/spinner";
-import { EllipsisIcon, Trash2Icon } from "lucide-react";
+import { EllipsisIcon, FilePenLineIcon, Trash2Icon } from "lucide-react";
 import { GetAllTeachers } from "@/types/response";
-import { UpdateTeacherDrawer } from "../UpdateTeacherDrawer/update-teacher-drawer";
+import Link from "next/link";
+// import { UpdateTeacherDrawer } from "../UpdateTeacherDrawer/update-teacher-drawer";
 
 export function TeacherActionPopover({ teacherData }: {
     teacherData: GetAllTeachers;
@@ -39,7 +40,12 @@ export function TeacherActionPopover({ teacherData }: {
                 <div className="w-[250px] flex flex-col gap-2.5 p-2.5">
                     <CardDescription className="text-xs font-medium">Teacher Actions</CardDescription>
                     {/* action buttons here */}
-                    <UpdateTeacherDrawer teacherData={teacherData} />
+                    <Link href={`/admin/teacher/update-teacher/${teacherData.guru_id}`}>
+                        <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-white hover:bg-muted-foreground/20">
+                            <FilePenLineIcon className="text-black" />
+                            <p className="text-black text-sm font-semibold">Update data guru</p>
+                        </Button>
+                    </Link>
                     {/* delete teacher alert dialog */}
                     <DeleteTeacherDialog dataId={teacherData.guru_id} />
                 </div>

@@ -51,14 +51,16 @@ export interface UpdateAttendanceRequest {
 }
 
 export interface UpdateTeacherDataRequest {
-  full_name: string | undefined;
-  date_of_birth: Date | undefined;
-  gender: "male" | "female" | undefined;
-  email_address: string | undefined;
-  home_address: string | undefined;
-  net_salary: number | undefined;
-  job_title: string | undefined;
-  company: string | undefined;
+  guru_id: string;
+  created_at: string;
+  full_name: string;
+  date_of_birth: Date;
+  home_address: string;
+  job_title: string[]; // Ini array
+  company: string;
+  gender: "male" | "female";
+  join_date: Date;    // Tambahkan ini agar sinkron dengan API
+  subject_name: string[]; // Ini array
 }
 
 export interface EditUserProfileRequest {
