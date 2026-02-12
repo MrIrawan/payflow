@@ -1,3 +1,4 @@
+import { Attendance, Teacher } from "./base";
 import { UserLocation } from "./types";
 
 export interface SignUpRequest {
@@ -20,58 +21,33 @@ export interface AdminSignInRequest {
   password: string;
 }
 
-export interface StoreAttendanceRequest {
-  teacher_name: string,
-  attendance_date: Date,
-  checkin_time: number,
-  checkout_time: number,
-  attendance_status: "present" | "absent" | "on leave",
+export interface StoreAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
+  attendance_date: Date;
+  checkin_time: number;
+  checkout_time: number;
   location?: UserLocation;
 }
 
-export interface StoreTeacherDataRequest {
-  full_name: string | undefined;
-  date_of_birth: Date | undefined;
-  join_date: Date | undefined;
-  email_address: string;
+export interface StoreTeacherDataRequest extends Omit<Teacher, "guru_id" | "created_at" | "date_of_birth" | "join_date"> {
   password_email: string;
-  home_address: string | undefined;
-  subject_name: string[] | undefined;
-  job_title: string[] | undefined;
-  company: string | undefined;
-  gender: string | undefined;
-}
-
-export interface UpdateAttendanceRequest {
-  teacher_name: string,
-  attendance_date: Date,
-  checkin_time: number,
-  checkout_time: number,
-  attendance_status: "present" | "absent" | "on leave",
-}
-
-export interface UpdateTeacherDataRequest {
-  guru_id: string;
-  created_at: string;
-  full_name: string;
   date_of_birth: Date;
-  home_address: string;
-  job_title: string[]; // Ini array
-  company: string;
-  gender: "male" | "female";
-  join_date: Date;    // Tambahkan ini agar sinkron dengan API
-  subject_name: string[]; // Ini array
+  join_date: Date;
 }
 
-export interface EditUserProfileRequest {
-  full_name?: string | undefined;
-  date_of_birth?: Date | undefined;
-  join_date?: Date | undefined;
-  home_address?: string | undefined;
-  subject_name?: string[] | undefined;
-  job_title?: string[] | undefined;
-  company?: string | undefined;
-  gender?: string | undefined;
+export interface UpdateAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
+  attendance_date: Date;
+  checkin_time: number;
+  checkout_time: number;
+}
+
+export interface UpdateTeacherDataRequest extends Omit<Teacher, "guru_id" | "created_at" | "email_address" | "date_of_birth" | "join_date"> {
+  date_of_birth: Date;
+  join_date: Date;
+}
+
+export interface EditUserProfileRequest extends Omit<Teacher, "guru_id" | "created_at" | "email_address" | "date_of_birth" | "join_date"> {
+  date_of_birth: Date;
+  join_date: Date;
 }
 
 export interface UserPayrollCalculationRequest {
