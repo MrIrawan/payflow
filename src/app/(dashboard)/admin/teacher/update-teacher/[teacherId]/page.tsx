@@ -45,6 +45,7 @@ export default function UpdateTeacherPage() {
                 if (!rawData) throw new Error("Data tidak ditemukan");
 
                 const formattedData: UpdateTeacherDataRequest = {
+                    guru_id: id,
                     full_name: rawData.full_name ?? "",
                     company: rawData.company ?? "",
                     gender: rawData.gender as "female" | "male",

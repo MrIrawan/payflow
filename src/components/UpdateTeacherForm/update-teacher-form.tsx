@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { UpdateTeacherDataRequest } from "@/types/request";
 
@@ -18,9 +19,13 @@ import { subjectArray } from "../../../public/static/subject";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { CircleXIcon, FilePenIcon } from "lucide-react";
+import { toast } from "sonner";
+import { Toaster } from "../Toaster/toaster";
+import { updateTeacherData } from "@/lib/service/admin/teacher/updateTeacherData";
 
 export function UpdateTeacherForm({ currentData }: { currentData: UpdateTeacherDataRequest }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const router = useRouter();
 
     const {
         register,
@@ -40,8 +45,28 @@ export function UpdateTeacherForm({ currentData }: { currentData: UpdateTeacherD
         }
     }, [currentData, reset]);
 
+    const onSubmit: SubmitHandler<UpdateTeacherDataRequest> = async (data) => {
+        setIsLoading(true)
+
+        try {
+            const response = await updateTeacherData(currentData.guru_id, data);
+
+            if (!response.isSuccess) {
+                toast.custom(() => <Toaster variant="error" title="gagal update data guru" description={response.message} />)
+                return;
+            };
+
+            toast.custom(() => <Toaster title="berhasil update data guru!" description={`guru dengan id ${currentData.guru_id}, berhasil di update.`} />);
+            router.push("/admin/teacher");
+        } catch (error) {
+            toast.custom(() => <Toaster variant="error" title="gagal memproses permintaan" description={`${error || "sesuatu telah terjadi, kami gagal memproses permintaan anda."}`} />)
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <FormComponent asWrapper={false} className="w-full shadow-none flex flex-col gap-6">
+        <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)} className="w-full shadow-none flex flex-col gap-6">
             <FormContent>
                 <div className="flex flex-col gap-3">
                     <CardTitle className="text-xl font-semibold text-black">Informasi diri guru</CardTitle>

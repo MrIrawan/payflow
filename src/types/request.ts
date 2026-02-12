@@ -40,7 +40,7 @@ export interface UpdateAttendanceRequest extends Omit<Attendance, "attendance_id
   checkout_time: number;
 }
 
-export interface UpdateTeacherDataRequest extends Omit<Teacher, "guru_id" | "created_at" | "email_address" | "date_of_birth" | "join_date"> {
+export interface UpdateTeacherDataRequest extends Omit<Teacher, "created_at" | "email_address" | "date_of_birth" | "join_date"> {
   date_of_birth: Date;
   join_date: Date;
 }
