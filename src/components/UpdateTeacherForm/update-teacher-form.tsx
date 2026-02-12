@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { UpdateTeacherDataRequest } from "@/types/request";
 
@@ -18,22 +18,27 @@ import { subjectArray } from "../../../public/static/subject";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { CircleXIcon, FilePenIcon } from "lucide-react";
-import { GetAllTeachers } from "@/types/response";
 
 export function UpdateTeacherForm({ currentData }: { currentData: UpdateTeacherDataRequest }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { register, handleSubmit, control, formState: { errors } } = useForm<UpdateTeacherDataRequest>({
-        defaultValues: {
-            full_name: currentData.full_name,
-            date_of_birth: currentData.date_of_birth,
-            gender: currentData.gender,
-            company: currentData.company,
-            home_address: currentData.home_address,
-            job_title: currentData.job_title,
-            join_date: currentData.join_date,
-            subject_name: currentData.subject_name
-        }
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        reset, // Ambil fungsi reset
+        formState: { errors }
+    } = useForm<UpdateTeacherDataRequest>({
+        // Gunakan defaultValues untuk inisialisasi awal (kosong/default)
+        defaultValues: currentData
     });
+
+    // MAGIC FIX: Reset form ketika props 'currentData' berubah/tersedia
+    useEffect(() => {
+        if (currentData) {
+            reset(currentData);
+        }
+    }, [currentData, reset]);
 
     return (
         <FormComponent asWrapper={false} className="w-full shadow-none flex flex-col gap-6">

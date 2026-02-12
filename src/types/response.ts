@@ -158,21 +158,6 @@ export interface GetAllAttendanceChartResponse {
   data: GetAllAttendanceChart;
 }
 
-// 1. Interface untuk Profil Guru
-// export interface GuruProfile {
-//   guru_id: string;
-//   created_at: string; // ISO Date string
-//   full_name: string;
-//   date_of_birth: string; // YYYY-MM-DD
-//   home_address: string | null; // Bisa null
-//   job_title: string | null;    // Bisa null
-//   company: string;
-//   gender: 'male' | 'female';   // Menggunakan Union Type agar lebih spesifik
-//   email_address: string;
-//   join_date: string; // ISO Date string
-//   subject_name: string | null; // Bisa null
-// }
-
 export interface TeacherProfile extends Omit<Teacher, "home_address" | "job_title" | "subject_name"> {
   home_address: string | null;
   job_title: string[] | null;
