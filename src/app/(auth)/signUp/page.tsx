@@ -1,195 +1,137 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import Link from "next/link";
-import Image from "next/image";
-import SignUpIllustration from "../../../../public/images/sign_up_illustration.svg";
+import PayFlowLogoWithTitle from "../../../../public/images/payflow_logo_with_title.svg";
 
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { SignUpRequest } from "@/types/request";
+import { UserPlus, Shield, Venus, Mars } from 'lucide-react';
+import { InputGroup } from '@/components/InputGroup/input-group';
+import { DatePicker } from '@/components/DatePicker/date-picker';
+import { FormComponent, FormContent, FormFooter } from '@/components/Form/Form';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
-import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-import { InputGroup } from "@/components/InputGroup/input-group";
-import { DatePicker } from "@/components/DatePicker/date-picker";
-import { RadioOptions } from "@/components/RadioOptions/radio-options";
-import {
-  FormComponent,
-  FormContent,
-  FormFooter,
-  FormHeader,
-} from "@/components/Form/Form";
-import { Spinner } from "@/components/ui/spinner";
-import { signUpUser } from "@/lib/service/signUpUser";
-
-export default function SignUpPage() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors, isValid },
-  } = useForm<SignUpRequest>();
-  const router = useRouter();
-
-  const onSubmitForm: SubmitHandler<SignUpRequest> = async (data) => {
-    setIsLoading(true);
-    if (isValid) {
-      const result = await signUpUser(data);
-      if (result.isSuccess) {
-        reset();
-        router.push("/employee");
-        setIsLoading(false);
-      } else {
-        console.log("sign up failed:", result.raw);
-        setIsLoading(false);
-      }
-    }
-  };
+export default function RegisterPage() {
+  const [selectedGender, setSelectedGender] = useState<"male" | "female" | null>(null);
 
   return (
     <>
-      <FormComponent onSubmit={handleSubmit(onSubmitForm)}>
-        <FormHeader logo logoTitle="PayFlow Sign Up">
-          <CardTitle className="text-4xl font-bold leading-snug">
-            because convenience doesn't come twice.
-          </CardTitle>
-          <CardDescription className="text-lg font-medium">
-            create your account on PayFlow, please fill out with your data.
-          </CardDescription>
-        </FormHeader>
-        <FormContent>
-          <div className="flex flex-row items-start justify-between gap-3">
-            <InputGroup
-              label="First name"
-              htmlFor="first_name"
-              type="text"
-              placeholder="ex: Jhon"
-              aria-invalid={errors.first_name ? true : false}
-              errorMsg={errors.first_name?.message}
-              requiredLabel
-              {...register("first_name", {
-                required: { value: true, message: "first name is required" },
-                minLength: {
-                  value: 3,
-                  message: "first name at least 3 length",
-                },
-              })}
+      {/* Right Side - Registration Form */}
+      <div className="w-full">
+        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col gap-3">
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center justify-center gap-3 mb-8">
+            <Image
+              src="/payflow-logo.svg"
+              alt="PayFlow Logo"
+              width={50}
+              height={50}
+              className="w-12 h-12"
             />
-            <InputGroup
-              label="Last name"
-              htmlFor="last_name"
-              type="text"
-              placeholder="ex: Doe"
-              aria-invalid={errors.last_name ? true : false}
-              errorMsg={errors.last_name?.message}
-              {...register("last_name", {
-                minLength: { value: 3, message: "last name at least 3 length" },
-              })}
-            />
+            <span className="text-2xl font-bold text-blue-600">PayFlow</span>
           </div>
-          <Controller
-            control={control}
-            name="date_of_birth"
-            render={({ field: { onChange, value }, formState: { errors } }) => (
+
+          <div className="flex flex-col gap-1">
+            <h2 className="text-3xl font-bold text-gray-900">Buat Akun Baru</h2>
+            <p className="text-gray-600">
+              Sudah punya akun?{' '}
+              <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+                Masuk di sini
+              </Link>
+            </p>
+          </div>
+
+          <FormComponent asWrapper={false} className='flex flex-col gap-8'>
+            <FormContent className='flex flex-col gap-4'>
+              {/* first name and last name */}
+              <div className='flex flex-row justify-between items-start gap-3'>
+                <InputGroup
+                  type='text'
+                  placeholder='Jhon'
+                  label='First Name'
+                  htmlFor='first_name'
+                />
+                <InputGroup
+                  type='text'
+                  placeholder='Doe'
+                  label='Last Name'
+                  htmlFor='last_name'
+                />
+              </div>
+              {/* date of birth */}
               <DatePicker
-                label="Date of birth"
-                htmlFor="date_of_birth"
-                placeholder="Select your date of birth"
-                aria-invalid={errors ? true : false}
-                errorMessage={errors.date_of_birth?.message}
-                requiredLabel
-                onChange={onChange}
-                value={value}
+                label='Date of Birth'
+                htmlFor='date_of_birth'
+                placeholder='Select date'
               />
-            )}
-            rules={{
-              required: {
-                value: true,
-                message: "date of birth is required"
-              }
-            }}
-          />
-          <Controller
-            control={control}
-            name="gender"
-            render={({ field: { onChange, value } }) => (
-              <RadioOptions
-                label="Choose your gender"
-                requiredLabel
-                value={value}
-                onvaluechange={onChange}
+              {/* gender radio options */}
+              <div className='flex flex-col gap-2.5'>
+                <Label htmlFor='gender'>Jenis Kelamin</Label>
+                <div className='flex flex-row justify-between items-start gap-3'>
+                  <Label className={`w-full ring-[1.5px] ${selectedGender === "male" ? "ring-blue-600 bg-blue-100" : "ring-border bg-white"} rounded-md h-[80px] flex flex-col gap-1.5 justify-center items-center`}>
+                    <Input
+                      type='radio'
+                      id='gender'
+                      name='gender'
+                      value={"male"}
+                      className='hidden'
+                      checked={selectedGender === "male"}
+                      onChange={(e) => setSelectedGender(e.target.value as "male")}
+                    />
+                    <Mars className={`${selectedGender === "male" ? "text-blue-600" : "text-muted-foreground"} size-7`} />
+                    <p className={`${selectedGender === "male" ? "text-blue-600" : "text-muted-foreground"} text-sm font-medium`}>Laki-laki</p>
+                  </Label>
+                  <Label className={`w-full ring-[1.5px] ${selectedGender === "female" ? "ring-pink-600 bg-pink-100" : "ring-border bg-white"} rounded-md h-[80px] flex flex-col gap-1.5 justify-center items-center`}>
+                    <Input
+                      type='radio'
+                      id='gender'
+                      name='gender'
+                      value={"female"}
+                      className='hidden'
+                      checked={selectedGender === "female"}
+                      onChange={(e) => setSelectedGender(e.target.value as "female")}
+                    />
+                    <Venus className={`${selectedGender === "female" ? "text-pink-600" : "text-muted-foreground"} size-7`} />
+                    <p className={`text-sm font-medium ${selectedGender === "female" ? "text-pink-600" : "text-muted-foreground"}`}>Perempuan</p>
+                  </Label>
+                </div>
+              </div>
+              {/* email address */}
+              <InputGroup
+                type='email'
+                placeholder='jhondoe@mail.com'
+                label='Email Address'
+                htmlFor='email_address'
               />
-            )}
-          />
-          <InputGroup
-            label="Email address"
-            htmlFor="email_address"
-            type="email"
-            placeholder="ex: jhondoe@mail.com"
-            aria-invalid={errors.email_address ? true : false}
-            errorMsg={errors.email_address?.message}
-            requiredLabel
-            {...register("email_address", {
-              required: { value: true, message: "email address is required" },
-              minLength: {
-                value: 3,
-                message: "email address at least 3 length",
-              },
-            })}
-          />
-          <InputGroup
-            label="Password email"
-            htmlFor="password_email"
-            type="password"
-            placeholder="ex: ********"
-            aria-invalid={errors.password_email ? true : false}
-            errorMsg={errors.password_email?.message}
-            requiredLabel
-            {...register("password_email", {
-              required: { value: true, message: "password email is required" },
-              minLength: {
-                value: 3,
-                message: "password email at least 8 length",
-              },
-            })}
-          />
-        </FormContent>
-        <FormFooter>
-          <Button
-            size={"lg"}
-            className="bg-linear-to-r/oklch from-blue-600 to-blue-900 w-full hover:brightness-90 focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px] disabled:brightness-90 disabled:opacity-100"
-            disabled={isLoading ? true : false}
-          >
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              <p className="text-base font-medium text-white">
-                register account
-              </p>
-            )}
-          </Button>
-        </FormFooter>
-        <div className="w-full">
-          <p className="text-sm font-normal text-black text-center">
-            Already have an account?{" "}
-            <Link href={"/signIn"} className="text-blue-600 hover:underline">
-              Sign in here.
+              {/* password email */}
+              <InputGroup
+                type='password'
+                placeholder='********'
+                label='Password EMail'
+                htmlFor='password_email'
+              />
+            </FormContent>
+            <FormFooter>
+              <Button className='w-full bg-blue-600 hover:bg-blue-800'>SignUp to PayFlow</Button>
+            </FormFooter>
+          </FormComponent>
+
+          {/* Terms */}
+          <p className="mt-6 text-sm text-gray-600 text-center">
+            Dengan mendaftar, Anda menyetujui{' '}
+            <Link href="/terms" className="text-blue-600 hover:text-blue-700">
+              Syarat & Ketentuan
+            </Link>{' '}
+            serta{' '}
+            <Link href="/privacy" className="text-blue-600 hover:text-blue-700">
+              Kebijakan Privasi
             </Link>
           </p>
         </div>
-      </FormComponent>
-      <Card className="w-full h-full ring-0 border-0 shadow-none rounded-none">
-        <Image
-          src={SignUpIllustration}
-          alt="sign_up_illustration"
-          className="w-full h-full object-contain"
-        />
-      </Card>
+      </div>
     </>
   );
 }

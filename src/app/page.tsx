@@ -93,7 +93,7 @@ export default function Home() {
                   <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
                     <div>
                       <p className="text-sm text-gray-600">Total Gaji Bulan Ini</p>
-                      <p className="text-2xl font-bold text-blue-600">Rp 45.500.000</p>
+                      <p className="text-2xl font-bold text-blue-600">Rp 5.500.000</p>
                     </div>
                     <TrendingUp className="w-8 h-8 text-blue-600" />
                   </div>
