@@ -38,7 +38,7 @@ export default function RegisterPage() {
             <h2 className="text-3xl font-bold text-gray-900">Buat Akun Baru</h2>
             <p className="text-gray-600">
               Sudah punya akun?{' '}
-              <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+              <Link href="/signIn" className="text-blue-600 hover:text-blue-700 font-medium">
                 Masuk di sini
               </Link>
             </p>
