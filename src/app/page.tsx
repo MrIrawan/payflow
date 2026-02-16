@@ -8,6 +8,7 @@ import PayFLowLogo from "../../public/images/payflow-logo.svg";
 import PayFLowLogoWithTitle from "../../public/images/payflow_logo_with_title.svg";
 
 import { ArrowRight, Clock, Shield, TrendingUp, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -28,16 +29,14 @@ export default function Home() {
 
             <div className="flex items-center gap-4">
               <Link
-                href="/login"
-                className="px-6 py-2.5 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                href="/signIn"
               >
-                Masuk
+                <Button className="w-fit h-fit px-6 py-2.5 text-blue-600 hover:text-blue-700 font-medium transition-colors bg-transparent hover:bg-gray-100">Masuk</Button>
               </Link>
               <Link
-                href="/register"
-                className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30"
+                href="/signUp"
               >
-                Daftar Sekarang
+                <Button className="w-fit h-fit px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30">Daftar Sekarang</Button>
               </Link>
             </div>
           </div>
@@ -72,10 +71,11 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/register"
-                  className="group px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-xl hover:shadow-blue-600/30 flex items-center gap-2 font-medium"
                 >
-                  Mulai Sekarang
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <Button className="w-fit h-fit group px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-xl hover:shadow-blue-600/30 flex items-center gap-2 font-medium">
+                    Mulai Sekarang
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </Link>
                 <Link
                   href="/login"
@@ -198,11 +198,12 @@ export default function Home() {
               Bergabunglah dengan sekolah lain yang sudah menggunakan PayFlow untuk mengelola penggajian mereka
             </p>
             <Link
-              href="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-lg hover:shadow-xl transition-all font-medium"
+              href="/signUp"
             >
-              Daftar Gratis Sekarang
-              <ArrowRight className="w-5 h-5" />
+              <Button className="w-fit h-fit inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-lg hover:shadow-xl transition-all font-medium hover:bg-white">
+                Daftar Gratis Sekarang
+                <ArrowRight className="w-5 h-5" />
+              </Button>
             </Link>
           </div>
         </div>
