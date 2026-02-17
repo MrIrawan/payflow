@@ -175,7 +175,7 @@ export interface AttendanceSummary {
 
 // 3. Interface untuk Item Chart (Grafik)
 export interface AttendanceChartItem {
-  month: number;
+  month: string;
   present: number;
   absent: number;
   onLeave: number;

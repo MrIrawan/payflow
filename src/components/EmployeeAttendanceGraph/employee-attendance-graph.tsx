@@ -13,15 +13,15 @@ import { ChartHeader } from "../ChartHeader/chart-header";
 const chartConfig = {
     present: {
         label: "Present",
-        color: "#16a34a",
+        color: "#22c55e",
     },
     absent: {
         label: "Absent",
-        color: "#dc2626",
+        color: "#ef4444",
     },
     onLeave: {
         label: "On Leave",
-        color: "#4f46e5",
+        color: "#6366f1",
     },
 } satisfies ChartConfig
 
@@ -45,9 +45,9 @@ export function EmployeeAttendanceGraph({ attendanceChartData }: {
                     />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <ChartLegend content={<ChartLegendContent />} />
-                    <Bar dataKey="present" fill="var(--color-present)" radius={4} />
-                    <Bar dataKey="absent" fill="var(--color-absent)" radius={4} />
-                    <Bar dataKey="onLeave" fill="var(--color-onLeave)" radius={4} />
+                    <Bar dataKey="present" fill="var(--color-present)" radius={20} />
+                    <Bar dataKey="absent" fill="var(--color-absent)" radius={20} />
+                    <Bar dataKey="onLeave" fill="var(--color-onLeave)" radius={20} />
                 </BarChart>
             </ChartContainer>
         </Card>

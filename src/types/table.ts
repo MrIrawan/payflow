@@ -11,4 +11,5 @@ export interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   renderRowAction?: (row: T) => ReactNode;
+  wrapper?: boolean;
 }

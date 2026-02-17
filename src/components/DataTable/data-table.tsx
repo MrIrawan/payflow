@@ -15,9 +15,10 @@ export function DataTable<T>({
   columns,
   data,
   renderRowAction,
+  wrapper = true
 }: DataTableProps<T>) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-md p-3">
+    <div className={wrapper ? "rounded-xl border border-gray-200 bg-white overflow-hidden shadow-md p-3" : ""}>
       <Table>
         <TableHeader className="bg-gray-50/50">
           <TableRow>
