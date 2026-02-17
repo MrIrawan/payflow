@@ -41,7 +41,7 @@ export function InfoBadge({ label, icon, className }: BadgeProps) {
     return (
         <span
             className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold my-0.5",
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold my-0.5 w-fit",
                 "shadow-sm",
                 className
             )}
