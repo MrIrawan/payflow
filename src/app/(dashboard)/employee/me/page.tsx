@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from "react";
+
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -18,8 +20,12 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
+import { Skeleton } from '@/components/ui/skeleton';
+import { TeacherProfile } from "@/types/response";
 
 export default function UserProfile() {
+    const [employeeProfile, setEmployeeProfile] = useState<TeacherProfile | null>(null);
+
     return (
         <div className='w-full flex flex-col gap-6 p-6'>
             <div className="flex items-center justify-between">
@@ -42,29 +48,51 @@ export default function UserProfile() {
                         <div className="flex flex-col gap-4">
                             {/* profile avatar */}
                             <div className='w-full flex flex-col gap-4 items-center'>
-                                <Avatar className='w-32 h-32 rounded-full flex items-center justify-center'>
-                                    <AvatarFallback className='bg-gradient-to-br from-blue-500 to-blue-600 text-3xl font-bold text-white'>AF</AvatarFallback>
-                                </Avatar>
+                                {employeeProfile === null ? (
+                                    <Skeleton className="w-32 h-32 rounded-full bg-gray-300" />
+                                ) : (
+                                    <Avatar className='w-32 h-32 rounded-full flex items-center justify-center'>
+                                        <AvatarFallback className='bg-gradient-to-br from-blue-500 to-blue-600 text-3xl font-bold text-white'>AF</AvatarFallback>
+                                    </Avatar>
+                                )}
 
                                 <div className='flex flex-col gap-1 items-center'>
-                                    <h2 className="text-2xl font-bold text-gray-900">Ahmad Fauzi</h2>
-                                    <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
-                                        <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
-                                        <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
-                                        <InfoBadge label='Matematika' className={subjectBadgeMap['Matematika'].className} icon={subjectBadgeMap['Matematika'].icon} />
-                                    </div>
+                                    {employeeProfile === null ? (
+                                        <>
+                                            <Skeleton className="w-[200px] bg-gray-300 h-[25px]" />
+                                            <Skeleton className="w-[300px] h-[70px] bg-gray-300" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h2 className="text-2xl font-bold text-gray-900">Ahmad Fauzi</h2>
+                                            <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
+                                                <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
+                                                <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
+                                                <InfoBadge label='Matematika' className={subjectBadgeMap['Matematika'].className} icon={subjectBadgeMap['Matematika'].icon} />
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                             <Separator />
                             {/* email and join date info */}
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-4">
                                 <div className="flex items-center gap-3 text-sm">
                                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <Mail className="w-5 h-5 text-blue-600" />
                                     </div>
-                                    <div className="text-left">
-                                        <p className="text-gray-500 text-xs">Email</p>
-                                        <p className="font-medium text-gray-900">ahmad.fauzi@school.id</p>
+                                    <div className="flex flex-col gap-1">
+                                        {employeeProfile === null ? (
+                                            <>
+                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
+                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p className="text-gray-500 text-xs">Email</p>
+                                                <p className="font-medium text-gray-900">ahmad.fauzi@school.id</p>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
 
@@ -72,9 +100,18 @@ export default function UserProfile() {
                                     <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <Calendar className="w-5 h-5 text-green-600" />
                                     </div>
-                                    <div className="text-left">
-                                        <p className="text-gray-500 text-xs">Bergabung Sejak</p>
-                                        <p className="font-medium text-gray-900">01 Januari 2020</p>
+                                    <div className="flex flex-col gap-1">
+                                        {employeeProfile === null ? (
+                                            <>
+                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
+                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p className="text-gray-500 text-xs">Bergabung Sejak</p>
+                                                <p className="font-medium text-gray-900">01 Januari 2020</p>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +275,7 @@ export default function UserProfile() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
