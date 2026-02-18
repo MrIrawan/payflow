@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:8800/api/v1";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_EMPLOYEE_API_URL || "http://localhost:8800/api/v1";
 
 const userClient = axios.create({
     baseURL: BASE_URL,
@@ -36,11 +36,11 @@ userClient.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
 
             // Cegah loop di endpoint auth
-            if (originalRequest.url.includes("/auth/login") || originalRequest.url.includes("/refresh")) {
+            if (originalRequest.url.includes("/signIn") || originalRequest.url.includes("/refresh")) {
                 // Jika endpoint refresh sendiri yang 401, berarti session habis total.
                 // REDIRECT (KILL SWITCH) DISINI
-                if (typeof window !== "undefined" && !window.location.pathname.includes("/auth/login")) {
-                    window.location.href = "/auth/login";
+                if (typeof window !== "undefined" && !window.location.pathname.includes("/signIn")) {
+                    window.location.href = "/signIn";
                 }
                 return Promise.reject(error);
             }
@@ -79,8 +79,8 @@ userClient.interceptors.response.use(
                 processQueue(err);
 
                 // KILL SWITCH: Refresh Gagal -> Logout Paksa
-                if (typeof window !== "undefined" && !window.location.pathname.includes("/auth/login")) {
-                    window.location.href = "/auth/login";
+                if (typeof window !== "undefined" && !window.location.pathname.includes("/signIn")) {
+                    window.location.href = "/signIn";
                 }
                 return Promise.reject(err);
             } finally {
