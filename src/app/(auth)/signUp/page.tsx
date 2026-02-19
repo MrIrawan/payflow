@@ -1,12 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { SignUpRequest } from '@/types/request';
 import { signUpEmployee } from '@/lib/services/signUpEmployee';
 
 import Link from 'next/link';
 import Image from 'next/image';
+
+import { toast } from 'sonner';
+import { Toaster } from '@/components/Toaster/toaster';
 
 import { Venus, Mars } from 'lucide-react';
 import { InputGroup } from '@/components/InputGroup/input-group';
@@ -15,13 +19,30 @@ import { FormComponent, FormContent, FormFooter } from '@/components/Form/Form';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function RegisterPage() {
-  const { register, handleSubmit, control, formState: { errors }, watch } = useForm<SignUpRequest>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm<SignUpRequest>();
   const selectedGender = watch("gender");
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<SignUpRequest> = async (data) => {
-    console.log(data);
+    setIsLoading(true);
+
+    try {
+      const response = await signUpEmployee(data);
+
+      if (response.status === 200) {
+        toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil mendaftar' description={`selamat datang, ${data.first_name}! silahkan login dengan akun anda.`} />)
+      }
+    } catch (error) {
+      toast.custom(() => <Toaster variant='error' title='kami tidak bisa memproses' description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+    } finally {
+      setIsLoading(false);
+      reset();
+      router.push("/signIn")
+    }
   }
 
   return (
@@ -174,12 +195,14 @@ export default function RegisterPage() {
               />
             </FormContent>
             <FormFooter>
-              <Button className='w-full bg-blue-600 hover:bg-blue-800'>SignUp to PayFlow</Button>
+              <Button className='w-full bg-blue-600 hover:bg-blue-800'>
+                {isLoading ? <Spinner /> : "SignUp to PayFlow"}
+              </Button>
             </FormFooter>
           </FormComponent>
 
           {/* Terms */}
-          <p className="mt-6 text-sm text-gray-600 text-center">
+          <p className="text-sm text-gray-600 text-center">
             Dengan mendaftar, Anda menyetujui{' '}
             <Link href="/terms" className="text-blue-600 hover:text-blue-700">
               Syarat & Ketentuan
