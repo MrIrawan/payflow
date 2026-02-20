@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { SignUpRequest } from '@/types/request';
-import { signUpEmployee } from '@/lib/services/signUpEmployee';
+import { signUpEmployee } from '@/lib/services/employee/auth/signUpEmployee';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -33,15 +33,18 @@ export default function RegisterPage() {
     try {
       const response = await signUpEmployee(data);
 
-      if (response.status === 200) {
-        toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil mendaftar' description={`selamat datang, ${data.first_name}! silahkan login dengan akun anda.`} />)
+      if (response.data.data.success === false) {
+        toast.custom(() => <Toaster variant='error' title='kami tidak bisa melakukan proses daftar' description={`${response.data.data.message || "kami tidak bisa memproses daftar pada akun anda."}`} />)
+        return;
       }
+
+      toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil mendaftar' description={`selamat datang, ${data.first_name}! silahkan login dengan akun anda.`} />)
+      router.push("/signIn")
     } catch (error) {
       toast.custom(() => <Toaster variant='error' title='kami tidak bisa memproses' description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
     } finally {
       setIsLoading(false);
       reset();
-      router.push("/signIn")
     }
   }
 

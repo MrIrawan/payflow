@@ -1,4 +1,4 @@
-import userClient from "../axios/userClient";
+import userClient from "../../../axios/userClient";
 
 import { ApiResponse } from "@/types/api";
 import { SignUpRequest } from "@/types/request";

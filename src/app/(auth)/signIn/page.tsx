@@ -1,22 +1,49 @@
 'use client';
 
 import React from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+import { SignInRequest } from '@/types/request';
+import { signInEmployee } from '@/lib/services/employee/auth/signInEmployee';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
+
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { FormComponent, FormContent, FormFooter } from '@/components/Form/Form';
 import { InputGroup } from '@/components/InputGroup/input-group';
+import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'sonner';
+import { Toaster } from '@/components/Toaster/toaster';
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<SignInRequest>();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log('Form submitted');
-  };
+  const onSubmit: SubmitHandler<SignInRequest> = async (data) => {
+    setIsLoading(true);
+
+    try {
+      const response = await signInEmployee(data);
+
+      if (response.data.data.success === false) {
+        toast.custom(() => <Toaster variant='error' title='tidak bisa melakukan proses masuk' description={`${response.data.data.message || "kami tidak bisa memproses masuk ke akun anda."}`} />)
+        return;
+      }
+
+      toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil masuk.' description='selamat datang kembali! lihat apa yang terjadi pada penggajian anda.' />)
+      router.push("/employee");
+    } catch (error) {
+      toast.custom(() => <Toaster variant='error' title='kami tidak bisa memproses' description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+    } finally {
+      setIsLoading(false);
+      reset();
+    }
+  }
 
   return (
     <>
@@ -45,13 +72,21 @@ export default function LoginPage() {
             </p>
           </div>
           {/* form component here */}
-          <FormComponent asWrapper={false} className='flex flex-col gap-8'>
+          <FormComponent asWrapper={false} className='flex flex-col gap-8' onSubmit={handleSubmit(onSubmit)}>
             <FormContent className='flex flex-col gap-4'>
               <InputGroup
                 type='text'
                 label='Full Name'
                 htmlFor='full_name'
                 placeholder='Jhon Doe'
+                aria-invalid={errors.username ? "true" : "false"}
+                errorMsg={errors.username?.message}
+                {...register("username", {
+                  minLength: {
+                    value: 3,
+                    message: "panjang nama lengkap minimal 3 huruf."
+                  }
+                })}
               />
               <InputGroup
                 type='email'
@@ -59,6 +94,14 @@ export default function LoginPage() {
                 htmlFor='email_address'
                 placeholder='jhondoe@mail.com'
                 requiredLabel
+                aria-invalid={errors.email_address ? "true" : "false"}
+                errorMsg={errors.email_address?.message}
+                {...register("email_address", {
+                  required: {
+                    value: true,
+                    message: "alamat email wajib di isi."
+                  }
+                })}
               />
               <InputGroup
                 type='password'
@@ -66,11 +109,23 @@ export default function LoginPage() {
                 htmlFor='password_email'
                 placeholder='********'
                 requiredLabel
+                aria-invalid={errors.password_email ? "true" : "false"}
+                errorMsg={errors.password_email?.message}
+                {...register("password_email", {
+                  required: {
+                    value: true,
+                    message: "password email wajib di isi."
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "panjang password email minimal 5 huruf."
+                  }
+                })}
               />
             </FormContent>
             <FormFooter>
               <Button className='w-full bg-blue-600 hover:bg-blue-800'>
-                <p className='text-sm font-medium text-white'>SignIn to PayFlow</p>
+                {isLoading ? (<Spinner />) : (<p className='text-sm font-medium text-white'>SignIn to PayFlow</p>)}
               </Button>
             </FormFooter>
           </FormComponent>
