@@ -25,6 +25,7 @@ import { getEmployeeProfile } from "@/lib/services/employee/profile/getEmployeeP
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { GetEmployeeProfileData } from "@/types/response";
+import { formatDate } from "@/utils/formatDate";
 
 export default function UserProfile() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -141,7 +142,7 @@ export default function UserProfile() {
                                         ) : (
                                             <>
                                                 <p className="text-gray-500 text-xs">Bergabung Sejak</p>
-                                                <p className="font-medium text-gray-900">{employeeProfile.join_date ? employeeProfile.join_date : "belum ada deskripsi tanggal bergabung"}</p>
+                                                <p className="font-medium text-gray-900">{employeeProfile.join_date ? formatDate(employeeProfile.join_date) : "belum ada deskripsi tanggal bergabung"}</p>
                                             </>
                                         )}
                                     </div>
@@ -202,7 +203,7 @@ export default function UserProfile() {
                                             {employeeProfile === undefined ? (
                                                 <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
                                             ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.date_of_birth}</p>
+                                                <p className="text-base font-semibold text-gray-900">{formatDate(employeeProfile?.date_of_birth)}</p>
                                             )}
                                         </div>
                                     </div>
@@ -329,7 +330,7 @@ export default function UserProfile() {
                                             {employeeProfile === undefined ? (
                                                 <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
                                             ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile.join_date ? employeeProfile.join_date : "belum ada deskripsi tanggal bergabung"}</p>
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile.join_date ? formatDate(employeeProfile.join_date) : "belum ada deskripsi tanggal bergabung"}</p>
                                             )}
                                         </div>
                                     </div>
