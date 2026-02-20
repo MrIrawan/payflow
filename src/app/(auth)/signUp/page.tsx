@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { SignUpRequest } from '@/types/request';
+import { SignUpEmployeeRequest } from '@/types/request';
 import { signUpEmployee } from '@/lib/services/employee/auth/signUpEmployee';
 
 import Link from 'next/link';
@@ -23,11 +23,11 @@ import { Spinner } from '@/components/ui/spinner';
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm<SignUpRequest>();
+  const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm<SignUpEmployeeRequest>();
   const selectedGender = watch("gender");
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<SignUpRequest> = async (data) => {
+  const onSubmit: SubmitHandler<SignUpEmployeeRequest> = async (data) => {
     setIsLoading(true);
 
     try {

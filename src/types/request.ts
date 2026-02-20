@@ -1,7 +1,7 @@
 import { Attendance, Teacher } from "./base";
 import { UserLocation } from "./types";
 
-export interface SignUpRequest {
+export interface SignUpEmployeeRequest {
   first_name: string;
   last_name?: string;
   date_of_birth: Date;
@@ -10,13 +10,13 @@ export interface SignUpRequest {
   password_email: string;
 }
 
-export interface SignInRequest {
+export interface SignInEmployeeRequest {
   username?: string;
   email_address: string;
   password_email: string;
 }
 
-export interface AdminSignInRequest {
+export interface SignInAdminRequest {
   username: string;
   password: string;
 }

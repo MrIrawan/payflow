@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { SignInRequest } from '@/types/request';
+import { SignInEmployeeRequest } from '@/types/request';
 import { signInEmployee } from '@/lib/services/employee/auth/signInEmployee';
 
 import Link from 'next/link';
@@ -21,10 +21,10 @@ import { Toaster } from '@/components/Toaster/toaster';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<SignInRequest>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<SignInEmployeeRequest>();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<SignInRequest> = async (data) => {
+  const onSubmit: SubmitHandler<SignInEmployeeRequest> = async (data) => {
     setIsLoading(true);
 
     try {
