@@ -64,7 +64,7 @@ userClient.interceptors.response.use(
             try {
                 // 1. Panggil Endpoint Refresh
                 // Backend akan validasi cookie refreshToken lama, dan Set-Cookie accessToken baru
-                await userClient.post("/auth/refresh");
+                await userClient.post("/refresh");
 
                 // 2. Jika sukses (tidak error), berarti Cookie di browser SUDAH TERUPDATE otomatis.
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import React from 'react';
 import Link from 'next/link';
@@ -21,10 +21,36 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TeacherProfile } from "@/types/response";
+import { getEmployeeProfile } from "@/lib/services/employee/profile/getEmployeeProfile";
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
+import { GetEmployeeProfileData } from "@/types/response";
 
 export default function UserProfile() {
-    const [employeeProfile, setEmployeeProfile] = useState<TeacherProfile | null>(null);
+    const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        async function fetchEmployeeProfile() {
+            setIsLoading(true);
+
+            try {
+                const response = await getEmployeeProfile();
+
+                if (response.data.success === false) {
+                    toast.custom(() => <Toaster variant="error" title="kami tidak bisa mengambil data profil" description={`${response.data.message || "maaf, mungkin anda belum mendaftar atau belum masuk."}`} />)
+                }
+
+                setEmployeeProfile(response.data.data)
+            } catch (error) {
+                toast.custom(() => <Toaster variant="error" title="maaf kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchEmployeeProfile();
+    }, []);
 
     return (
         <div className='w-full flex flex-col gap-6 p-6'>
@@ -48,28 +74,34 @@ export default function UserProfile() {
                         <div className="flex flex-col gap-4">
                             {/* profile avatar */}
                             <div className='w-full flex flex-col gap-4 items-center'>
-                                {employeeProfile === null ? (
+                                {employeeProfile === undefined ? (
                                     <Skeleton className="w-32 h-32 rounded-full bg-gray-300" />
                                 ) : (
                                     <Avatar className='w-32 h-32 rounded-full flex items-center justify-center'>
-                                        <AvatarFallback className='bg-gradient-to-br from-blue-500 to-blue-600 text-3xl font-bold text-white'>AF</AvatarFallback>
+                                        <AvatarFallback className={`${employeeProfile.gender === "male" ? "bg-gradient-to-br from-blue-500 to-blue-600" : "bg-gradient-to-br from-pink-500 to-pink-600"} text-3xl font-bold text-white`}>{employeeProfile.full_name.slice(0, 2)}</AvatarFallback>
                                     </Avatar>
                                 )}
 
                                 <div className='flex flex-col gap-1 items-center'>
-                                    {employeeProfile === null ? (
+                                    {employeeProfile === undefined ? (
                                         <>
                                             <Skeleton className="w-[200px] bg-gray-300 h-[25px]" />
                                             <Skeleton className="w-[300px] h-[70px] bg-gray-300" />
                                         </>
                                     ) : (
                                         <>
-                                            <h2 className="text-2xl font-bold text-gray-900">Ahmad Fauzi</h2>
-                                            <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
-                                                <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
-                                                <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
-                                                <InfoBadge label='Matematika' className={subjectBadgeMap['Matematika'].className} icon={subjectBadgeMap['Matematika'].icon} />
-                                            </div>
+                                            <h2 className="text-2xl font-bold text-gray-900">{employeeProfile.full_name}</h2>
+                                            {employeeProfile.job_title ? (
+                                                <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
+                                                    <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
+                                                    <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
+                                                    <InfoBadge label='Matematika' className={subjectBadgeMap['Matematika'].className} icon={subjectBadgeMap['Matematika'].icon} />
+                                                </div>
+                                            ) : (
+                                                <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
+                                                    <p className="text-sm font-medium">Belum ada deskripsi pekerjaan.</p>
+                                                </div>
+                                            )}
                                         </>
                                     )}
                                 </div>
@@ -82,7 +114,7 @@ export default function UserProfile() {
                                         <Mail className="w-5 h-5 text-blue-600" />
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        {employeeProfile === null ? (
+                                        {employeeProfile === undefined ? (
                                             <>
                                                 <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
                                                 <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
@@ -90,7 +122,7 @@ export default function UserProfile() {
                                         ) : (
                                             <>
                                                 <p className="text-gray-500 text-xs">Email</p>
-                                                <p className="font-medium text-gray-900">ahmad.fauzi@school.id</p>
+                                                <p className="font-medium text-gray-900">{employeeProfile.email_address}</p>
                                             </>
                                         )}
                                     </div>
@@ -101,7 +133,7 @@ export default function UserProfile() {
                                         <Calendar className="w-5 h-5 text-green-600" />
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        {employeeProfile === null ? (
+                                        {employeeProfile === undefined ? (
                                             <>
                                                 <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
                                                 <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
@@ -109,29 +141,11 @@ export default function UserProfile() {
                                         ) : (
                                             <>
                                                 <p className="text-gray-500 text-xs">Bergabung Sejak</p>
-                                                <p className="font-medium text-gray-900">01 Januari 2020</p>
+                                                <p className="font-medium text-gray-900">{employeeProfile.join_date ? employeeProfile.join_date : "belum ada deskripsi tanggal bergabung"}</p>
                                             </>
                                         )}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* quick stats */}
-                    <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-4 text-white flex flex-col gap-4">
-                        <h3 className="font-semibold">Statistik Singkat</h3>
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-center justify-between">
-                                <span className="text-blue-100">Masa Kerja</span>
-                                <span className="font-bold">4 Tahun</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-blue-100">Total Kehadiran</span>
-                                <span className="font-bold">95%</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-blue-100">Slip Gaji</span>
-                                <span className="font-bold">48 Slip</span>
                             </div>
                         </div>
                     </div>
@@ -159,14 +173,22 @@ export default function UserProfile() {
                                         <Label className='text-sm font-medium text-gray-500'>
                                             Nama Lengkap
                                         </Label>
-                                        <p className="text-base font-semibold text-gray-900">Ahmad Fauzi, S.Pd</p>
+                                        {employeeProfile === undefined ? (
+                                            <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                        ) : (
+                                            <p className="text-base font-semibold text-gray-900">{employeeProfile?.full_name}</p>
+                                        )}
                                     </div>
 
                                     <div className='flex flex-col gap-1'>
                                         <Label className='text-sm font-medium text-gray-500'>
                                             Jenis Kelamin
                                         </Label>
-                                        <GenderBadge placeholder={"male"} size='sm' />
+                                        {employeeProfile === undefined ? (
+                                            <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                        ) : (
+                                            <GenderBadge placeholder={employeeProfile?.gender as "male" | "female"} size='sm' />
+                                        )}
                                     </div>
                                 </div>
 
@@ -177,7 +199,11 @@ export default function UserProfile() {
                                         </Label>
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-4 h-4 text-gray-400" />
-                                            <p className="text-base font-semibold text-gray-900">15 Agustus 1990</p>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.date_of_birth}</p>
+                                            )}
                                         </div>
                                     </div>
 
@@ -187,7 +213,11 @@ export default function UserProfile() {
                                         </Label>
                                         <div className="flex items-center gap-2">
                                             <Mail className="w-4 h-4 text-gray-400" />
-                                            <p className="text-base font-semibold text-gray-900">ahmad.fauzi@school.id</p>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.email_address}</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -197,10 +227,13 @@ export default function UserProfile() {
                                     </Label>
                                     <div className="w-full flex items-start gap-2">
                                         <MapPin className="w-4 h-4 text-gray-400 mt-1" />
-                                        <p className="text-base font-semibold text-gray-900">
-                                            Jl. Merdeka No. 123, RT 05/RW 03, Kelurahan Sukamaju,
-                                            Kecamatan Cikarang Pusat, Bekasi, Jawa Barat 17530
-                                        </p>
+                                        {employeeProfile === undefined ? (
+                                            <Skeleton className="w-[80%] h-[35px] bg-gray-300" />
+                                        ) : (
+                                            <p className="text-base font-semibold text-gray-900">
+                                                {employeeProfile?.home_address ? employeeProfile.home_address : "belum ada deskripsi alamat rumah."}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +262,11 @@ export default function UserProfile() {
                                         </Label>
                                         <div className="flex items-center gap-2">
                                             <Building2 className="w-4 h-4 text-gray-400" />
-                                            <p className="text-base font-semibold text-gray-900">Yayasan Pendidikan Harapan Bangsa</p>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.company}</p>
+                                            )}
                                         </div>
                                     </div>
 
@@ -237,11 +274,23 @@ export default function UserProfile() {
                                         <Label className='text-sm font-medium text-gray-500'>
                                             Jabatan dan Posisi
                                         </Label>
-                                        <div className='flex flex-row gap-1 flex-wrap'>
-                                            <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
-                                            <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
-                                            <InfoBadge label='Kaprok RPL' className={jobBadgeMap['Kaprok RPL'].className} icon={jobBadgeMap['Kaprok RPL'].icon} />
-                                        </div>
+                                        <>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <>
+                                                    {employeeProfile?.job_title ? (
+                                                        <div className='flex flex-row gap-1 flex-wrap'>
+                                                            <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
+                                                            <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
+                                                            <InfoBadge label='Kaprok RPL' className={jobBadgeMap['Kaprok RPL'].className} icon={jobBadgeMap['Kaprok RPL'].icon} />
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-base font-semibold text-gray-900">belum ada deskripsi jabatan dan posisi</p>
+                                                    )}
+                                                </>
+                                            )}
+                                        </>
                                     </div>
                                 </div>
 
@@ -252,12 +301,22 @@ export default function UserProfile() {
                                         </Label>
                                         <div className="flex items-start gap-2">
                                             <GraduationCap className="text-gray-400 shrink-0 size-5" />
-                                            <div className='flex flex-row gap-1 items-center justify-start flex-wrap w-5/6'>
-                                                <InfoBadge label='Informatika' className={subjectBadgeMap['Informatika'].className} icon={subjectBadgeMap['Informatika'].icon} />
-                                                <InfoBadge label='DDPK RPL' className={subjectBadgeMap['DDPK RPL'].className} icon={subjectBadgeMap['DDPK RPL'].icon} />
-                                                <InfoBadge label='KK1 RPL' className={subjectBadgeMap['KK1 RPL'].className} icon={subjectBadgeMap['KK1 RPL'].icon} />
-                                                <InfoBadge label='KK2 RPL' className={subjectBadgeMap['KK2 RPL'].className} icon={subjectBadgeMap['KK2 RPL'].icon} />
-                                            </div>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <>
+                                                    {employeeProfile?.subject_name ? (
+                                                        <div className='flex flex-row gap-1 items-center justify-start flex-wrap w-5/6'>
+                                                            <InfoBadge label='Informatika' className={subjectBadgeMap['Informatika'].className} icon={subjectBadgeMap['Informatika'].icon} />
+                                                            <InfoBadge label='DDPK RPL' className={subjectBadgeMap['DDPK RPL'].className} icon={subjectBadgeMap['DDPK RPL'].icon} />
+                                                            <InfoBadge label='KK1 RPL' className={subjectBadgeMap['KK1 RPL'].className} icon={subjectBadgeMap['KK1 RPL'].icon} />
+                                                            <InfoBadge label='KK2 RPL' className={subjectBadgeMap['KK2 RPL'].className} icon={subjectBadgeMap['KK2 RPL'].icon} />
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-base font-semibold text-gray-900">belum ada deskripsi mata pelajaran</p>
+                                                    )}
+                                                </>
+                                            )}
                                         </div>
                                     </div>
 
@@ -267,7 +326,11 @@ export default function UserProfile() {
                                         </Label>
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-4 h-4 text-gray-400" />
-                                            <p className="text-base font-semibold text-gray-900">01 Januari 2020</p>
+                                            {employeeProfile === undefined ? (
+                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
+                                            ) : (
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile.join_date ? employeeProfile.join_date : "belum ada deskripsi tanggal bergabung"}</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

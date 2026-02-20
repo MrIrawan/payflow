@@ -30,13 +30,13 @@ export default function LoginPage() {
     try {
       const response = await signInEmployee(data);
 
-      if (response.data.data.success === false) {
+      if (response.data.success === false) {
         toast.custom(() => <Toaster variant='error' title='tidak bisa melakukan proses masuk' description={`${response.data.data.message || "kami tidak bisa memproses masuk ke akun anda."}`} />)
         return;
       }
 
       toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil masuk.' description='selamat datang kembali! lihat apa yang terjadi pada penggajian anda.' />)
-      router.push("/employee");
+      router.push("/employee/me");
     } catch (error) {
       toast.custom(() => <Toaster variant='error' title='kami tidak bisa memproses' description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
     } finally {
