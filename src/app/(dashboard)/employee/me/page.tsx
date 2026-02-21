@@ -94,9 +94,9 @@ export default function UserProfile() {
                                             <h2 className="text-2xl font-bold text-gray-900">{employeeProfile.full_name}</h2>
                                             {employeeProfile.job_title ? (
                                                 <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
-                                                    <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
-                                                    <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
-                                                    <InfoBadge label='Matematika' className={subjectBadgeMap['Matematika'].className} icon={subjectBadgeMap['Matematika'].icon} />
+                                                    {employeeProfile.job_title.map((job, index) => (
+                                                        <InfoBadge key={index} label={job} className={jobBadgeMap[job].className} icon={jobBadgeMap[job].icon} />
+                                                    ))}
                                                 </div>
                                             ) : (
                                                 <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
@@ -282,9 +282,9 @@ export default function UserProfile() {
                                                 <>
                                                     {employeeProfile?.job_title ? (
                                                         <div className='flex flex-row gap-1 flex-wrap'>
-                                                            <InfoBadge label='Guru' className={jobBadgeMap['Guru'].className} icon={jobBadgeMap['Guru'].icon} />
-                                                            <InfoBadge label='Kesiswaan' className={jobBadgeMap['Kesiswaan'].className} icon={jobBadgeMap['Kesiswaan'].icon} />
-                                                            <InfoBadge label='Kaprok RPL' className={jobBadgeMap['Kaprok RPL'].className} icon={jobBadgeMap['Kaprok RPL'].icon} />
+                                                            {employeeProfile.job_title.map((job, index) => (
+                                                                <InfoBadge key={index} label={job} className={jobBadgeMap[job].className} icon={jobBadgeMap[job].icon} />
+                                                            ))}
                                                         </div>
                                                     ) : (
                                                         <p className="text-base font-semibold text-gray-900">belum ada deskripsi jabatan dan posisi</p>
@@ -308,10 +308,9 @@ export default function UserProfile() {
                                                 <>
                                                     {employeeProfile?.subject_name ? (
                                                         <div className='flex flex-row gap-1 items-center justify-start flex-wrap w-5/6'>
-                                                            <InfoBadge label='Informatika' className={subjectBadgeMap['Informatika'].className} icon={subjectBadgeMap['Informatika'].icon} />
-                                                            <InfoBadge label='DDPK RPL' className={subjectBadgeMap['DDPK RPL'].className} icon={subjectBadgeMap['DDPK RPL'].icon} />
-                                                            <InfoBadge label='KK1 RPL' className={subjectBadgeMap['KK1 RPL'].className} icon={subjectBadgeMap['KK1 RPL'].icon} />
-                                                            <InfoBadge label='KK2 RPL' className={subjectBadgeMap['KK2 RPL'].className} icon={subjectBadgeMap['KK2 RPL'].icon} />
+                                                            {employeeProfile.subject_name.map((sub, index) => (
+                                                                <InfoBadge label={sub} className={subjectBadgeMap[sub].className} icon={subjectBadgeMap[sub].icon} />
+                                                            ))}
                                                         </div>
                                                     ) : (
                                                         <p className="text-base font-semibold text-gray-900">belum ada deskripsi mata pelajaran</p>
