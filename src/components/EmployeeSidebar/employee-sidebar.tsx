@@ -6,15 +6,21 @@ import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg"
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarHeader,
-    SidebarMenu
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem
 } from "../ui/sidebar";
 
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, House, Users, Wallet } from "lucide-react";
+import { CalendarCheck2, House, User2, Users, Wallet } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Separator } from "../ui/separator";
 
 export function EmployeeSidebar() {
     return (
@@ -67,6 +73,27 @@ export function EmployeeSidebar() {
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
+            <Separator />
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <SidebarMenuButton className="flex flex-row items-center gap-2 w-full h-fit">
+                                    <Avatar className="w-10 h-10 rounded-md">
+                                        <AvatarFallback className="rounded-md">HH</AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex flex-col">
+                                        <p className="text-sm font-medium text-black">Lorem, ipsum.</p>
+                                        <p className="text-xs font-medium text-muted-foreground">lorem@mail.com</p>
+                                    </div>
+                                </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent side="right"></DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }

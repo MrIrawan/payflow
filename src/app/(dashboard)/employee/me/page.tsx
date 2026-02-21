@@ -309,7 +309,7 @@ export default function UserProfile() {
                                                     {employeeProfile?.subject_name ? (
                                                         <div className='flex flex-row gap-1 items-center justify-start flex-wrap w-5/6'>
                                                             {employeeProfile.subject_name.map((sub, index) => (
-                                                                <InfoBadge label={sub} className={subjectBadgeMap[sub].className} icon={subjectBadgeMap[sub].icon} />
+                                                                <InfoBadge key={index} label={sub} className={subjectBadgeMap[sub].className} icon={subjectBadgeMap[sub].icon} />
                                                             ))}
                                                         </div>
                                                     ) : (
