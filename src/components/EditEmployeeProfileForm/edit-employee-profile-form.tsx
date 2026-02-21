@@ -1,8 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { EditEmployeeProfileRequest } from "@/types/request";
+import { editEmployeeProfile } from "@/lib/services/employee/profile/editEmployeeProfile";
+
+import { toast } from "sonner";
+import { Toaster } from "../Toaster/toaster";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Label } from "../ui/label";
@@ -50,9 +55,30 @@ export default function EditEmployeeProfileForm({ currentData }: {
             subject_name: currentData?.subject_name
         }
     });
+    const router = useRouter();
+
+    const onSubmit: SubmitHandler<EditEmployeeProfileRequest> = async (data) => {
+        setIsLoading(true);
+
+        try {
+            const response = await editEmployeeProfile(data);
+
+            if (response.data.success === false) {
+                toast.custom(() => <Toaster variant="error" title="gagal mengedit profil anda" description={`${response.data.message || "kami gagal dalam mengedit profil anda."}`} />)
+                return;
+            };
+
+            toast.custom(() => <Toaster variant="success" title="berhasil mengedit profil anda" description="selamat! anda berhasil mengedit profil anda." />)
+            router.push("/employee/me");
+        } catch (error) {
+            toast.custom(() => <Toaster variant="error" title="kami tidak dapat memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
-        <FormComponent asWrapper={false}>
+        <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)}>
             <FormContent className="flex flex-col gap-6">
                 {/* identity information section */}
                 <Card className="shadow-none flex flex-col gap-4">
@@ -122,7 +148,12 @@ export default function EditEmployeeProfileForm({ currentData }: {
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Alamat Rumah</Label>
-                            <Textarea placeholder="Tulis alamat rumah di sini..." />
+                            <Textarea placeholder="Tulis alamat rumah di sini..." {...register("home_address", {
+                                required: {
+                                    value: true,
+                                    message: "alamat rumah wajib di isi."
+                                }
+                            })} />
                         </div>
                     </CardContent>
                 </Card>

@@ -61,3 +61,11 @@ export interface GetEmployeeProfileResponse {
   message: string;
   data: GetEmployeeProfileData;
 }
+
+export interface EditEmployeeProfileData extends Teacher { }
+
+export interface EditEmployeeProfileResponse {
+  success: boolean;
+  message: string;
+  data: EditEmployeeProfileData;
+}
