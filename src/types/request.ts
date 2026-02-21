@@ -21,38 +21,7 @@ export interface SignInAdminRequest {
   password: string;
 }
 
-export interface StoreAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
-  attendance_date: Date;
-  checkin_time: number;
-  checkout_time: number;
-  location?: UserLocation;
-}
-
-export interface StoreTeacherDataRequest extends Omit<Teacher, "guru_id" | "created_at" | "date_of_birth" | "join_date"> {
-  password_email: string;
-  date_of_birth: Date;
+export interface EditEmployeeProfileRequest extends Omit<Teacher, "guru_id" | "created_at" | "email_address" | "date_of_birth" | "join_date"> {
   join_date: Date;
-}
-
-export interface UpdateAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
-  attendance_date: Date;
-  checkin_time: number;
-  checkout_time: number;
-}
-
-export interface UpdateTeacherDataRequest extends Omit<Teacher, "created_at" | "email_address" | "date_of_birth" | "join_date"> {
   date_of_birth: Date;
-  join_date: Date;
-}
-
-export interface EditUserProfileRequest extends Omit<Teacher, "guru_id" | "created_at" | "email_address" | "date_of_birth" | "join_date"> {
-  date_of_birth: Date;
-  join_date: Date;
-}
-
-export interface UserPayrollCalculationRequest {
-  teacherId: string;
-  totalWeeklyHours: number;
-  month: number;
-  year: number;
 }

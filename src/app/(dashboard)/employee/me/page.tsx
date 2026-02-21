@@ -60,7 +60,7 @@ export default function UserProfile() {
                     <h1 className="text-3xl font-bold text-gray-900">Profil Saya</h1>
                     <p className="text-gray-600">Informasi lengkap tentang data pribadi dan pekerjaan Anda</p>
                 </div>
-                <Link href="/user/edit-profile">
+                <Link href="/employee/me/edit">
                     <Button className='flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30 font-medium'>
                         <Edit className="w-5 h-5" />
                         Edit Profil
