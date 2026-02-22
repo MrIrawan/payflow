@@ -69,3 +69,8 @@ export interface EditEmployeeProfileResponse {
   message: string;
   data: EditEmployeeProfileData;
 }
+
+export interface LogOutEmployeeResponse {
+  success: boolean;
+  message: string;
+}
