@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { getEmployeeProfile } from "@/lib/services/employee/profile/getEmployeeProfile";
 import { GetEmployeeProfileData } from "@/types/response";
+import { logOutEmployee } from "@/lib/services/employee/auth/logOutEmployee";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg"
@@ -26,11 +28,13 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
+import { Spinner } from "../ui/spinner";
 
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
 import { CalendarCheck2, House, LogOut, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 export function EmployeeSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -144,10 +148,7 @@ export function EmployeeSidebar() {
                                     </div>
                                     <Separator />
                                     <div className="w-full p-2">
-                                        <Button className="w-full flex flex-row items-center bg-destructive hover:bg-red-700">
-                                            <LogOut />
-                                            <p className="text-sm">Keluar dari akun anda</p>
-                                        </Button>
+                                        <LogOutAlertDialog />
                                     </div>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -156,5 +157,61 @@ export function EmployeeSidebar() {
                 </SidebarMenu>
             </SidebarFooter>
         </Sidebar>
+    )
+}
+
+function LogOutAlertDialog() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const router = useRouter();
+
+    const employeeLogOut = async () => {
+        setIsLoading(true);
+
+        try {
+            const response = await logOutEmployee();
+
+            if (response.data.success === false) {
+                toast.custom(() => <Toaster variant="error" title="gagal melakukan logout" description={`${response.data.message || "kami gagal dalam memproses logout pada akun anda."}`} />);
+                return;
+            }
+
+            toast.custom(() => <Toaster variant="success" title="anda berhasil keluar dari akun" description="silahkan masuk kembali ke akun anda." />);
+            router.push("/signIn");
+        } catch (error) {
+            toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                {/* alert trigger */}
+                <Button className="w-full flex flex-row items-center bg-destructive hover:bg-red-700">
+                    <LogOut />
+                    <p className="text-sm">Keluar dari akun anda</p>
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="sm">
+                <AlertDialogHeader>
+                    <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                        <LogOut />
+                    </AlertDialogMedia>
+                    <AlertDialogTitle>Keluar dari akun anda?</AlertDialogTitle>
+                    <AlertDialogDescription className="font-medium">
+                        apakah anda yakin ingin keluar dari akun anda? ini akan membuat anda masuk ulang kedalam akun anda.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel variant="outline" className="w-full">
+                        <p className="text-sm font-medium">Cancel</p>
+                    </AlertDialogCancel>
+                    <AlertDialogAction variant="destructive" className="w-full" onClick={employeeLogOut}>
+                        {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Logout</p>)}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
 }
