@@ -82,3 +82,11 @@ export interface GetEmployeeAttendanceResponse {
   message: string;
   data: GetEmployeeAttendanceData;
 }
+
+export interface StoreEmployeeAttendanceData extends Attendance { }
+
+export interface StoreEmployeeAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: StoreEmployeeAttendanceData;
+}

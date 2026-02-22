@@ -25,3 +25,9 @@ export interface EditEmployeeProfileRequest extends Omit<Teacher, "guru_id" | "c
   join_date: Date;
   date_of_birth: Date;
 }
+
+export interface StoreEmployeeAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "teacher_id" | "attendance_date" | "checkin_time" | "checkout_time"> {
+  attendance_date: Date;
+  checkin_time: number;
+  checkout_time: number;
+}

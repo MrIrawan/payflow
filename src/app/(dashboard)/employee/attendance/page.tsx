@@ -29,6 +29,7 @@ import { Toaster } from "@/components/Toaster/toaster";
 import { DataTable } from "@/components/DataTable/data-table";
 import { Column } from "@/types/table";
 import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
+import { StoreEmployeeAttendanceDrawer } from "@/components/StoreEmployeeAttendanceDrawer/store-employee-attendance-drawer";
 
 const tableColumn: Column<GetEmployeeAttendanceData>[] = [
     { accessor: "attendance_id", header: "ID Absen", cell: (value) => value.slice(0, 8) },
@@ -61,6 +62,8 @@ export default function EmployeeAttendancePage() {
         fetchEmployeeAttendance();
     }, []);
 
+    const teacherName = employeeAttendance.map((data) => data.teacher_name);
+
     const presentCount = employeeAttendance.filter(item => item.attendance_status === "present").length || 0;
     const onLeaveCount = employeeAttendance.filter(item => item.attendance_status === "on leave").length || 0;
     const absentCount = employeeAttendance.filter(item => item.attendance_status === "absent").length || 0;
@@ -85,10 +88,7 @@ export default function EmployeeAttendancePage() {
                         <Download className="size-4" />
                         Unduh Laporan
                     </Button>
-                    <Button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white">
-                        <MapPin className="size-4" />
-                        Absen Sekarang
-                    </Button>
+                    <StoreEmployeeAttendanceDrawer teacherName={teacherName[0]} />
                 </div>
             </div>
             {/* attendance data card */}
