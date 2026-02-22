@@ -74,3 +74,11 @@ export interface LogOutEmployeeResponse {
   success: boolean;
   message: string;
 }
+
+export interface GetEmployeeAttendanceData extends Attendance { }
+
+export interface GetEmployeeAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: GetEmployeeAttendanceData;
+}
