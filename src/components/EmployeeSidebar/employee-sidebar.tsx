@@ -85,7 +85,7 @@ export function EmployeeSidebar() {
                             sub={[
                                 {
                                     label: "absensi mandiri",
-                                    href: "/employee/absensi-mandiri"
+                                    href: "/employee/attendance"
                                 },
                                 {
                                     label: "statistik absensi anda",
