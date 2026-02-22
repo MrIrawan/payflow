@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getEmployeeAttendance } from "@/lib/services/employee/attendance/getEmployeeAttendance";
+import { GetEmployeeAttendanceData } from "@/types/response";
 
 import {
     Card,
@@ -8,15 +10,7 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import {
     CheckCircle2,
@@ -30,17 +24,46 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
+import { DataTable } from "@/components/DataTable/data-table";
+import { Column } from "@/types/table";
+import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
 
-// --- DUMMY DATA ---
-// Nanti diganti dengan data balikan dari endpoint GET /employee/attendance
-const SUMMARY_DATA = {
-    present: 18,
-    onLeave: 1, // Izin / Sakit
-    absent: 0,
-};
+const tableColumn: Column<GetEmployeeAttendanceData>[] = [
+    { accessor: "attendance_id", header: "ID Absen", cell: (value) => value.slice(0, 8) },
+    { accessor: "teacher_name", header: "Nama Guru" },
+    { accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
+    { accessor: "checkin_time", header: "Jam masuk kantor" },
+    { accessor: "checkout_time", header: "Jam keluar kantor" },
+    { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
+];
 
 export default function EmployeeAttendancePage() {
-    const [employeeAttendance, setEmployeeAttendance] = useState(undefined);
+    const [employeeAttendance, setEmployeeAttendance] = useState<GetEmployeeAttendanceData[]>([]);
+
+    useEffect(() => {
+        async function fetchEmployeeAttendance() {
+            try {
+                const response = await getEmployeeAttendance();
+
+                if (response.data.success === false) {
+                    toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data absensi" description="kami gagal dalam mengambil data absensi anda." />)
+                    return;
+                }
+
+                setEmployeeAttendance(response.data.data);
+            } catch (error) {
+                toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+            }
+        }
+
+        fetchEmployeeAttendance();
+    }, []);
+
+    const presentCount = employeeAttendance.filter(item => item.attendance_status === "present").length || 0;
+    const onLeaveCount = employeeAttendance.filter(item => item.attendance_status === "on leave").length || 0;
+    const absentCount = employeeAttendance.filter(item => item.attendance_status === "absent").length || 0;
 
     return (
         // CONTAINER UTAMA: Menggunakan flex-col dan memastikan lebar penuh
@@ -88,9 +111,9 @@ export default function EmployeeAttendancePage() {
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{SUMMARY_DATA.present} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <div className="text-3xl font-bold text-gray-900">{presentCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
                                 <p className="text-xs text-muted-foreground">
-                                    Bulan Februari 2026
+                                    Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                                 </p>
                             </>
                         )}
@@ -114,9 +137,9 @@ export default function EmployeeAttendancePage() {
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{SUMMARY_DATA.onLeave} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <div className="text-3xl font-bold text-gray-900">{onLeaveCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
                                 <p className="text-xs text-muted-foreground">
-                                    Bulan Februari 2026
+                                    Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                                 </p>
                             </>
                         )}
@@ -140,9 +163,9 @@ export default function EmployeeAttendancePage() {
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{SUMMARY_DATA.absent} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <div className="text-3xl font-bold text-gray-900">{absentCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    Bulan Februari 2026
+                                    Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                                 </p>
                             </>
                         )}
@@ -157,9 +180,9 @@ export default function EmployeeAttendancePage() {
                         Riwayat Absensi Bulan Ini
                     </CardTitle>
                 </CardHeader>
-                <Separator />
                 <CardContent className="p-0">
                     {/* data table here */}
+                    <DataTable columns={tableColumn} data={employeeAttendance} wrapper={false} />
                 </CardContent>
             </Card>
         </div>
