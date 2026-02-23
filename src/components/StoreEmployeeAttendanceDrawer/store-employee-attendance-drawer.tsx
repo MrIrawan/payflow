@@ -38,12 +38,12 @@ export function StoreEmployeeAttendanceDrawer({ teacherName }: { teacherName: st
     const onSubmit: SubmitHandler<StoreEmployeeAttendanceRequest> = async (data) => {
         setIsLoading(true);
 
-        const locationPromise = getUserLocation();
+        const locationPromise = await getUserLocation();
         const formattedData = {
             ...data,
             checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
             checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            location: await locationPromise
+            location: locationPromise
         };
 
         try {
