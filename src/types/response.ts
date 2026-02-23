@@ -54,6 +54,11 @@ export interface SignInResponse {
   data: SignInResponseData;
 }
 
+export interface SignInAdminResponse {
+  success: boolean;
+  message: string;
+}
+
 export interface GetEmployeeProfileData extends Teacher { }
 
 export interface GetEmployeeProfileResponse {
