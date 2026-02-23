@@ -1,106 +1,76 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { AdminSignInRequest } from '@/types/request';
+import Link from "next/link";
+import Image from "next/image";
+import PayFlowLogoWithTitle from "../../../../../public/images/payflow_logo_with_title.svg";
 
-import { Spinner } from '@/components/ui/spinner';
-import { Button } from '@/components/ui/button';
-
-import { InputGroup } from '@/components/InputGroup/input-group';
-import { signInAdmin } from '@/lib/service/admin/signInAdmin';
-import { toast } from 'sonner';
-import { Toaster } from '@/components/Toaster/toaster';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ShieldCheck, Server, ArrowRight, Home } from "lucide-react";
+import { FormComponent, FormContent, FormFooter } from "@/components/Form/Form";
+import { InputGroup } from "@/components/InputGroup/input-group";
+import { Separator } from "@/components/ui/separator";
 
 export default function AdminLoginPage() {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm<AdminSignInRequest>();
-
-    const onSubmit: SubmitHandler<AdminSignInRequest> = async (data) => {
-        setIsLoading(true);
-
-        try {
-            // call signInAdmin service
-            const response = await signInAdmin(data);
-
-            if (response?.isSuccess) {
-                // redirect to admin dashboard
-                toast.custom(() => <Toaster variant='success' title='success to sign in as an admin.' description='You have been successfully signed in as an admin.' />)
-                router.push('/admin');
-            } else {
-                toast.custom(() => <Toaster variant='error' title='failed to sign in as an admin.' description={response?.message || 'An error occurred while signing in as an admin.'} />)
-            }
-        } catch (error) {
-            toast.custom(() => <Toaster variant='error' title='failed to sign in as an admin.' description='An unexpected error occurred while signing in as an admin.' />)
-        } finally {
-            setIsLoading(false);
-        }
-    }
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Submit form admin jalan!");
+        // Nanti integrasi axios adminClient di sini
+    };
 
     return (
-        <>
-            {/* Right Side - Login Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-10">
-                <div className="w-full max-w-sm">
-                    {/* Mobile Header */}
-                    <div className="lg:hidden mb-6">
-                        <h1 className="text-2xl font-bold text-gray-900 mb-1">PayFlow</h1>
-                        <p className="text-gray-600 text-sm">Admin Portal</p>
-                    </div>
-
-                    {/* Welcome Section */}
-                    <div className="mb-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">Welcome Back! Admin Payflow.</h3>
-                        <p className="text-gray-600 text-sm">
-                            Sign in to your admin account to access PayFlow's control center.
-                        </p>
-                    </div>
-
-                    {/* Login Form */}
-                    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-                        {/* Email Input */}
-                        <InputGroup
-                            label='Admin Username'
-                            id='username'
-                            htmlFor='username'
-                            type='text'
-                            className='placeholder:text-sm placeholder:font-medium text-4xl'
-                            placeholder='Admin PayFlow'
-                            aria-invalid={errors.username ? "true" : "false"}
-                            errorMsg={errors.username?.message}
-                            {...register('username', { required: 'Admin Username is required' })}
-                        />
-
-                        {/* Password Input */}
-                        <InputGroup
-                            label='Admin Password'
-                            id='password'
-                            htmlFor='password'
-                            type='password'
-                            className='placeholder:text-sm placeholder:font-medium text-4xl'
-                            placeholder='**********'
-                            aria-invalid={errors.password ? "true" : "false"}
-                            errorMsg={errors.password?.message}
-                            {...register('password', { required: 'Admin Password is required' })}
-                        />
-
-                        {/* Remember Me & Forgot Password */}
-                        <div className="flex items-center justify-start text-sm">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" className="w-4 h-4 border border-gray-300 rounded-lg cursor-pointer" />
-                                <span className="text-gray-700">Remember me</span>
-                            </label>
-                        </div>
-
-                        {/* Login Button */}
-                        <Button className='w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-2 rounded-xl transition duration-200 flex items-center justify-center gap-2'>
-                            {isLoading ? <Spinner /> : 'Sign In'}
-                        </Button>
-                    </form>
+        <Card className="w-full shadow-xl border-0 ring-1 ring-gray-200/50 p-6">
+            <CardHeader className="flex flex-col gap-1 p-0">
+                {/* Logo untuk tampilan mobile (muncul saat layar kecil) */}
+                <div className="flex lg:hidden items-center">
+                    <Image
+                        src={PayFlowLogoWithTitle}
+                        alt="PayFlow Logo"
+                        className="w-56"
+                    />
                 </div>
-            </div>
-        </>
-    )
+
+                <CardTitle className="text-2xl font-bold text-gray-900">
+                    Login Admin
+                </CardTitle>
+                <CardDescription className="text-base">
+                    Masukkan username dan kredensial admin Anda.
+                </CardDescription>
+            </CardHeader>
+
+            <CardContent className="p-0">
+                <FormComponent asWrapper={false} className="flex flex-col gap-6">
+                    <FormContent className="w-full flex flex-col gap-3">
+                        <InputGroup
+                            type="text"
+                            label="Admin Username"
+                            htmlFor="username"
+                            requiredLabel
+                            placeholder="Admin PayFlow"
+                        />
+                        <InputGroup
+                            type="password"
+                            label="Admin Password"
+                            htmlFor="password"
+                            requiredLabel
+                            placeholder="********"
+                        />
+                    </FormContent>
+                    <FormFooter className="w-full p-0 flex flex-col gap-4">
+                        <Button className="w-full bg-blue-600 hover:bg-blue-800">Masuk</Button>
+                        <div className="w-full flex flex-row gap-3 items-center justify-center overflow-hidden">
+                            <Separator className="w-fit" />
+                            <p className="text-sm text-muted-foreground font-medium">Atau</p>
+                            <Separator className="w-fit" />
+                        </div>
+                        <Link href={"/"} className="w-full">
+                            <Button variant={"outline"} className="w-full border-border text-muted-foreground hover:text-muted-foreground">Kembali ke beranda</Button>
+                        </Link>
+                    </FormFooter>
+                </FormComponent>
+            </CardContent>
+        </Card>
+    );
 }

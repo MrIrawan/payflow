@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import PayFlowLogoWithTitle from "../../../public/images/payflow_logo_with_title.svg";
-import { LogIn, Shield, UserPlus } from "lucide-react";
+import { LogIn, Server, Shield, ShieldCheck, UserPlus } from "lucide-react";
 
 export default function AuthLayout({
   children,
@@ -16,14 +16,20 @@ export default function AuthLayout({
   console.log(path)
   return (
     <>
-      {path === "/signUp" ? (
-        <RegisterBranding>
-          {children}
-        </RegisterBranding>
-      ) : (
+      {path === "/signIn" && (
         <LoginBranding>
           {children}
         </LoginBranding>
+      )}
+      {path === "/signUp" && (
+        <RegisterBranding>
+          {children}
+        </RegisterBranding>
+      )}
+      {path === "/admin/signIn" && (
+        <AdminLoginBranding>
+          {children}
+        </AdminLoginBranding>
       )}
     </>
   );
@@ -127,6 +133,61 @@ function LoginBranding({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         {/* main login form */}
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function AdminLoginBranding({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left Side - Branding */}
+        <div className="hidden lg:flex lg:flex-col lg:gap-4">
+          <div className="flex items-center gap-3">
+            <Image
+              src={PayFlowLogoWithTitle}
+              alt="PayFlow Logo"
+              className="w-56"
+            />
+            {/* <span className="text-3xl font-bold text-blue-600">PayFlow</span> */}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <h1 className="text-4xl font-bold text-gray-900 leading-tight">
+              Selamat Datang
+              <br />
+              <span className="text-blue-600">Administrator</span>
+            </h1>
+            <p className="text-lg text-gray-600">
+              Masuk ke akun admin dan jadilah admin untuk mengelola keseluruhan fitur penggajian dengan mudah
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="flex items-start gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm">
+              <div className="bg-blue-50 p-3 rounded-md">
+                <ShieldCheck className="size-5 text-blue-600" />
+              </div>
+              <div className="flex flex-col gap-0">
+                <h3 className="font-bold text-gray-900">Akses Terotorisasi</h3>
+                <p className="text-sm text-muted-foreground">Hanya untuk pengelola sistem yang ditunjuk.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-3 bg-white rounded-xl border border-gray-100 shadow-sm">
+              <div className="bg-blue-50 p-3 rounded-md">
+                <Server className="size-5 text-blue-600" />
+              </div>
+              <div className="flex flex-col gap-0">
+                <h3 className="font-bold text-gray-900">Kontrol Penuh Server</h3>
+                <p className="text-sm text-muted-foreground">Kelola jalannya penggajian secara real-time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* main admin login form */}
         {children}
       </div>
     </div>
