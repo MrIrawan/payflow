@@ -15,16 +15,14 @@ import {
   CardTitle,
   CardDescription
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
+import { DataTable } from "@/components/DataTable/data-table";
+
 import {
   Users,
   UserCircle,
@@ -34,25 +32,23 @@ import {
   Receipt,
   Download
 } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Column } from "@/types/table";
+import { Attendance } from "@/types/base";
+import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
 
-// --- DUMMY DATA ---
-// Nanti diganti dengan data dari API service buatanmu
-const LIVE_ATTENDANCE = [
-  { id: 1, name: "Farrel Irawan", time: "06:45 WIB", status: "Hadir", role: "Guru RPL" },
-  { id: 2, name: "Azizah", time: "06:52 WIB", status: "Hadir", role: "Kaprok MPLB" },
-  { id: 3, name: "Dimas Aryanto", time: "07:05 WIB", status: "Terlambat", role: "Guru" },
-  { id: 4, name: "Budi Santoso", time: "-", status: "Izin", role: "Tata Usaha" },
-];
-
-const RECENT_PAYSLIPS = [
-  { id: "PAY-001", period: "Januari 2026", total_sent: 45, date: "25 Jan 2026", status: "Selesai" },
-  { id: "PAY-002", period: "Desember 2025", total_sent: 45, date: "25 Des 2025", status: "Selesai" },
-  { id: "PAY-003", period: "November 2025", total_sent: 44, date: "25 Nov 2025", status: "Selesai" },
-];
+const attendanceTableColumns: Column<Attendance>[] = [
+  { accessor: "teacher_name", header: "Nama Guru" },
+  {
+    accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    })
+  },
+  { accessor: "checkin_time", header: "Jam Masuk Kantor" },
+  { accessor: "checkout_time", header: "Jam Keluar Kantor" },
+  { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
+]
 
 export default function AdminDashboardPage() {
   const [adminInfo, setAdminInfo] = useState<GetAdminInfoData | undefined>(undefined);
@@ -201,10 +197,7 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
       </div>
-
-      {/* =========================================
-          3. CHART SECTION
-      ========================================= */}
+      {/* chart area */}
       <Card className="w-full shadow-sm border-gray-200 p-5">
         <CardHeader className="bg-white p-0">
           <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
@@ -225,7 +218,7 @@ export default function AdminDashboardPage() {
       <div className="flex flex-col lg:flex-row w-full gap-6">
         {/* Live Absensi */}
         <Card className="w-full shadow-sm border-gray-200 flex flex-col gap-5 p-5">
-          <CardHeader className="bg-white p-0">
+          <CardHeader className="bg-white p-0 gap-0">
             <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
               <Clock className="size-5 text-blue-600" />
               Live Absensi Hari Ini
@@ -233,32 +226,8 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <Separator />
           <CardContent className="p-0">
-            <Table>
-              <TableHeader className="bg-gray-50/50">
-                <TableRow>
-                  <TableHead>Nama Pegawai</TableHead>
-                  <TableHead>Waktu</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {LIVE_ATTENDANCE.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>
-                      <div className="font-medium text-gray-900">{row.name}</div>
-                      <div className="text-xs text-muted-foreground">{row.role}</div>
-                    </TableCell>
-                    <TableCell className="text-sm">{row.time}</TableCell>
-                    <TableCell>
-                      <Badge variant={row.status === "Hadir" ? "default" : row.status === "Terlambat" ? "destructive" : "secondary"}
-                        className={row.status === "Hadir" ? "bg-green-100 text-green-700 hover:bg-green-200 shadow-none" : ""}>
-                        {row.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            {/* data table here */}
+            <DataTable columns={attendanceTableColumns} data={adminInfo?.attendances || []} wrapper={false} />
           </CardContent>
         </Card>
 
@@ -267,34 +236,13 @@ export default function AdminDashboardPage() {
           <CardHeader className="bg-white flex flex-row items-center justify-between p-0">
             <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
               <Receipt className="size-5 text-blue-600" />
-              Histori Slip Gaji Terkirim
+              Histori Slip Gaji
             </CardTitle>
             <Button variant="link" className="text-blue-600 h-auto p-0">Lihat Semua</Button>
           </CardHeader>
           <Separator />
           <CardContent className="p-0">
-            <Table>
-              <TableHeader className="bg-gray-50/50">
-                <TableRow>
-                  <TableHead>Periode</TableHead>
-                  <TableHead className="text-center">Terkirim</TableHead>
-                  <TableHead>Tanggal Generate</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {RECENT_PAYSLIPS.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell className="font-medium text-gray-900">{row.period}</TableCell>
-                    <TableCell className="text-center">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                        {row.total_sent} Pegawai
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">{row.date}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            {/* data table here */}
           </CardContent>
         </Card>
 
