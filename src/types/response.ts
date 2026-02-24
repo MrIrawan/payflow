@@ -114,3 +114,8 @@ export interface GetPayrollHistoryResponse {
   message: string;
   data: GetPayrollHistoryData[];
 }
+
+export interface LogOutAdminResponse {
+  success: boolean;
+  message: string;
+}
