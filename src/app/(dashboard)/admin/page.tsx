@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GetAdminInfoData, GetPayrollHistoryData } from "@/types/response";
 import { getAdminInfo } from "@/lib/services/admin/info/getAdminInfo";
 import { calculatePercentage } from "@/utils/calculatePercentage";
@@ -13,7 +13,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -35,6 +34,8 @@ import {
 import { Column } from "@/types/table";
 import { Attendance } from "@/types/base";
 import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
+import { AdminAttendanceGraph } from "@/components/AdminAttendanceGraph/admin-attendance-graph";
+import { RawAttendanceData } from "@/types/chart";
 
 const attendanceTableColumns: Column<Attendance>[] = [
   { accessor: "teacher_name", header: "Nama Guru" },
@@ -68,6 +69,14 @@ export default function AdminDashboardPage() {
   // attendance count variable
   const currentDate = new Date().toLocaleDateString("id-ID");
   const presentCount = adminInfo?.attendances.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID") === currentDate).length || 0;
+  const chartData: RawAttendanceData[] = useMemo(() => {
+    if (!adminInfo?.attendances) return [];
+
+    return adminInfo.attendances.map(att => ({
+      attendance_date: att.attendance_date,
+      attendance_status: att.attendance_status as "present" | "onLeave" | "sick" | "absent",
+    }));
+  }, [adminInfo?.attendances]);
 
   useEffect(() => {
     async function fetchAdminInfo() {
@@ -91,7 +100,6 @@ export default function AdminDashboardPage() {
   }, []);
 
   return (
-    // MAIN CONTAINER: Flex Column, Full Width, dengan padding
     <div className="flex flex-col w-full min-h-screen gap-6 p-6 bg-gray-50/50">
       <PageHeader />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -110,7 +118,6 @@ export default function AdminDashboardPage() {
       </div>
       {/* admin data card */}
       <div className="flex flex-col lg:flex-row w-full gap-4">
-        {/* Card 1: Total Keseluruhan (Primary Color) */}
         <Card className="w-full flex flex-col justify-between border-0 shadow-md bg-blue-600 text-white p-4 h-[180px]">
           <CardHeader className="p-0 flex flex-row items-center justify-between">
             <CardTitle className="text-sm font-medium text-blue-100">
@@ -132,8 +139,6 @@ export default function AdminDashboardPage() {
             )}
           </CardContent>
         </Card>
-
-        {/* Card 2: Laki-laki */}
         <Card className="w-full flex flex-col justify-between shadow-sm border-gray-200 p-4 h-[180px]">
           <CardHeader className="flex flex-row items-center justify-between p-0">
             <CardTitle className="text-sm font-semibold text-muted-foreground">
@@ -155,8 +160,6 @@ export default function AdminDashboardPage() {
             )}
           </CardContent>
         </Card>
-
-        {/* Card 3: Perempuan */}
         <Card className="w-full flex flex-col justify-between shadow-sm border-gray-200 p-4 h-[180px]">
           <CardHeader className="flex flex-row items-center justify-between p-0">
             <CardTitle className="text-sm font-semibold text-muted-foreground">
@@ -178,8 +181,6 @@ export default function AdminDashboardPage() {
             )}
           </CardContent>
         </Card>
-
-        {/* Card 4: Kehadiran Hari Ini (Idea Baru) */}
         <Card className="w-full flex flex-col justify-between shadow-sm border-gray-200 border-b-4 border-b-green-500 p-4 h-[180px]">
           <CardHeader className="flex flex-row items-center justify-between p-0">
             <CardTitle className="text-sm font-semibold text-muted-foreground">
@@ -203,22 +204,7 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
       {/* chart area */}
-      <Card className="w-full shadow-sm border-gray-200 p-5">
-        <CardHeader className="bg-white p-0">
-          <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
-            <BarChart3 className="size-5 text-blue-600" />
-            Statistik Kehadiran Bulanan
-          </CardTitle>
-          <CardDescription>Tren absensi seluruh pegawai selama bulan berjalan.</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 flex items-center justify-center min-h-[300px] bg-gray-50/30">
-          {/* Tempatkan Komponen Recharts / Chart.js kamu di sini nanti */}
-          <div className="text-muted-foreground flex flex-col items-center gap-2">
-            <BarChart3 className="size-10 opacity-20" />
-            <span>Area Render Chart Absensi</span>
-          </div>
-        </CardContent>
-      </Card>
+      <AdminAttendanceGraph data={chartData} />
       {/* table section */}
       <div className="flex flex-col lg:flex-row w-full gap-6">
         {/* Live Absensi */}
@@ -236,7 +222,7 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* TABEL KANAN: Histori Slip Gaji */}
+        {/* Histori Slip Gaji */}
         <Card className="w-3/4 shadow-sm border-gray-200 flex flex-col gap-5 p-5">
           <CardHeader className="bg-white flex flex-row items-center justify-between p-0">
             <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
