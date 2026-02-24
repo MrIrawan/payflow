@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { GetAdminInfoData } from "@/types/response";
 import { getAdminInfo } from "@/lib/services/admin/info/getAdminInfo";
+import { calculatePercentage } from "@/utils/calculatePercentage";
 
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
@@ -55,9 +56,15 @@ const RECENT_PAYSLIPS = [
 
 export default function AdminDashboardPage() {
   const [adminInfo, setAdminInfo] = useState<GetAdminInfoData | undefined>(undefined);
+
+  // employees count variable
   const maleEmployeesCount = adminInfo?.teachers.filter(teacher => teacher.gender === "male").length || 0;
   const femaleEmployeesCount = adminInfo?.teachers.filter(teacher => teacher.gender === "female").length || 0;
   const totalEmployees = adminInfo?.teachers.length || 0;
+
+  // attendance count variable
+  const currentDate = new Date().toLocaleDateString("id-ID");
+  const presentCount = adminInfo?.attendances.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID") === currentDate).length || 0;
 
   useEffect(() => {
     async function fetchAdminInfo() {
@@ -119,7 +126,7 @@ export default function AdminDashboardPage() {
             ) : (
               <>
                 <div className="text-4xl font-bold">{totalEmployees}</div>
-                <p className="text-xs text-blue-200">Pegawai terdaftar di sistem</p>
+                <p className="text-sm font-medium text-blue-200">Pegawai terdaftar di sistem</p>
               </>
             )}
           </CardContent>
@@ -142,7 +149,7 @@ export default function AdminDashboardPage() {
             ) : (
               <>
                 <div className="text-4xl font-bold text-gray-900">{maleEmployeesCount}</div>
-                <p className="text-xs text-muted-foreground">44.4% dari total</p>
+                <p className="text-sm font-medium text-muted-foreground">{calculatePercentage(maleEmployeesCount, totalEmployees)}% dari total</p>
               </>
             )}
           </CardContent>
@@ -165,7 +172,7 @@ export default function AdminDashboardPage() {
             ) : (
               <>
                 <div className="text-4xl font-bold text-gray-900">{femaleEmployeesCount}</div>
-                <p className="text-xs text-muted-foreground">55.6% dari total</p>
+                <p className="text-sm font-medium text-muted-foreground">{calculatePercentage(femaleEmployeesCount, totalEmployees)}% dari total</p>
               </>
             )}
           </CardContent>
@@ -187,8 +194,8 @@ export default function AdminDashboardPage() {
               </>
             ) : (
               <>
-                <div className="text-3xl font-bold text-gray-900">42<span className="text-lg text-muted-foreground font-normal">/45</span></div>
-                <p className="text-xs text-green-600 font-medium">93.3% Tingkat Kehadiran</p>
+                <div className="text-3xl font-bold text-gray-900">{presentCount}<span className="text-lg text-muted-foreground font-normal">/{totalEmployees}</span></div>
+                <p className="text-xs text-green-600 font-medium">{calculatePercentage(presentCount, totalEmployees)}% Tingkat Kehadiran</p>
               </>
             )}
           </CardContent>
