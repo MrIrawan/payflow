@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GetAdminInfoData } from "@/types/response";
+import { GetAdminInfoData, GetPayrollHistoryData } from "@/types/response";
 import { getAdminInfo } from "@/lib/services/admin/info/getAdminInfo";
 import { calculatePercentage } from "@/utils/calculatePercentage";
 
@@ -48,7 +48,14 @@ const attendanceTableColumns: Column<Attendance>[] = [
   { accessor: "checkin_time", header: "Jam Masuk Kantor" },
   { accessor: "checkout_time", header: "Jam Keluar Kantor" },
   { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
-]
+];
+
+const payrollHistoryTableColumns: Column<GetPayrollHistoryData>[] = [
+  { accessor: "teacher_name", header: "Nama Guru" },
+  { accessor: "total_hadir", header: "Total Hadir" },
+  { accessor: "total_weekly_hours", header: "Total Jam Ajar" },
+  { accessor: "total_salary", header: "Gaji Akhir" }
+];
 
 export default function AdminDashboardPage() {
   const [adminInfo, setAdminInfo] = useState<GetAdminInfoData | undefined>(undefined);
@@ -82,8 +89,6 @@ export default function AdminDashboardPage() {
 
     fetchAdminInfo();
   }, []);
-
-  console.log(adminInfo)
 
   return (
     // MAIN CONTAINER: Flex Column, Full Width, dengan padding
@@ -243,6 +248,7 @@ export default function AdminDashboardPage() {
           <Separator />
           <CardContent className="p-0">
             {/* data table here */}
+            <DataTable columns={payrollHistoryTableColumns} data={[]} wrapper={false} />
           </CardContent>
         </Card>
 
