@@ -1,5 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { GetAdminInfoData } from "@/types/response";
+import { getAdminInfo } from "@/lib/services/admin/info/getAdminInfo";
+
+import { toast } from "sonner";
+import { Toaster } from "@/components/Toaster/toaster";
+
 import {
   Card,
   CardContent,
@@ -29,6 +36,7 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // --- DUMMY DATA ---
 // Nanti diganti dengan data dari API service buatanmu
@@ -46,6 +54,34 @@ const RECENT_PAYSLIPS = [
 ];
 
 export default function AdminDashboardPage() {
+  const [adminInfo, setAdminInfo] = useState<GetAdminInfoData | undefined>(undefined);
+  const maleEmployeesCount = adminInfo?.teachers.filter(teacher => teacher.gender === "male").length || 0;
+  const femaleEmployeesCount = adminInfo?.teachers.filter(teacher => teacher.gender === "female").length || 0;
+  const totalEmployees = adminInfo?.teachers.length || 0;
+
+  useEffect(() => {
+    async function fetchAdminInfo() {
+      try {
+        const response = await getAdminInfo();
+
+        if (response.data.success === false) {
+          toast.custom(() => <Toaster variant="error" title="gagal mengambil info dashboard admin" description={`${response.data.message || "gagal mengambil data info dashboard admin."}`} />);
+          console.log(response)
+          return;
+        }
+
+        setAdminInfo(response.data.data);
+      } catch (error) {
+        toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />);
+        console.error(error);
+      }
+    }
+
+    fetchAdminInfo();
+  }, []);
+
+  console.log(adminInfo)
+
   return (
     // MAIN CONTAINER: Flex Column, Full Width, dengan padding
     <div className="flex flex-col w-full min-h-screen gap-6 p-6 bg-gray-50/50">
@@ -75,8 +111,17 @@ export default function AdminDashboardPage() {
             <Users className="size-5 text-blue-200" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1 p-0">
-            <div className="text-4xl font-bold">45</div>
-            <p className="text-xs text-blue-200">Pegawai terdaftar di sistem</p>
+            {adminInfo === undefined ? (
+              <>
+                <Skeleton className="w-[50px] h-[45px] bg-blue-300" />
+                <Skeleton className="w-[165px] h-[16px] bg-blue-300" />
+              </>
+            ) : (
+              <>
+                <div className="text-4xl font-bold">{totalEmployees}</div>
+                <p className="text-xs text-blue-200">Pegawai terdaftar di sistem</p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -89,8 +134,17 @@ export default function AdminDashboardPage() {
             <UserCircle className="size-5 text-blue-500" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1 p-0">
-            <div className="text-3xl font-bold text-gray-900">20</div>
-            <p className="text-xs text-muted-foreground">44.4% dari total</p>
+            {adminInfo === undefined ? (
+              <>
+                <Skeleton className="w-[50px] h-[45px] bg-gray-300" />
+                <Skeleton className="w-[165px] h-[16px] bg-gray-300" />
+              </>
+            ) : (
+              <>
+                <div className="text-4xl font-bold text-gray-900">{maleEmployeesCount}</div>
+                <p className="text-xs text-muted-foreground">44.4% dari total</p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -103,8 +157,17 @@ export default function AdminDashboardPage() {
             <UserCircle className="size-5 text-pink-500" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1 p-0">
-            <div className="text-3xl font-bold text-gray-900">25</div>
-            <p className="text-xs text-muted-foreground">55.6% dari total</p>
+            {adminInfo === undefined ? (
+              <>
+                <Skeleton className="w-[50px] h-[45px] bg-gray-300" />
+                <Skeleton className="w-[165px] h-[16px] bg-gray-300" />
+              </>
+            ) : (
+              <>
+                <div className="text-4xl font-bold text-gray-900">{femaleEmployeesCount}</div>
+                <p className="text-xs text-muted-foreground">55.6% dari total</p>
+              </>
+            )}
           </CardContent>
         </Card>
 
@@ -117,8 +180,17 @@ export default function AdminDashboardPage() {
             <UserCheck className="size-5 text-green-500" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1 p-0">
-            <div className="text-3xl font-bold text-gray-900">42<span className="text-lg text-muted-foreground font-normal">/45</span></div>
-            <p className="text-xs text-green-600 font-medium">93.3% Tingkat Kehadiran</p>
+            {adminInfo === undefined ? (
+              <>
+                <Skeleton className="w-[50px] h-[45px] bg-gray-300" />
+                <Skeleton className="w-[165px] h-[16px] bg-gray-300" />
+              </>
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-gray-900">42<span className="text-lg text-muted-foreground font-normal">/45</span></div>
+                <p className="text-xs text-green-600 font-medium">93.3% Tingkat Kehadiran</p>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>

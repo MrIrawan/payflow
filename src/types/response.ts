@@ -95,3 +95,14 @@ export interface StoreEmployeeAttendanceResponse {
   message: string;
   data: StoreEmployeeAttendanceData;
 }
+
+export interface GetAdminInfoData {
+  teachers: Teacher[];
+  attendances: Attendance[];
+}
+
+export interface GetAdminInfoResponse {
+  success: boolean;
+  message: string;
+  data: GetAdminInfoData;
+}
