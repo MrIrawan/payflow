@@ -119,3 +119,11 @@ export interface LogOutAdminResponse {
   success: boolean;
   message: string;
 }
+
+export interface GetAllEmployeesData extends Teacher { }
+
+export interface GetAllEmployeesResponse {
+  success: boolean;
+  message: string;
+  data: GetAllEmployeesData[];
+}
