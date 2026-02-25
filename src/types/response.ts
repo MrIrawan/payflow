@@ -127,3 +127,45 @@ export interface GetAllEmployeesResponse {
   message: string;
   data: GetAllEmployeesData[];
 }
+
+export interface AddEmployeeData extends Teacher { }
+
+export interface AddEmployeeResponse {
+  success: boolean;
+  message: string;
+  data: AddEmployeeData;
+}
+
+export interface EditEmployeeData extends Teacher { }
+
+export interface EditEmployeeResponse {
+  success: boolean;
+  message: string;
+  data: EditEmployeeData;
+}
+
+export interface DeleteEmployeeResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface StoreAttendanceData extends Attendance { }
+
+export interface StoreAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: StoreAttendanceData;
+}
+
+export interface EditAttendanceData extends Attendance { }
+
+export interface EditAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: EditAttendanceData;
+}
+
+export interface DeleteAttendanceResponse {
+  success: boolean;
+  message: string;
+}

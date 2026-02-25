@@ -31,3 +31,8 @@ export interface StoreEmployeeAttendanceRequest extends Omit<Attendance, "attend
   checkin_time: number;
   checkout_time: number;
 }
+
+export interface AddEmployeeRequest extends Omit<Teacher, "guru_id" | "created_at" | "date_of_birth" | "join_date"> {
+  password_email: string;
+  date_of_birth: Date;
+}

@@ -6,8 +6,7 @@ import EmptyStateDataTable from "../../../public/images/empty-state-data-table.s
 
 import { useState, useEffect } from "react";
 
-import { getAllTeachers } from "@/lib/service/getAllTeachers";
-import { GetAllTeachers } from "@/types/response";
+import { GetAllEmployeesData } from "@/types/response";
 
 import { DataTable } from "../DataTable/data-table";
 import { Column } from "@/types/table";
@@ -23,14 +22,13 @@ import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "../InfoBadge/info-badge";
-import { toast } from "sonner";
-import { Toaster } from "../Toaster/toaster";
 import { Spinner } from "../ui/spinner";
 
-const teacherColumns: Column<GetAllTeachers>[] = [
+const teacherColumns: Column<GetAllEmployeesData>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
     { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value: Date) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
     { header: "Jenis Kelamin", accessor: "gender", cell: (value: string) => <GenderBadge placeholder={value} /> },
+    { header: "Alamat Email", accessor: "email_address", cell: (value: string) => <p className="font-medium">{value}</p> },
     {
         header: "Jabatan", accessor: "job_title", cell: (value: string[]) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
@@ -47,7 +45,6 @@ const teacherColumns: Column<GetAllTeachers>[] = [
             </div>
         )
     },
-    { header: "Alamat Email", accessor: "email_address", cell: (value: string) => <p className="font-medium">{value}</p> },
     {
         header: "Mata Pelajaran", accessor: "subject_name", cell: (value: string[]) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
@@ -66,28 +63,11 @@ const teacherColumns: Column<GetAllTeachers>[] = [
     },
 ];
 
-export default function TeacherTable() {
-    const [data, setData] = useState<GetAllTeachers[] | undefined>([]);
+export default function TeacherTable({ data }: { data: GetAllEmployeesData[] | undefined }) {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [isLoading, setIsloading] = useState<boolean>(false);
 
     const debouncedSearch = useDebounce(searchQuery, 400);
-
-    useEffect(() => {
-        async function getAllTeachersData() {
-            setIsloading(true);
-            try {
-                const response = await getAllTeachers();
-                setData(response.data?.data)
-            } catch (error) {
-                toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data guru." description={`${error || "terjadi sesuatu sehingga kami tidak bisa memproses permintaan anda."}`} />)
-            } finally {
-                setIsloading(false);
-            }
-        }
-
-        getAllTeachersData();
-    }, [])
 
     const filteredData = filterByKeys(data || [], debouncedSearch, ["full_name"]);
 
@@ -111,13 +91,6 @@ export default function TeacherTable() {
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                         />
                                     </div>
-                                    <GenderOptionsButton />
-                                    <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
-                                        <Button variant={"outline"} className="border-dashed">
-                                            <PlusCircleIcon />
-                                            <p className="text-sm font-medium text-black">Tambah Guru</p>
-                                        </Button>
-                                    </Link>
                                 </div>
                             </Card>
                             <div className="w-full flex flex-row justify-center items-center">
@@ -149,19 +122,13 @@ export default function TeacherTable() {
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
                                 </div>
-                                <GenderOptionsButton />
-                                <Link href={"/admin/teacher/add-teacher"} className="ml-auto">
-                                    <Button variant={"outline"} className="border-dashed">
-                                        <PlusCircleIcon />
-                                        <p className="text-sm font-medium text-black">Tambah Guru</p>
-                                    </Button>
-                                </Link>
                             </div>
                         </Card>
                         <DataTable
                             columns={teacherColumns}
                             data={filteredData}
-                            renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
+                            // renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
+                            wrapper={false}
                         />
                     </>)}
                 </>

@@ -53,7 +53,7 @@ export function AdminSidebar() {
               sub={[
                 {
                   label: "lihat data guru",
-                  href: "/admin/employee"
+                  href: "/admin/employee/employee-list"
                 },
                 {
                   label: "tambah data guru",
@@ -109,7 +109,7 @@ export function AdminSidebar() {
                 </div>
                 <Separator />
                 <div className="w-full flex flex-col gap-0">
-                  <Link href={"/admin/employee"}>
+                  <Link href={"/admin/employee/employee-list"}>
                     <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                       <UserCircleIcon />
                       <p className="text-sm font-medium">Data Guru</p>

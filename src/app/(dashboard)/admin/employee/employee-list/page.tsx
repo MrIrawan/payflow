@@ -37,6 +37,8 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "@/components/InfoBadge/info-badge";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
+import Link from "next/link";
+import TeacherTable from "@/components/TeacherTable/teacher-table";
 
 const employeesTableColumn: Column<GetAllEmployeesData>[] = [
     { accessor: "full_name", header: "Nama Pegawai" },
@@ -110,10 +112,12 @@ export default function AdminTeacherDataPage() {
                         Kelola informasi profil, jabatan, dan kredensial seluruh guru & staff.
                     </p>
                 </div>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md flex items-center gap-2 transition-all">
-                    <Plus className="size-4" />
-                    Tambah Pegawai Baru
-                </Button>
+                <Link href={"/admin/employee/add-employee"}>
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md flex items-center gap-2 transition-all">
+                        <Plus className="size-4" />
+                        Tambah Pegawai Baru
+                    </Button>
+                </Link>
             </div>
             <div className="flex flex-row item-center justify-between gap-4 w-full">
                 {/* Card 1 */}
@@ -200,54 +204,8 @@ export default function AdminTeacherDataPage() {
                     </CardContent>
                 </Card>
             </div>
-            <Card className="w-full shadow-sm border-gray-200 flex flex-col gap-6 p-4">
-                <CardHeader className="w-full p-0 bg-white flex flex-col gap-6">
-                    <div className="flex flex-col gap-0">
-                        <CardTitle className="text-xl text-gray-800 font-semibold">Daftar Pegawai</CardTitle>
-                        <CardDescription>Daftar lengkap pegawai beserta role dan statusnya.</CardDescription>
-                    </div>
-                    <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
-                        {/* Search Bar */}
-                        <div className="w-full md:max-w-sm">
-                            <Input
-                                placeholder="Cari nama pegawai atau email..."
-                                className="focus-visible:ring-blue-600 w-full"
-                            />
-                        </div>
-
-                        {/* Filters */}
-                        <div className="flex items-center gap-4 w-2/5">
-                            <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
-                                <Filter className="size-4" /> Filter:
-                            </div>
-                            <Select defaultValue="semua">
-                                <SelectTrigger className="w-full h-10">
-                                    <SelectValue placeholder="Jabatan" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="semua">Semua Jabatan</SelectItem>
-                                    <SelectItem value="guru">Guru</SelectItem>
-                                    <SelectItem value="kaprok">Kepala Program</SelectItem>
-                                    <SelectItem value="tu">Tata Usaha</SelectItem>
-                                </SelectContent>
-                            </Select>
-
-                            <Select defaultValue="semua">
-                                <SelectTrigger className="w-full h-10">
-                                    <SelectValue placeholder="Gender" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="semua">Semua Gender</SelectItem>
-                                    <SelectItem value="male">Laki-laki</SelectItem>
-                                    <SelectItem value="female">Perempuan</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="p-0">
-                    <DataTable columns={employeesTableColumn} data={employeesData || []} wrapper={false} />
-                </CardContent>
+            <Card className="w-full shadow-sm border-gray-200 flex flex-col gap-0 p-6">
+                <TeacherTable data={employeesData} />
             </Card>
         </div>
     );
@@ -258,10 +216,14 @@ function PageHeader() {
         <div className="h-fit w-full flex flex-row items-center gap-3">
             <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
             <DashboardBreadcrumb data={{
-                page: "Data Pegawai",
+                page: "Employee List",
                 link: [
                     {
                         title: "Dashboard",
+                        href: "/admin"
+                    },
+                    {
+                        title: "Employee",
                         href: "/admin"
                     }
                 ]
