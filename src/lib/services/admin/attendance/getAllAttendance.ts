@@ -5,4 +5,6 @@ import { GetAllAttendances } from "@/types/response";
 
 export const getAllAttendances = async () => {
     const response = await adminClient.get<ApiResponse<GetAllAttendances[]>>("/attendance");
+
+    return response;
 }

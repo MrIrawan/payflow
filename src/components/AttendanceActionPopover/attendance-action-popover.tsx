@@ -20,10 +20,10 @@ import {
 import { EllipsisIcon, Trash2Icon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Spinner } from "../ui/spinner";
-import { deleteAttendanceData } from "@/lib/service/admin/attendance/deleteAttendanceData";
+import { deleteAttendance } from "@/lib/services/admin/attendance/deleteAttendance";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
-import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
+// import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
 
 export function AttendanceActionPopover({ attendanceId }: {
     attendanceId: string;
@@ -33,17 +33,16 @@ export function AttendanceActionPopover({ attendanceId }: {
 
     async function deleteAttendanceHandler() {
         try {
-            const response = await deleteAttendanceData(attendanceId);
+            const response = await deleteAttendance(attendanceId);
 
-            if (response?.isSuccess === true) {
-                console.log(response);
-                toast.custom(() => <Toaster title="success to delete attendance data" description={response.message} variant="success" />)
-            } else {
-                console.log(response);
-                toast.custom(() => <Toaster title="failed to delete attendance data" description={response?.message} variant="error" />)
+            if (response.data.success === false) {
+                toast.custom(() => <Toaster title="gagal menghapus data absensi" description="kami tidak bisa mengahpus data absensi yang anda mau" variant="error" />)
+                return;
             }
+
+            toast.custom(() => <Toaster title="berhasil menghapus data absensi" description="data absensi yang anda mau berhasil di hapus" variant="success" />)
         } catch (error) {
-            toast.custom(() => <Toaster title="something went error" description="there is an error while delete attendance data" variant="error" />)
+            toast.custom(() => <Toaster title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses"}`} variant="error" />)
         } finally {
             setIsLoading(false);
             setIsOpen(false);
@@ -61,7 +60,7 @@ export function AttendanceActionPopover({ attendanceId }: {
                         <CardDescription className="text-xs font-medium">Attendance Actions</CardDescription>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <UpdateAttendanceDrawer attendanceId={attendanceId} />
+                        {/* <UpdateAttendanceDrawer attendanceId={attendanceId} /> */}
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
@@ -74,17 +73,17 @@ export function AttendanceActionPopover({ attendanceId }: {
                                     <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
                                         <Trash2Icon />
                                     </AlertDialogMedia>
-                                    <AlertDialogTitle>Delete attendance?</AlertDialogTitle>
+                                    <AlertDialogTitle>Hapus absensi ini?</AlertDialogTitle>
                                     <AlertDialogDescription className="font-medium">
-                                        This will permanently delete this attendance data. are you sure to choose delete option?
+                                        Aksi ini akan menghapus permanen jejak absensi ini. apakah anda yakin ingin menghapusnya?
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel variant="outline" className="w-20">
-                                        <p className="text-sm font-medium">Cancel</p>
+                                        <p className="text-sm font-medium">Batal</p>
                                     </AlertDialogCancel>
                                     <AlertDialogAction variant="destructive" className="w-20" onClick={deleteAttendanceHandler}>
-                                        {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Delete</p>)}
+                                        {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Hapus</p>)}
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>

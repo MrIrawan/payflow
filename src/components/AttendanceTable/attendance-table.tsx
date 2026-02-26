@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
+import { useState } from "react";
 
 import { useDebounce } from "@/hooks/use-debounce";
 import { filterByKeys } from "@/utils/filterByKeys";
@@ -11,13 +10,13 @@ import { Label } from "../ui/label";
 import { Card } from "../ui/card";
 
 import { DataTable } from "../DataTable/data-table";
-import { GetAllAttendance } from "@/types/response";
-import { TableColumn } from "@/types/table";
+import { GetAllAttendances } from "@/types/response";
+import { Column } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { StoreAttendanceDrawer } from "../StoreAttendanceDrawer/store-attendance-drawer";
 import { AttendanceActionPopover } from "../AttendanceActionPopover/attendance-action-popover";
 
-const tableColumn: TableColumn<GetAllAttendance>[] = [
+const tableColumn: Column<GetAllAttendances>[] = [
     { header: "Nama Guru", accessor: "teacher_name" },
     { header: "Tanggal Absensi", accessor: "attendance_date", cell: (value) => new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
     { header: "Waktu Check-in", accessor: "checkin_time" },
@@ -25,31 +24,10 @@ const tableColumn: TableColumn<GetAllAttendance>[] = [
     { header: "Status Absensi", accessor: "attendance_status", cell: (value) => <AttendanceBadge placeholder={value} /> },
 ]
 
-export function AttendanceTable() {
-    const [todayAttendance, setTodayAttendance] = useState<GetAllAttendance[] | undefined>([]);
+export function AttendanceTable({ attendanceData }: { attendanceData: GetAllAttendances[] }) {
     const [searchQuery, setSearchQuery] = useState<string>("");
-
     const debounceSearch = useDebounce(searchQuery, 400);
-
-    useEffect(() => {
-        async function getTodayAttendance() {
-            const result = await getAllAttendance();
-            const todayAttendance = result?.data?.data.filter((attendance) => {
-                const currentDate = new Date().toLocaleDateString("id-ID");
-                const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
-
-                if (currentAttendance === currentDate) {
-                    return attendance;
-                }
-            })
-
-            setTodayAttendance(todayAttendance);
-        }
-
-        getTodayAttendance();
-    }, [])
-
-    const filteredData = filterByKeys(todayAttendance || [], debounceSearch, ["teacher_name"]);
+    const filteredData = filterByKeys(attendanceData || [], debounceSearch, ["teacher_name"]);
 
     return (
         <div className="w-full flex flex-col gap-6 p-3">
@@ -74,6 +52,7 @@ export function AttendanceTable() {
                 renderRowAction={(row) => (
                     <AttendanceActionPopover attendanceId={row.attendance_id} />
                 )}
+                wrapper={false}
             />
         </div>
     )

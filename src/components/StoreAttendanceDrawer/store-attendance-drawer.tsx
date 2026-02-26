@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { StoreAttendanceRequest } from "@/types/request";
+import { AddAttendanceRequest } from "@/types/request";
+
+import { toast } from "sonner";
+import { Toaster } from "../Toaster/toaster";
 
 import {
     Drawer,
@@ -26,41 +27,39 @@ import { PlusCircleIcon } from "lucide-react";
 import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
-import { storeTeacherAttendance } from "@/lib/service/admin/attendance/storeTeacherAttendance";
+import { addAttendance } from "@/lib/services/admin/attendance/AddAttendance";
 import { getUserLocation } from "@/utils/getUserLocation";
 import { Spinner } from "../ui/spinner";
-import { Toaster } from "../Toaster/toaster";
 
 export function StoreAttendanceDrawer() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
-    const router = useRouter();
+    const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm<AddAttendanceRequest>();
 
-    const onSubmitToStoreAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
+    const onSubmitToStoreAttendance: SubmitHandler<AddAttendanceRequest> = async (data) => {
         setIsLoading(true);
-        const locationPromise = getUserLocation();
-        const formattedData = {
-            ...data,
-            checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
-            checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            location: await locationPromise
-        };
-        console.log(formattedData)
 
-        const response = await storeTeacherAttendance(formattedData);
+        try {
+            const locationPromise = await getUserLocation();
+            const attendanceStatus = watch("attendance_status");
+            let formattedData = {
+                ...data,
+                checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
+                checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
+                ...(attendanceStatus === "present" && { location: locationPromise })
+            };
 
-        if (response?.isSuccess) {
-            toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response?.data?.message} variant="success" />)
-            setIsOpen(false);
-            router.refresh();
-        } else {
-            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response?.message} variant="error" />)
-            setIsOpen(false);
-            router.refresh();
+            console.log(formattedData);
+        } catch (error) {
+
+        } finally {
+            setIsLoading(false);
+            reset();
         }
-        setIsLoading(false);
     }
+
+    // toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response?.message} variant="error" />)
+    // toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response?.data?.message} variant="success" />)
 
     return (
         <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
