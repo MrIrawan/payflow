@@ -61,11 +61,19 @@ export function AdminSidebar() {
                 },
               ]}
             />
-            <SidebarNavigationLink
-              href="/admin/payroll"
+            <CollabsipleSidebarNavigation
               label="penggajian"
               Icon={Wallet}
-              activeBg
+              sub={[
+                {
+                  label: "kelola penggajian",
+                  href: "/admin/payroll/manage"
+                },
+                {
+                  label: "riwayat penggajian",
+                  href: "/admin/payroll/history"
+                },
+              ]}
             />
             <SidebarNavigationLink
               href="/admin/attendance"
