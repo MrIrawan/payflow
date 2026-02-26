@@ -149,12 +149,20 @@ export interface DeleteEmployeeResponse {
   message: string;
 }
 
-export interface StoreAttendanceData extends Attendance { }
+export interface GetAllAttendances extends Attendance { }
 
-export interface StoreAttendanceResponse {
+export interface GetAllAttendancesResponse {
   success: boolean;
   message: string;
-  data: StoreAttendanceData;
+  data: GetAllAttendances[];
+}
+
+export interface AddAttendanceData extends Attendance { }
+
+export interface AddAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: AddAttendanceData;
 }
 
 export interface EditAttendanceData extends Attendance { }

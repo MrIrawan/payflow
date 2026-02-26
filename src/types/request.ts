@@ -48,3 +48,15 @@ export interface GetEmployeeByIdResponse {
   message: string;
   data: GetEmployeeByIdData;
 }
+
+export interface EditAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
+  attendance_date: Date;
+  checkin_time: number;
+  checkout_time: number;
+}
+
+export interface AddAttendanceRequest extends Omit<Attendance, "attendance_id" | "created_at" | "attendance_date" | "checkin_time" | "checkout_time"> {
+  attendance_date: Date;
+  checkin_time: number;
+  checkout_time: number;
+}
