@@ -127,7 +127,7 @@ export default function TeacherTable({ data }: { data: GetAllEmployeesData[] | u
                         <DataTable
                             columns={teacherColumns}
                             data={filteredData}
-                            // renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
+                            renderRowAction={(row) => <TeacherActionPopover teacherData={row} />}
                             wrapper={false}
                         />
                     </>)}

@@ -36,3 +36,15 @@ export interface AddEmployeeRequest extends Omit<Teacher, "guru_id" | "created_a
   password_email: string;
   date_of_birth: Date;
 }
+
+export interface EditEmployeeRequest extends Omit<Teacher, "guru_id" | "created_at" | "date_of_birth" | "join_date" | "email_address"> {
+  date_of_birth: Date;
+}
+
+export interface GetEmployeeByIdData extends Teacher { }
+
+export interface GetEmployeeByIdResponse {
+  success: boolean;
+  message: string;
+  data: GetEmployeeByIdData;
+}

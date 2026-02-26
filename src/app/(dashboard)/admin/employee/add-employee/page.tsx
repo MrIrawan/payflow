@@ -61,8 +61,6 @@ export default function AdminTeacherFormPage() {
     const onSubmit: SubmitHandler<AddEmployeeRequest> = async (data) => {
         setIsLoading(true);
 
-        console.log(data)
-
         try {
             const response = await addEmployee(data);
 
