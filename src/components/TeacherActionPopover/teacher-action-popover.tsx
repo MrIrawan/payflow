@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
-// import { deleteTeacherData } from "@/lib/service/deleteTeacherData";
+import { deleteEmployee } from "@/lib/services/admin/employee/deleteEmployee";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CardDescription } from "../ui/card";
@@ -47,62 +47,60 @@ export function TeacherActionPopover({ teacherData }: {
                         </Button>
                     </Link>
                     {/* delete teacher alert dialog */}
-                    {/* <DeleteTeacherDialog dataId={teacherData.guru_id} /> */}
+                    <DeleteTeacherDialog dataId={teacherData.guru_id} />
                 </div>
             </PopoverContent>
         </Popover>
     )
 }
 
-// function DeleteTeacherDialog({ dataId }: { dataId: string }) {
-//     const [isLoading, setIsLoading] = useState<boolean>(false);
+function DeleteTeacherDialog({ dataId }: { dataId: string }) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-//     async function deleteTeacherHandler() {
-//         setIsLoading(true);
+    async function deleteEmployeeData() {
+        setIsLoading(true);
 
-//         try {
-//             const response = await deleteTeacherData(dataId);
+        try {
+            const response = await deleteEmployee(dataId);
 
-//             if (response.isSuccess === true) {
-//                 console.log(response);
-//                 toast.custom(() => <Toaster title="success to delete teacher data" description={response.message} variant="success" />)
-//             } else {
-//                 console.log(response);
-//                 toast.custom(() => <Toaster title="failed to delete teacher data" description={response.message} variant="error" />)
-//             }
-//         } catch (error) {
-//             toast.custom(() => <Toaster title="something went error" description="there is an error while delete teacher data proccess" variant="error" />)
-//         } finally {
-//             setIsLoading(false);
-//         }
-//     }
-//     return (
-//         <AlertDialog>
-//             <AlertDialogTrigger asChild>
-//                 <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
-//                     <Trash2Icon className="text-white" />
-//                     <p className="text-white text-sm font-medium">Hapus data guru</p>
-//                 </Button>
-//             </AlertDialogTrigger>
-//             <AlertDialogContent size="default">
-//                 <AlertDialogHeader>
-//                     <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-//                         <Trash2Icon />
-//                     </AlertDialogMedia>
-//                     <AlertDialogTitle>Delete teacher?</AlertDialogTitle>
-//                     <AlertDialogDescription className="font-medium">
-//                         This will permanently delete this teacher data. are you sure to choose delete option?
-//                     </AlertDialogDescription>
-//                 </AlertDialogHeader>
-//                 <AlertDialogFooter>
-//                     <AlertDialogCancel variant="outline" className="w-20">
-//                         <p className="text-sm font-medium">Cancel</p>
-//                     </AlertDialogCancel>
-//                     <AlertDialogAction variant="destructive" className="w-20" onClick={deleteTeacherHandler}>
-//                         {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Delete</p>)}
-//                     </AlertDialogAction>
-//                 </AlertDialogFooter>
-//             </AlertDialogContent>
-//         </AlertDialog>
-//     )
-// }
+            if (response.data.success === false) {
+                toast.custom(() => <Toaster title="gagal menghapus data pegawai" description={response.data.message || "kami gagal dalam menghapus data pegawai yang anda mau"} variant="error" />)
+            }
+
+            toast.custom(() => <Toaster title="berhasil menghapus data pegawai" description="data pegawai yang anda mau sudah di hapus" variant="success" />)
+        } catch (error) {
+            toast.custom(() => <Toaster title="kami gagal dalam memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses"}`} variant="error" />)
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">
+                    <Trash2Icon className="text-white" />
+                    <p className="text-white text-sm font-medium">Hapus data pegawai</p>
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="default">
+                <AlertDialogHeader>
+                    <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                        <Trash2Icon />
+                    </AlertDialogMedia>
+                    <AlertDialogTitle>Hapus pegawai ini?</AlertDialogTitle>
+                    <AlertDialogDescription className="font-medium">
+                        Aksi ini akan membuat data pegawai ini terhapus dan kehilangan akun PayFlow mereka.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel variant="outline" className="w-20">
+                        <p className="text-sm font-medium">Batal</p>
+                    </AlertDialogCancel>
+                    <AlertDialogAction variant="destructive" className="w-20" onClick={deleteEmployeeData}>
+                        {isLoading ? (<Spinner className="size-3.5 text-white" />) : (<p className="text-sm font-medium">Hapus</p>)}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )
+}
