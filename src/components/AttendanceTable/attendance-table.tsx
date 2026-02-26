@@ -50,7 +50,7 @@ export function AttendanceTable({ attendanceData }: { attendanceData: GetAllAtte
                 columns={tableColumn}
                 data={filteredData}
                 renderRowAction={(row) => (
-                    <AttendanceActionPopover attendanceId={row.attendance_id} />
+                    <AttendanceActionPopover attendanceData={row} />
                 )}
                 wrapper={false}
             />

@@ -23,17 +23,18 @@ import { Spinner } from "../ui/spinner";
 import { deleteAttendance } from "@/lib/services/admin/attendance/deleteAttendance";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
-// import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
+import { UpdateAttendanceDrawer } from "../UpdateAttendanceDrawer/update-attendance-drawer";
+import { GetAllAttendances } from "@/types/response";
 
-export function AttendanceActionPopover({ attendanceId }: {
-    attendanceId: string;
+export function AttendanceActionPopover({ attendanceData }: {
+    attendanceData: GetAllAttendances;
 }) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function deleteAttendanceHandler() {
         try {
-            const response = await deleteAttendance(attendanceId);
+            const response = await deleteAttendance(attendanceData.attendance_id);
 
             if (response.data.success === false) {
                 toast.custom(() => <Toaster title="gagal menghapus data absensi" description="kami tidak bisa mengahpus data absensi yang anda mau" variant="error" />)
@@ -60,7 +61,7 @@ export function AttendanceActionPopover({ attendanceId }: {
                         <CardDescription className="text-xs font-medium">Attendance Actions</CardDescription>
                     </div>
                     <div className="flex flex-col gap-2">
-                        {/* <UpdateAttendanceDrawer attendanceId={attendanceId} /> */}
+                        <UpdateAttendanceDrawer attendanceData={attendanceData} />
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-destructive hover:bg-red-800">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { StoreAttendanceRequest } from "@/types/request";
+import { EditAttendanceRequest } from "@/types/request";
 
 import {
     Drawer,
@@ -28,44 +28,41 @@ import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { Spinner } from "../ui/spinner";
 import { Toaster } from "../Toaster/toaster";
-import { updateAttendanceData } from "@/lib/service/admin/attendance/updateAttendanceData";
+import { editAttendance } from "@/lib/services/admin/attendance/EditAttendance";
+import { GetAllAttendances } from "@/types/response";
 
-export function UpdateAttendanceDrawer({ attendanceId }: {
-    attendanceId: string;
+export function UpdateAttendanceDrawer({ attendanceData }: {
+    attendanceData: GetAllAttendances;
 }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { register, handleSubmit, control, formState: { errors } } = useForm<StoreAttendanceRequest>();
-    const router = useRouter();
-
-    const onSubmitToUpdateAttendance: SubmitHandler<StoreAttendanceRequest> = async (data) => {
-        setIsLoading(true);
-        try {
-            const formattedData = {
-                ...data,
-                checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
-                checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            };
-
-            const response = await updateAttendanceData(attendanceId, formattedData);
-
-            if (response?.isSuccess === false) {
-                toast.custom(() => <Toaster title="gagal mengupdate data absensi" description={response.message} variant="error" />)
-                setIsOpen(false);
-                router.refresh();
-                return;
-            }
-
-            if (response?.isSuccess) {
-                toast.custom(() => <Toaster title="berhasil mengupdate data absensi" description={response.data?.message} variant="success" />)
-                setIsOpen(false);
-                router.refresh();
-            }
-        } catch (error) {
-            toast.custom(() => <Toaster title="terjadi kesalahan" description="gagal mengupdate data absensi" variant="error" />)
-        } finally {
-            setIsLoading(false);
+    const { register, handleSubmit, control, formState: { errors }, watch } = useForm<EditAttendanceRequest>({
+        defaultValues: {
+            teacher_name: attendanceData.teacher_name,
+            attendance_status: attendanceData.attendance_status,
+            attendance_date: new Date(attendanceData.attendance_date),
         }
+    });
+
+    const onSubmitToUpdateAttendance: SubmitHandler<EditAttendanceRequest> = async (data) => {
+        setIsLoading(true);
+
+        const attendanceStatus = watch("attendance_status");
+        const formattedData = {
+            ...data,
+            checkin_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
+            checkout_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkout_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
+        };
+
+        const response = await editAttendance(formattedData, attendanceData.attendance_id);
+
+        if (response.data.success === false) {
+            toast.custom(() => <Toaster title="gagal mengedit data absensi" description="kami gagal mengedit data absensi yang anda mau" variant="error" />)
+        }
+
+        toast.custom(() => <Toaster title="berhasil mengedit data absensi" description="kami berhasil mengedit data absensi yang anda mau" variant="success" />)
+
+        setIsLoading(false);
     }
 
     return (
@@ -103,7 +100,7 @@ export function UpdateAttendanceDrawer({ attendanceId }: {
                                     label="Tanggal Absensi"
                                     htmlFor="attendance_date"
                                     placeholder="Pilih tanggal absensi"
-                                    onchange={onChange}
+                                    onChange={onChange}
                                     value={value}
                                     requiredLabel={true}
                                     errorMessage={errors.attendance_date?.message}
@@ -144,7 +141,10 @@ export function UpdateAttendanceDrawer({ attendanceId }: {
                                     { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
                                     { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
                                     { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
-                                ]} onvaluechange={field.onChange} />
+                                ]}
+                                    onChange={field.onChange}
+                                    value={field.value}
+                                />
                             )}
                             rules={{ required: { message: "Status absen wajib di isi.", value: true } }}
                         />

@@ -39,27 +39,28 @@ export function StoreAttendanceDrawer() {
     const onSubmitToStoreAttendance: SubmitHandler<AddAttendanceRequest> = async (data) => {
         setIsLoading(true);
 
-        try {
-            const locationPromise = await getUserLocation();
-            const attendanceStatus = watch("attendance_status");
-            let formattedData = {
-                ...data,
-                checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
-                checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-                ...(attendanceStatus === "present" && { location: locationPromise })
-            };
+        const locationPromise = await getUserLocation();
+        const attendanceStatus = watch("attendance_status");
+        let formattedData = {
+            ...data,
+            checkin_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
+            checkout_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
+            location: locationPromise
+        };
 
-            console.log(formattedData);
-        } catch (error) {
+        const response = await addAttendance(formattedData);
 
-        } finally {
-            setIsLoading(false);
-            reset();
+        if (response.data.success === false) {
+            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description="kami gagal menyimpan data absensi yang anda masukkan." variant="error" />);
+            return;
         }
+
+        toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description="kami berhasil menyimpan data absensi yang anda masukkan." variant="success" />);
+
+        setIsLoading(false);
+        reset();
     }
 
-    // toast.custom(() => <Toaster title="gagal menyimpan data absensi" description={response?.message} variant="error" />)
-    // toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description={response?.data?.message} variant="success" />)
 
     return (
         <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
