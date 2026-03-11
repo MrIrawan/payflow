@@ -26,6 +26,8 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { GetEmployeeProfileData } from "@/types/response";
 import { formatDate } from "@/utils/formatDate";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 
 export default function UserProfile() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -55,6 +57,7 @@ export default function UserProfile() {
 
     return (
         <div className='w-full flex flex-col gap-6 p-6'>
+            <PageHeader />
             <div className="flex items-center justify-between">
                 <div className='flex flex-col gap-1'>
                     <h1 className="text-3xl font-bold text-gray-900">Profil Saya</h1>
@@ -341,4 +344,18 @@ export default function UserProfile() {
             </div >
         </div >
     );
+}
+
+function PageHeader() {
+    return (
+        <div className="h-fit w-full flex flex-row items-center gap-3">
+            <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
+            <DashboardBreadcrumb data={{
+                page: "Your Profile",
+                link: [
+                    { title: "Dashboard", href: "/employee" }
+                ]
+            }} />
+        </div>
+    )
 }

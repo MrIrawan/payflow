@@ -2,8 +2,21 @@ import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 import { Card, CardTitle, CardDescription } from "../ui/card";
 
 import { Calendar, FileText, TrendingUp, Wallet } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
-export function EmployeeDataCard() {
+export function EmployeeDataCard({ presentCount, payslipsCount, salary }: {
+    presentCount: number;
+    payslipsCount: number;
+    salary: number
+}) {
+
+    const formattedRupiah = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(salary);
+
     return (
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             {/* Total Salary Card */}
@@ -16,7 +29,7 @@ export function EmployeeDataCard() {
                 </div>
                 <div className="flex flex-col gap-1">
                     <p className="text-sm text-blue-100 mb-1">Total Gaji</p>
-                    <p className="text-3xl font-bold">Rp 4.500.000</p>
+                    <p className="text-3xl font-bold">{!formattedRupiah ? 0 : formattedRupiah}</p>
                     <div className="flex items-center gap-1 text-sm">
                         <TrendingUp className="w-4 h-4" />
                         <span>+5% dari bulan lalu</span>
@@ -34,7 +47,7 @@ export function EmployeeDataCard() {
                 </div>
                 <div className="flex flex-col gap-1">
                     <p className="text-sm text-gray-600 mb-1">Total Hari Kerja</p>
-                    <p className="text-3xl font-bold text-gray-900">22 Hari</p>
+                    <p className="text-3xl font-bold text-gray-900">{presentCount} Hari</p>
                     <p className="text-sm text-gray-500">Dari 23 hari kerja</p>
                 </div>
             </Card>
@@ -49,7 +62,7 @@ export function EmployeeDataCard() {
                 </div>
                 <div className="flex flex-col gap-1">
                     <p className="text-sm text-gray-600 mb-1">Slip Gaji Diterima</p>
-                    <p className="text-3xl font-bold text-gray-900">12 Slip</p>
+                    <p className="text-3xl font-bold text-gray-900">{payslipsCount} Slip</p>
                     <p className="text-sm text-gray-500">Sejak bergabung</p>
                 </div>
             </Card>

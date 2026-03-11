@@ -33,7 +33,7 @@ import { Spinner } from "../ui/spinner";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, House, LogOut, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { Calculator, CalendarCheck2, House, LogOut, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 export function EmployeeSidebar() {
@@ -74,8 +74,14 @@ export function EmployeeSidebar() {
                             activeBg
                         />
                         <SidebarNavigationLink
-                            href="/employee/payroll"
+                            href="/employee/payroll/live"
                             label="kalkulator gaji"
+                            Icon={Calculator}
+                            activeBg
+                        />
+                        <SidebarNavigationLink
+                            href="/employee/payroll/history"
+                            label="riwayat gaji"
                             Icon={Wallet}
                             activeBg
                         />
@@ -92,12 +98,6 @@ export function EmployeeSidebar() {
                                     href: "/employee/statistik-absen"
                                 },
                             ]}
-                        />
-                        <SidebarNavigationLink
-                            href="/employee/cetak-laporan-gaji"
-                            label="cetak laporan gaji"
-                            Icon={Wallet}
-                            activeBg
                         />
                     </SidebarMenu>
                 </SidebarGroup>

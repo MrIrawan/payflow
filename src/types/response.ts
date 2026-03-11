@@ -177,3 +177,15 @@ export interface DeleteAttendanceResponse {
   success: boolean;
   message: string;
 }
+
+export interface GetEmployeeInfoData {
+  profile: Teacher;
+  attendance: Attendance[];
+  payslips: PayrollHistory[];
+}
+
+export interface GetEmployeeInfoResponse {
+  success: boolean;
+  message: string;
+  data: GetEmployeeInfoData;
+}
