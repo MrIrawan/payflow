@@ -10,6 +10,8 @@ import { signInEmployee } from '@/lib/services/employee/auth/signInEmployee';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import FacebookSymbol from '../../../../public/images/facebook_symbol.svg';
+import GoogleSymbol from '../../../../public/images/google_symbol.svg';
 
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -137,11 +139,20 @@ export default function LoginPage() {
           </div>
 
           {/* Back to Home */}
-          <Link href={"/"}>
-            <Button className='w-full ring ring-border bg-white hover:bg-muted'>
-              <p className='text-base font-medium text-muted-foreground'>Kembali ke beranda</p>
-            </Button>
-          </Link>
+          <div className='flex flex-row justify-between items-center gap-3 w-full'>
+            <Link href={"/"} className='w-full'>
+              <Button className='w-full ring ring-border flex flex-row items-center justify-center gap-3 bg-white hover:bg-muted'>
+                <Image src={GoogleSymbol} alt='google symbol' width={20} height={20} className='w-5 h-5' />
+                <p className='text-sm font-medium text-black'>Daftar dengan Google</p>
+              </Button>
+            </Link>
+            <Link href={"/"} className='w-full'>
+              <Button className='w-full ring ring-border flex flex-row items-center justify-center gap-3 bg-white hover:bg-muted'>
+                <Image src={FacebookSymbol} alt='facebook symbol' width={20} height={20} className='w-5 h-5' />
+                <p className='text-sm font-medium text-black'>Daftar dengan Facebook</p>
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </>
