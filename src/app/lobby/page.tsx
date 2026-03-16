@@ -3,9 +3,13 @@
 import Image from "next/image";
 import PayFlowLogoWithTittle from "../../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, SlashIcon } from "lucide-react";
+import { ArrowRight, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon, SlashIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function LobbyPage() {
     return (
@@ -40,11 +44,35 @@ export default function LobbyPage() {
                         This is the main lobby for the PayFlow application.
                     </p>
                 </div>
-                <div className="w-full flex flex-col gap-3">
-                    {/* input and additional button here */}
-
-                    {/* companies card here */}
-
+                <div className="flex flex-col gap-5">
+                    <div className="w-full flex flex-row justify-between items-end">
+                        {/* input and additional button here */}
+                        <div className="flex flex-col gap-2">
+                            <Label className="text-sm font-medium">Search Companies</Label>
+                            <InputGroup>
+                                <InputGroupInput placeholder="Search..." />
+                                <InputGroupAddon>
+                                    <SearchIcon />
+                                </InputGroupAddon>
+                            </InputGroup>
+                        </div>
+                        <div className="flex flex-row justify-between items-center gap-3">
+                            <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-green-500 bg-green-500 text-white hover:bg-green-600">
+                                <PlusIcon />
+                                <p className="text-sm">Add Company</p>
+                            </Button>
+                            <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-blue-500 bg-blue-500 text-white hover:bg-blue-600">
+                                <LogInIcon />
+                                <p className="text-sm">Join Existing Company</p>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="w-full grid grid-cols-3 gap-4">
+                        <Card className="h-[200px] border-2 border-dashed border-muted-foreground flex flex-col justify-center items-center gap-2">
+                            <PlusCircleIcon className="size-16 text-muted-foreground" />
+                            <p className="text-center text-muted-foreground">Create New Company</p>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </section>
