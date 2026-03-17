@@ -172,3 +172,11 @@ export interface EmployeeDataCardData {
   attendanceChart: AttendanceChartItem[]; // Array of chart items
   salary: SalaryInfo;
 }
+
+export interface CompanyCardProps {
+  companyName: string;
+  companyRegion: string;
+  companyAvatar: string;
+  totalEmployees: number;
+  companyField: string;
+}

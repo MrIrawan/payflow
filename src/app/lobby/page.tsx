@@ -1,17 +1,25 @@
 "use client";
 
+import { useState } from "react";
+
 import Image from "next/image";
 import PayFlowLogoWithTittle from "../../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon, SlashIcon } from "lucide-react";
+import { ArrowRight, CopyIcon, EllipsisVerticalIcon, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon, SettingsIcon, SlashIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { InfoBadge } from "@/components/InfoBadge/info-badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { CompanyCard } from "@/components/CompanyCard/company-card";
 
 export default function LobbyPage() {
+    const [totalCompany, setTotalCompany] = useState<number[] | undefined>([9]);
     return (
         <section className="w-full flex flex-col gap-0">
             <div className="w-full flex flex-row justify-between items-center py-3 px-5">
@@ -68,10 +76,38 @@ export default function LobbyPage() {
                         </div>
                     </div>
                     <div className="w-full grid grid-cols-3 gap-4">
-                        <Card className="h-[200px] border-2 border-dashed border-muted-foreground flex flex-col justify-center items-center gap-2">
-                            <PlusCircleIcon className="size-16 text-muted-foreground" />
-                            <p className="text-center text-muted-foreground">Create New Company</p>
-                        </Card>
+                        {/* undefined state render */}
+                        {totalCompany === undefined && (
+                            <>
+                                {Array.from({ length: 9 }).map((_, index) => (
+                                    <Skeleton className="w-full h-[200px] bg-gray-300" key={index} />
+                                ))}
+                            </>
+                        )}
+
+                        {/* zero state render */}
+                        {totalCompany?.length === 0 ? (
+                            <Button className="w-full h-[200px] p-0 bg-transparent hover:bg-transparent">
+                                <Card className="w-full h-full border-2 border-dashed border-border flex flex-col justify-center items-center gap-2 transition duration-300 ease-in-out hover:bg-border/30">
+                                    <PlusCircleIcon className="size-16 text-muted-foreground/50" />
+                                    <p className="text-center text-muted-foreground/50">Create New Company</p>
+                                </Card>
+                            </Button>
+                        ) : (
+                            <>
+                                {/* render company card here */}
+                                {Array.from({ length: 9 }).map((_, index) => (
+                                    <CompanyCard
+                                        key={index}
+                                        companyName={`Company ${index + 1}`}
+                                        companyRegion="Indonesia"
+                                        companyAvatar=""
+                                        totalEmployees={40}
+                                        companyField="Technology"
+                                    />
+                                ))}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
