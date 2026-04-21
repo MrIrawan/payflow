@@ -179,4 +179,5 @@ export interface CompanyCardProps {
   companyAvatar: string;
   totalEmployees: number;
   companyField: string;
+  companyKey: string;
 }

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import PayFlowLogoWithTittle from "../../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, CopyIcon, EllipsisVerticalIcon, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon, SettingsIcon, SlashIcon } from "lucide-react";
+import { ArrowRight, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
@@ -13,9 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { InfoBadge } from "@/components/InfoBadge/info-badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 import { CompanyCard } from "@/components/CompanyCard/company-card";
 
 export default function LobbyPage() {
@@ -99,6 +97,7 @@ export default function LobbyPage() {
                                 {Array.from({ length: 9 }).map((_, index) => (
                                     <CompanyCard
                                         key={index}
+                                        companyKey="anjayy"
                                         companyName={`Company ${index + 1}`}
                                         companyRegion="Indonesia"
                                         companyAvatar=""

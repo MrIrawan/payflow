@@ -7,8 +7,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { InfoBadge } from "../InfoBadge/info-badge";
 
 import { CopyIcon, EllipsisVerticalIcon, SettingsIcon } from "lucide-react";
+import { toast } from "sonner";
+import { Toaster } from "../Toaster/toaster";
 
-export function CompanyCard({ companyName, companyRegion, companyAvatar, totalEmployees, companyField }: CompanyCardProps) {
+export function CompanyCard({ companyName, companyRegion, companyAvatar, totalEmployees, companyField, companyKey }: CompanyCardProps) {
     return (
         <Card className="w-full h-[180px] flex flex-col gap-4 transition duration-300 ease-in-out hover:bg-border/30 p-4">
             <div className="w-full flex flex-row justify-between items-center">
@@ -29,7 +31,10 @@ export function CompanyCard({ companyName, companyRegion, companyAvatar, totalEm
                                     <EllipsisVerticalIcon className="size-5 text-muted-foreground" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="min-w-56">
-                                    <DropdownMenuItem className="group">
+                                    <DropdownMenuItem className="group" onClick={() => {
+                                        navigator.clipboard.writeText(companyKey);
+                                        toast.custom(() => <Toaster variant="success" description="success to copy company key" title="company key copied!" />)
+                                    }}>
                                         <CopyIcon className="size-4" />
                                         <p className="font-semibold text-xs text-muted-foreground group-hover:text-muted-foreground">Copy company key</p>
                                     </DropdownMenuItem>
