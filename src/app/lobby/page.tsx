@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { CompanyCard } from "@/components/CompanyCard/company-card";
+import { AddCompanyDialog } from "@/components/AddCompanyDialog/add-company-dialog";
 
 export default function LobbyPage() {
     const [totalCompany, setTotalCompany] = useState<number[] | undefined>([9]);
@@ -63,10 +64,7 @@ export default function LobbyPage() {
                             </InputGroup>
                         </div>
                         <div className="flex flex-row justify-between items-center gap-3">
-                            <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-green-500 bg-green-500 text-white hover:bg-green-600">
-                                <PlusIcon />
-                                <p className="text-sm">Add Company</p>
-                            </Button>
+                            <AddCompanyDialog />
                             <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-blue-500 bg-blue-500 text-white hover:bg-blue-600">
                                 <LogInIcon />
                                 <p className="text-sm">Join Existing Company</p>
