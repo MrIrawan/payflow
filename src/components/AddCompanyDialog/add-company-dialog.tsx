@@ -11,23 +11,21 @@ import { MultiSelectGroup } from "../MultiSelectGroup/multi-select-group";
 import { InputGroup } from "../InputGroup/input-group";
 import { FormComponent, FormContent, FormFooter } from "../Form/Form";
 
-export function AddCompanyDialog() {
+export function AddCompanyDialog({ trigger }: { trigger?: React.ReactNode }) {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState<string[]>([]);
 
     return (
         <Dialog defaultOpen={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-green-500 bg-green-500 text-white hover:bg-green-600">
-                    <PlusIcon />
-                    <p className="text-sm">Add Company</p>
-                </Button>
+                {trigger || (
+                    <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-green-500 bg-green-500 text-white hover:bg-green-600">
+                        <PlusIcon />
+                        <p className="text-sm">Add Company</p>
+                    </Button>
+                )}
             </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => {
-                // Cegah dialog tutup ketika interact
-                // dengan elemen portal di luar (ComboboxContent)
-                e.preventDefault()
-            }}>
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Add New Company</DialogTitle>
                     <DialogDescription>

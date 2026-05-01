@@ -106,12 +106,14 @@ export default function LobbyPage() {
 
                         {/* zero state render */}
                         {totalCompany?.length === 0 ? (
-                            <Button className="w-full h-[200px] p-0 bg-transparent hover:bg-transparent">
-                                <Card className="w-full h-full border-2 border-dashed border-border flex flex-col justify-center items-center gap-2 transition duration-300 ease-in-out hover:bg-border/30">
-                                    <PlusCircleIcon className="size-16 text-muted-foreground/50" />
-                                    <p className="text-center text-muted-foreground/50">Create New Company</p>
-                                </Card>
-                            </Button>
+                            <AddCompanyDialog trigger={
+                                <Button className="w-full h-[200px] p-0 bg-transparent hover:bg-transparent">
+                                    <Card className="w-full h-full border-2 border-dashed border-border flex flex-col justify-center items-center gap-2 transition duration-300 ease-in-out hover:bg-border/30">
+                                        <PlusCircleIcon className="size-16 text-muted-foreground/50" />
+                                        <p className="text-center text-muted-foreground/50">Create New Company</p>
+                                    </Card>
+                                </Button>
+                            } />
                         ) : (
                             <>
                                 {/* render company card here */}
