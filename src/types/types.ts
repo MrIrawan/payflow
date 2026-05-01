@@ -181,3 +181,35 @@ export interface CompanyCardProps {
   companyField: string;
   companyKey: string;
 }
+
+export interface MultiSelectOption {
+  label: string;
+  value: string;
+}
+
+export interface MultiSelectGroupProps {
+  // Label
+  label: string;
+  labelClassName?: string;
+  required?: boolean;
+
+  // Options
+  options: MultiSelectOption[];
+
+  // RHF compatible — forwardRef ready
+  value?: string[];
+  onChange?: (values: string[]) => void;
+  onBlur?: () => void;
+  name?: string;
+  disabled?: boolean;
+
+  // UI
+  placeholder?: string;
+  emptyMessage?: string;
+  className?: string;
+  error?: string;
+
+  // Behaviour
+  maxSelect?: number;
+  searchable?: boolean;
+}
