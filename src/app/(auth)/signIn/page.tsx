@@ -38,7 +38,7 @@ export default function LoginPage() {
       }
 
       toast.custom(() => <Toaster variant='success' title='selamat! anda berhasil masuk.' description='selamat datang kembali! lihat apa yang terjadi pada penggajian anda.' />)
-      router.push("/employee/me");
+      router.push("/lobby");
     } catch (error) {
       toast.custom(() => <Toaster variant='error' title='kami tidak bisa memproses' description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
     } finally {

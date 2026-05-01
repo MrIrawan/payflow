@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
 import PayFlowLogoWithTittle from "../../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, LogInIcon, PlusCircleIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { ArrowRight, LogInIcon, PlusCircleIcon, SearchIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
@@ -16,9 +16,32 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { CompanyCard } from "@/components/CompanyCard/company-card";
 import { AddCompanyDialog } from "@/components/AddCompanyDialog/add-company-dialog";
+import { getOwnCompany } from "@/lib/services/employee/company/getOwnCompany";
+import { GetOwnCompanyData } from "@/types/response";
 
 export default function LobbyPage() {
-    const [totalCompany, setTotalCompany] = useState<number[] | undefined>([9]);
+    const [totalCompany, setTotalCompany] = useState<GetOwnCompanyData[] | undefined>(undefined);
+
+    useEffect(() => {
+        // fetch own company data here and set totalCompany state
+        async function fetchOwnCompanyData() {
+            try {
+                const response = await getOwnCompany();
+
+                if (!response.data.success) {
+                    console.error("Failed to fetch own company data:", response.data.message);
+                    return;
+                }
+
+                setTotalCompany(response.data.data);
+            } catch (error) {
+                console.error("Error fetching own company data:", error);
+                throw error; // Rethrow the error to be caught by the caller
+            }
+        };
+
+        fetchOwnCompanyData();
+    }, [])
     return (
         <section className="w-full flex flex-col gap-0">
             <div className="w-full flex flex-row justify-between items-center py-3 px-5">

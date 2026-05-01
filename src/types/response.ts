@@ -1,4 +1,4 @@
-import { Attendance, PayrollHistory, Teacher } from "./base";
+import { Attendance, Companies, PayrollHistory, Teacher } from "./base";
 
 export interface SignUpUser {
   id: string;
@@ -189,3 +189,11 @@ export interface GetEmployeeInfoResponse {
   message: string;
   data: GetEmployeeInfoData;
 }
+
+export interface GetOwnCompanyResponse {
+  success: boolean;
+  message: string;
+  data: GetOwnCompanyData;
+}
+
+export interface GetOwnCompanyData extends Companies { }

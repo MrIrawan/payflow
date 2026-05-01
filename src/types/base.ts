@@ -62,3 +62,22 @@ export interface PayrollHistory {
     bonus_tambahan: number;
     total_salary: number;
 }
+
+export interface Companies {
+    company_id: number;
+    owner_id: string;
+    company_name: string;
+    company_key: string;
+    company_field: string[];
+    company_description: string;
+    company_avatar: string;
+    themeConfig: {
+        primaryColor: string;
+        secondaryColor: string;
+        backgroundColor: string;
+        textColor: string;
+    };
+    total_employees: number;
+    created_at: string;
+    updated_at: string;
+}
