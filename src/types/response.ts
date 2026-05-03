@@ -197,3 +197,11 @@ export interface GetOwnCompanyResponse {
 }
 
 export interface GetOwnCompanyData extends Companies { }
+
+export interface AddNewCompanyResponse {
+  success: boolean;
+  message: string;
+  data: AddNewCompanyData;
+}
+
+export interface AddNewCompanyData extends Companies { }

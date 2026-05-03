@@ -1,4 +1,4 @@
-import { Attendance, Teacher } from "./base";
+import { Attendance, Companies, Teacher } from "./base";
 import { UserLocation } from "./types";
 
 export interface SignUpEmployeeRequest {
@@ -60,3 +60,5 @@ export interface AddAttendanceRequest extends Omit<Attendance, "attendance_id" |
   checkin_time: number;
   checkout_time: number;
 }
+
+export interface AddNewCompanyRequest extends Omit<Companies, "company_id" | "created_at" | "updated_at" | "owner_id" | "company_key"> { }

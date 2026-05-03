@@ -42,6 +42,7 @@ export default function LobbyPage() {
 
         fetchOwnCompanyData();
     }, [])
+    console.log("Fetched own company data:", totalCompany?.map(company => company.company_field));
     return (
         <section className="w-full flex flex-col gap-0">
             <div className="w-full flex flex-row justify-between items-center py-3 px-5">
@@ -117,15 +118,14 @@ export default function LobbyPage() {
                         ) : (
                             <>
                                 {/* render company card here */}
-                                {Array.from({ length: 9 }).map((_, index) => (
+                                {totalCompany?.map((company, index) => (
                                     <CompanyCard
                                         key={index}
-                                        companyKey="anjayy"
-                                        companyName={`Company ${index + 1}`}
-                                        companyRegion="Indonesia"
-                                        companyAvatar=""
-                                        totalEmployees={40}
-                                        companyField="Technology"
+                                        companyKey={company.company_key}
+                                        companyName={company.company_name}
+                                        companyAvatar={company.company_avatar}
+                                        totalEmployees={company.total_employees}
+                                        companyField={company.company_field}
                                     />
                                 ))}
                             </>

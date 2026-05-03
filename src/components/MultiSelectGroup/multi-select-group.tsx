@@ -102,14 +102,7 @@ export const MultiSelectGroup = React.forwardRef<
                 >
                     {label}
                 </Label>
-
-                {/*
-          modal={true} → memberitahu Radix Popover bahwa
-          dia berada di dalam Dialog/Modal, sehingga
-          focus trap dan event handling tidak conflict
-        */}
                 <Popover open={open} onOpenChange={setOpen} modal={true}>
-
                     {/* Trigger — forwardRef ke button ini */}
                     <PopoverTrigger asChild>
                         <button
@@ -129,15 +122,14 @@ export const MultiSelectGroup = React.forwardRef<
                                 "px-3 py-2 text-sm",
                                 "ring-offset-background transition-colors",
                                 // Focus
-                                "focus-visible:outline-none focus-visible:ring-2",
-                                "focus-visible:ring-ring focus-visible:ring-offset-2",
+                                "focus-visible:ring-blue-100 focus-visible:border-blue-600 focus-visible:ring-[3px] focus-visible:outline-none",
                                 // Hover
                                 "hover:bg-accent hover:text-accent-foreground",
                                 // Disabled
                                 "disabled:cursor-not-allowed disabled:opacity-50",
                                 // Error state
                                 error &&
-                                "border-destructive focus-visible:ring-destructive",
+                                "ring-red-100 border-red-600 ring-[3px]",
                             )}
                         >
                             {/* Chips area */}
@@ -241,7 +233,7 @@ export const MultiSelectGroup = React.forwardRef<
 
                 {/* Error message */}
                 {error && (
-                    <p className="text-xs text-destructive" role="alert">
+                    <p className="text-sm font-medium text-destructive" role="alert">
                         {error}
                     </p>
                 )}

@@ -175,10 +175,10 @@ export interface EmployeeDataCardData {
 
 export interface CompanyCardProps {
   companyName: string;
-  companyRegion: string;
-  companyAvatar: string;
+  companyAvatar?: string;
+  companyDescription?: string;
   totalEmployees: number;
-  companyField: string;
+  companyField: string[];
   companyKey: string;
 }
 

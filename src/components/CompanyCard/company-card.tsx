@@ -4,21 +4,23 @@ import { Card } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
-import { InfoBadge } from "../InfoBadge/info-badge";
+import { industryBadgeMap, InfoBadge } from "../InfoBadge/info-badge";
 
-import { CopyIcon, EllipsisVerticalIcon, SettingsIcon } from "lucide-react";
+import { ArrowRightCircle, ArrowUpRight, CopyIcon, EllipsisVerticalIcon, SettingsIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
 
-export function CompanyCard({ companyName, companyRegion, companyAvatar, totalEmployees, companyField, companyKey }: CompanyCardProps) {
+export function CompanyCard({ companyName, companyAvatar, totalEmployees, companyField, companyKey }: CompanyCardProps) {
     return (
-        <Card className="w-full h-[180px] flex flex-col gap-4 transition duration-300 ease-in-out hover:bg-border/30 p-4">
-            <div className="w-full flex flex-row justify-between items-center">
+        <Card className="w-full h-[200px] flex flex-col gap-3 transition duration-300 ease-in-out hover:bg-border/30 p-0 overflow-hidden group">
+            <div className="w-full flex flex-row justify-between items-center px-4 pt-4 pb-0">
                 <div className="w-full flex flex-row gap-2 items-start">
                     {/* company avatar */}
                     <Avatar className="w-12 h-12 rounded-md">
                         {companyAvatar && (<AvatarImage src={companyAvatar} alt={`${companyName} avatar`} />)}
-                        <AvatarFallback className="bg-gray-500 rounded-md font-semibold text-lg text-white uppercase">{companyName.slice(0, 1)}</AvatarFallback>
+                        <AvatarFallback className="bg-gray-500 rounded-md font-semibold text-lg text-white capitalize">{companyName.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     {/* company name and region */}
                     <div className="w-full flex flex-col gap-0 items-start">
@@ -45,14 +47,29 @@ export function CompanyCard({ companyName, companyRegion, companyAvatar, totalEm
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                        <p className="text-sm text-muted-foreground capitalize">Region: {companyRegion}</p>
+                        <p className="text-sm text-muted-foreground capitalize">Company Status: <span className="text-green-600">Active</span></p>
                     </div>
                 </div>
             </div>
-            <div className="w-full flex flex-row items-center flex-wrap gap-3">
-                <InfoBadge label="Active" className="bg-green-100 ring ring-green-400 text-green-600" />
-                <InfoBadge label={companyField} />
+            <div className="w-3/5 flex flex-row items-center flex-wrap gap-3 px-4 py-0">
+                {companyField.length > 2 ? (
+                    <>
+                        {companyField.slice(0, 2).map((field, index) => (
+                            <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
+                        ))}
+                        <InfoBadge label={`+${companyField.length - 2} more`} />
+                    </>
+                ) : (
+                    <>
+                        {companyField.map((field, index) => (
+                            <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
+                        ))}
+                    </>
+                )}
                 <InfoBadge label={`${totalEmployees} Employees`} />
+            </div>
+            <div className="w-full h-full bg-linear-to-r from-blue-500 to-blue-700 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all flex flex-row justify-center items-center">
+                <p className="text-sm font-medium text-white capitalize">join this company</p>
             </div>
         </Card>
     )
