@@ -51,22 +51,26 @@ export function CompanyCard({ companyName, companyAvatar, totalEmployees, compan
                     </div>
                 </div>
             </div>
-            <div className="w-3/5 flex flex-row items-center flex-wrap gap-3 px-4 py-0">
-                {companyField.length > 2 ? (
-                    <>
-                        {companyField.slice(0, 2).map((field, index) => (
-                            <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
-                        ))}
-                        <InfoBadge label={`+${companyField.length - 2} more`} />
-                    </>
-                ) : (
-                    <>
-                        {companyField.map((field, index) => (
-                            <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
-                        ))}
-                    </>
-                )}
-                <InfoBadge label={`${totalEmployees} Employees`} />
+            <div className="w-full flex flex-col items-center flex-wrap gap-3 px-4 py-0">
+                <div className="w-full flex flex-row items-center flex-wrap gap-3">
+                    {companyField.length > 2 ? (
+                        <>
+                            {companyField.slice(0, 2).map((field, index) => (
+                                <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
+                            ))}
+                            <InfoBadge label={`+${companyField.length - 2} more`} />
+                        </>
+                    ) : (
+                        <>
+                            {companyField.map((field, index) => (
+                                <InfoBadge key={index} label={field} className={industryBadgeMap[field].className} icon={industryBadgeMap[field].icon} />
+                            ))}
+                        </>
+                    )}
+                </div>
+                <div className="w-full flex flex-row items-center justify-start">
+                    <InfoBadge label={`${totalEmployees} Employees`} />
+                </div>
             </div>
             <div className="w-full h-full bg-linear-to-r from-blue-500 to-blue-700 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all flex flex-row justify-center items-center">
                 <p className="text-sm font-medium text-white capitalize">join this company</p>
