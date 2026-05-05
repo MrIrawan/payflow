@@ -88,6 +88,12 @@ userClient.interceptors.response.use(
             }
         }
 
+        const serverMessage = error.response?.data?.message
+        if (serverMessage) {
+            error.message = serverMessage
+        }
+
+
         return Promise.reject(error);
     }
 );

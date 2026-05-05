@@ -27,26 +27,27 @@ export function JoinCompanyDialog() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<{ company_key: string }>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<{ company_key: string }>();
 
     const onSubmit: SubmitHandler<{ company_key: string }> = async (data) => {
         setIsLoading(true);
 
-        try {
-            const response = await joinCompany({ company_key: data.company_key });
+        const response = await joinCompany({ company_key: data.company_key });
 
-            console.log("Join Company Response:", response);
+        if (response.success === false) {
+            toast.custom(() => <Toaster variant='error' title='Failed to Join Company' description={response?.message || "we cant process your request to join company"} />)
+            console.error("Failed to join company:", response.message);
 
-            if (response?.status === 409 || !response?.data.success) {
-                throw new Error(response?.data.message || "Failed to join company. Please check the company key and try again.");
-            }
-
-            toast.custom(() => <Toaster variant='success' title='successfully joined company.' description={response?.data.message || "you have successfully joined the company"} />)
-        } catch (error) {
-            console.error("Error joining company:", error);
-            toast.custom(() => <Toaster variant='error' title='failed to join company.' description={`${error || "we cant process your request to join company"}`} />)
-        } finally {
             setIsLoading(false);
+            reset();
+            return;
+        }
+
+        if (response.success === true) {
+            toast.custom(() => <Toaster variant='success' title='Successfully Joined Company' description={response?.message || "you have successfully joined the company"} />)
+            setIsLoading(false);
+            reset();
+            setOpen(false);
         }
     };
 
