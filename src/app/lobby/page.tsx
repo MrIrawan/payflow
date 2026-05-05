@@ -18,6 +18,7 @@ import { CompanyCard } from "@/components/CompanyCard/company-card";
 import { AddCompanyDialog } from "@/components/AddCompanyDialog/add-company-dialog";
 import { getOwnCompany } from "@/lib/services/employee/company/getOwnCompany";
 import { GetOwnCompanyData } from "@/types/response";
+import { JoinCompanyDialog } from "@/components/JoinCompanyDialog/join-company-dialog";
 
 export default function LobbyPage() {
     const [totalCompany, setTotalCompany] = useState<GetOwnCompanyData[] | undefined>(undefined);
@@ -89,10 +90,7 @@ export default function LobbyPage() {
                         </div>
                         <div className="flex flex-row justify-between items-center gap-3">
                             <AddCompanyDialog />
-                            <Button className="min-w-32 flex flex-row items-center gap-1.5 ring-1 ring-blue-500 bg-blue-500 text-white hover:bg-blue-600">
-                                <LogInIcon />
-                                <p className="text-sm">Join Existing Company</p>
-                            </Button>
+                            <JoinCompanyDialog />
                         </div>
                     </div>
                     <div className="w-full grid grid-cols-3 gap-4">

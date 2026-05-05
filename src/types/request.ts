@@ -62,3 +62,7 @@ export interface AddAttendanceRequest extends Omit<Attendance, "attendance_id" |
 }
 
 export interface AddNewCompanyRequest extends Omit<Companies, "company_id" | "created_at" | "updated_at" | "owner_id" | "company_key"> { }
+
+export interface JoinCompanyRequest {
+  company_key: string;
+}

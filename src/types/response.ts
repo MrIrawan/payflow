@@ -205,3 +205,16 @@ export interface AddNewCompanyResponse {
 }
 
 export interface AddNewCompanyData extends Companies { }
+
+export interface JoinCompanyData {
+  company_id: number;
+  company_name: string;
+  role: string;
+  is_new: boolean;
+}
+
+export interface JoinCompanyResponse {
+  success: boolean;
+  message: string;
+  data: JoinCompanyData;
+}
