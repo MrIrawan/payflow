@@ -26,18 +26,21 @@ export default function LobbyPage() {
     useEffect(() => {
         // fetch own company data here and set totalCompany state
         async function fetchOwnCompanyData() {
-            try {
-                const response = await getOwnCompany();
+            const response = await getOwnCompany();
 
-                if (!response.data.success) {
-                    console.error("Failed to fetch own company data:", response.data.message);
+            if (response.success === false) {
+                console.error("Failed to fetch own company data:", response.message);
+
+                if (response.status === 404) {
+                    console.warn("No company found for the user. Redirecting to lobby:", response.message);
+                    setTotalCompany([]);
                     return;
                 }
+                return;
+            }
 
-                setTotalCompany(response.data.data);
-            } catch (error) {
-                console.error("Error fetching own company data:", error);
-                throw error; // Rethrow the error to be caught by the caller
+            if (response.data !== null) {
+                setTotalCompany(response.data);
             }
         };
 
@@ -119,6 +122,7 @@ export default function LobbyPage() {
                                 {totalCompany?.map((company, index) => (
                                     <CompanyCard
                                         key={index}
+                                        companyId={company.company_id}
                                         companyKey={company.company_key}
                                         companyName={company.company_name}
                                         companyAvatar={company.company_avatar}

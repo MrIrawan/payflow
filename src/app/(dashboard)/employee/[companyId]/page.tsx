@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { AttendanceBadge } from '@/components/AttendaceBadge/attendance-badge';
@@ -17,24 +18,30 @@ import { toast } from 'sonner';
 import { Toaster } from '@/components/Toaster/toaster';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PayrollHistory } from '@/types/base';
+import { setActiveCompany } from '@/utils/activeCompany';
+import { AttendanceChartItem } from '@/types/types';
 
-// Sample data
-const attendanceSummaryData = [
-    { month: "Januari", present: 20, onLeave: 2, absent: 1 },
-    { month: "Februari", present: 18, onLeave: 3, absent: 2 },
-    { month: "Maret", present: 22, onLeave: 1, absent: 0 },
-    { month: "April", present: 21, onLeave: 1, absent: 1 },
-    { month: "Mei", present: 19, onLeave: 2, absent: 2 },
-    { month: "Juni", present: 23, onLeave: 0, absent: 0 },
-];
+// ── Sample data (tetap tidak diubah) ─────────────────────────────────────────
+
+const attendanceSummaryData: AttendanceChartItem[] = [
+    { month: "Januari", present: 20, late: 2, absent: 1, permit: 5 },
+    { month: "Februari", present: 18, late: 3, absent: 2, permit: 5 },
+    { month: "Maret", present: 22, late: 1, absent: 0, permit: 5 },
+    { month: "April", present: 21, late: 1, absent: 1, permit: 5 },
+    { month: "Mei", present: 19, late: 2, absent: 2, permit: 5 },
+    { month: "Juni", present: 23, late: 0, absent: 0, permit: 5 },
+]
 
 const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
-    { accessor: "teacher_name", header: "Nama Guru" },
     { accessor: "attendance_date", header: "Tanggal Absensi" },
     { accessor: "checkin_time", header: "Jam Masuk" },
     { accessor: "checkout_time", header: "Jam Keluar" },
-    { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> },
-];
+    {
+        accessor: "attendance_status",
+        header: "Status Absensi",
+        cell: (value) => <AttendanceBadge placeholder={value} />
+    },
+]
 
 const payrollHistoryColumn: Column<PayrollHistory>[] = [
     { accessor: "teacher_name", header: "Nama Guru" },
@@ -43,43 +50,67 @@ const payrollHistoryColumn: Column<PayrollHistory>[] = [
     { accessor: "teaching_salary", header: "Gaji Mengajar" },
     { accessor: "transport_salary", header: "Gaji Transport" },
     { accessor: "total_salary", header: "Total Gaji" },
-];
+]
+
+// ── Page Component ────────────────────────────────────────────────────────────
 
 export default function UserDashboard() {
-    const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined);
+    const params = useParams()
+    const router = useRouter()
 
-    const currentDate = new Date();
-    const presentCount = employeeInfo?.attendance.filter(attendance => attendance.attendance_status === "present").length || 0;
-    const payslipsCount = employeeInfo?.payslips.length
+    const companyId = Number(params.companyId)
 
-    const currentMonthAttendance = employeeInfo?.attendance.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID", { month: "long" }) === currentDate.toLocaleDateString("id-ID", { month: "long" }));
-    const totalSalary = Number(employeeInfo?.payslips.map((payslip) => payslip.total_salary));
+    const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined)
+
+    const currentDate = new Date()
+    const presentCount = employeeInfo?.attendance.filter(
+        (a) => a.attendance_status === "present"
+    ).length || 0
+
+    const currentMonthAttendance = employeeInfo?.attendance.filter(
+        (a) => new Date(a.attendance_date).toLocaleDateString("id-ID", {
+            month: "long"
+        }) === currentDate.toLocaleDateString("id-ID", { month: "long" })
+    )
 
     useEffect(() => {
+        // Guard: companyId harus valid
+        if (!companyId || isNaN(companyId)) {
+            router.replace("/lobby")
+            return
+        }
+
+        // Sync cookie dengan URL — kalau user langsung akses
+        // URL tertentu, cookie ikut diupdate
+        setActiveCompany(companyId)
+
         async function fetchEmployeeInfo() {
-            try {
-                const response = await getEmployeeInfo();
+            const response = await getEmployeeInfo(companyId)
 
-                if (response.data.success === false) {
-                    toast.custom(() => <Toaster variant="error" title="gagal mengambil info dashboard pegawai" description={`${response.data.message || "gagal mengambil data info dashboard pegawai."}`} />);
-                    console.log(response)
-                    return;
-                }
+            if (response.success === false) {
+                toast.custom(() => (
+                    <Toaster
+                        variant="error"
+                        title="gagal mengambil info dashboard pegawai"
+                        description={response.message || "gagal mengambil data info dashboard pegawai."}
+                    />
+                ))
+                return
+            }
 
-                setEmployeeInfo(response.data.data);
-            } catch (error) {
-                toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />);
-                console.error(error);
+            if (response.data !== null) {
+                setEmployeeInfo(response.data)
             }
         }
 
-        fetchEmployeeInfo();
-    }, []);
+        fetchEmployeeInfo()
 
-    console.log(employeeInfo);
+    }, [companyId])
+
     return (
         <div className="flex flex-col gap-6 p-6 w-full">
             <PageHeader />
+
             {/* Welcome Section */}
             <div className="flex flex-col gap-0.5">
                 {employeeInfo === undefined ? (
@@ -100,9 +131,15 @@ export default function UserDashboard() {
             </div>
 
             {/* Data Cards */}
-            <EmployeeDataCard presentCount={presentCount} payslipsCount={payslipsCount ? payslipsCount : 0} salary={totalSalary} />
+            <EmployeeDataCard
+                presentCount={presentCount}
+                payslipsCount={5}
+                salary={50000}
+            />
 
-            {/* attendance and payslips tables */}
+            <EmployeeAttendanceGraph attendanceChartData={attendanceSummaryData} />
+
+            {/* Attendance & Payslips Tables */}
             <Card className='w-full flex flex-row gap-5 min-h-[500px] p-0 shadow-none ring-0 border-none bg-transparent'>
                 <Card className='h-full w-full flex flex-col gap-3 p-4'>
                     <div className='w-full flex flex-col gap-1'>
@@ -110,7 +147,11 @@ export default function UserDashboard() {
                         <CardDescription>Riwayat Absensi anda bulan ini</CardDescription>
                     </div>
                     <div className='w-full h-full'>
-                        <DataTable columns={attendanceHistoryColumn} data={currentMonthAttendance || []} wrapper={false} />
+                        <DataTable
+                            columns={attendanceHistoryColumn}
+                            data={currentMonthAttendance || []}
+                            wrapper={false}
+                        />
                     </div>
                 </Card>
                 <Card className='h-full w-5/6 flex flex-col gap-3 p-4'>
@@ -119,21 +160,23 @@ export default function UserDashboard() {
                         <CardDescription>Total hasil menerima slip gaji anda tahun ini.</CardDescription>
                     </div>
                     <div className='w-full h-full'>
-                        <DataTable columns={payrollHistoryColumn} data={employeeInfo?.payslips || []} wrapper={false} />
+                        <DataTable
+                            columns={payrollHistoryColumn}
+                            data={employeeInfo?.payslips || []}
+                            wrapper={false}
+                        />
                     </div>
                 </Card>
             </Card>
         </div>
-    );
+    )
 }
 
 function PageHeader() {
     return (
         <div className="h-fit w-full flex flex-row items-center gap-3">
             <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
-            <DashboardBreadcrumb data={{
-                page: "Dashboard"
-            }} />
+            <DashboardBreadcrumb data={{ page: "Dashboard" }} />
         </div>
     )
 }

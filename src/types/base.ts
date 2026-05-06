@@ -2,7 +2,7 @@ export interface Teacher {
     guru_id: string;
     created_at: string;
     full_name: string;
-    email_address: string;
+    email: string;
 
     // Data Pribadi & Kontak
     date_of_birth: string; // Format YYYY-MM-DD
@@ -10,7 +10,7 @@ export interface Teacher {
     gender: "male" | "female";
 
     // Data Pekerjaan
-    company: string;
+    company_name: string;
     join_date: string;     // ISO String
 
     // Array Data (Pastikan di DB tipenya text[] atau jsonb)
@@ -26,6 +26,8 @@ export interface Teacher {
  */
 export interface Attendance {
     attendance_id: string;
+    company_id: number;
+    employee_id: string;
     created_at: string;
     attendance_date: string; // YYYY-MM-DD
 
@@ -33,11 +35,7 @@ export interface Attendance {
     checkout_time: string | null;
 
     // Sesuaikan dengan ENUM di database kamu
-    attendance_status: "present" | "absent" | "on leave";
-
-    // Relasi (Biasanya nama, tapi idealnya ID)
-    teacher_name: string;
-    teacher_id?: string; // Opsional jika belum migrasi kolom ID
+    attendance_status: "present" | "absent" | "late" | "permit";
 }
 
 /**

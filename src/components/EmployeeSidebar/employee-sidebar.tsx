@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+
 import { getEmployeeProfile } from "@/lib/services/employee/profile/getEmployeeProfile";
 import { GetEmployeeProfileData } from "@/types/response";
 import { logOutEmployee } from "@/lib/services/employee/auth/logOutEmployee";
@@ -38,15 +40,23 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 export function EmployeeSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
+    const params = useParams();
+
+    const companyId = Number(params.companyId);
 
     useEffect(() => {
         async function fetchEmployeeProfile() {
-            try {
-                const response = await getEmployeeProfile();
+            const response = await getEmployeeProfile(companyId);
 
-                setEmployeeProfile(response.data.data);
-            } catch (error) {
-                toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
+            console.log("response profile pegawai:", response.data);
+
+            if (response.success === false) {
+                console.error("gagal mengambil data profile pegawai:", response.message);
+                return;
+            }
+
+            if (response.data !== null) {
+                setEmployeeProfile(response.data);
             }
         };
 
@@ -62,25 +72,25 @@ export function EmployeeSidebar() {
                     {/* Sidebar items go here */}
                     <SidebarMenu className="gap-4">
                         <SidebarNavigationLink
-                            href="/employee"
+                            href={`/employee/${companyId}`}
                             label="dashboard"
                             Icon={House}
                             activeBg
                         />
                         <SidebarNavigationLink
-                            href="/employee/me"
+                            href={`/employee/${companyId}/me`}
                             label="Profile anda"
                             Icon={Users}
                             activeBg
                         />
                         <SidebarNavigationLink
-                            href="/employee/payroll/live"
+                            href={`/employee/${companyId}/payroll/live`}
                             label="kalkulator gaji"
                             Icon={Calculator}
                             activeBg
                         />
                         <SidebarNavigationLink
-                            href="/employee/payroll/history"
+                            href={`/employee/${companyId}/payroll/history`}
                             label="riwayat gaji"
                             Icon={Wallet}
                             activeBg
@@ -91,11 +101,11 @@ export function EmployeeSidebar() {
                             sub={[
                                 {
                                     label: "absensi mandiri",
-                                    href: "/employee/attendance"
+                                    href: `/employee/${companyId}/attendance`
                                 },
                                 {
                                     label: "statistik absensi anda",
-                                    href: "/employee/statistik-absen"
+                                    href: `/employee/${companyId}/statistik-absen`
                                 },
                             ]}
                         />
@@ -117,7 +127,7 @@ export function EmployeeSidebar() {
                                         </Avatar>
                                         <div className="flex flex-col">
                                             <p className="text-sm font-medium text-black">{employeeProfile.full_name}</p>
-                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email_address}</p>
+                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email}</p>
                                         </div>
                                     </SidebarMenuButton>
                                 </DropdownMenuTrigger>
@@ -128,18 +138,18 @@ export function EmployeeSidebar() {
                                         </Avatar>
                                         <div className="w-full flex flex-col">
                                             <p className="text-sm font-medium text-black">{employeeProfile.full_name}</p>
-                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email_address}</p>
+                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email}</p>
                                         </div>
                                     </div>
                                     <Separator />
                                     <div className="w-full flex flex-col gap-0">
-                                        <Link href={"/employee/me"}>
+                                        <Link href={`/employee/${companyId}/me`}>
                                             <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                                                 <UserCircleIcon />
                                                 <p className="text-sm font-medium">Profile Anda</p>
                                             </Button>
                                         </Link>
-                                        <Link href={"/employee/payroll"}>
+                                        <Link href={`/employee/${companyId}/payroll`}>
                                             <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                                                 <WalletIcon />
                                                 <p className="text-sm font-medium">Penggajian Anda</p>

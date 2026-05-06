@@ -1,10 +1,23 @@
 import userClient from "@/lib/axios/userClient";
 
 import { ApiResponse } from "@/types/api";
-import { GetOwnCompanyData } from "@/types/response";
+import { GetOwnCompanyData, GetOwnCompanyResponse } from "@/types/response";
 
 export const getOwnCompany = async () => {
-    const response = await userClient.get<ApiResponse<GetOwnCompanyData[]>>("/company");
+    try {
+        const response = await userClient.get<ApiResponse<GetOwnCompanyData[]>>("/company");
 
-    return response;
+        return {
+            success: response.data.success,
+            message: response.data.message,
+            data: response.data.data
+        }
+    } catch (error: ApiResponse<GetOwnCompanyResponse> | any) {
+        return {
+            success: false,
+            message: error.message || "gagal mengambil data perusahaan.",
+            status: error.status || 500,
+            data: null
+        }
+    }
 }

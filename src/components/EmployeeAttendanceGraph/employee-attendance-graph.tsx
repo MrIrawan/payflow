@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AttendanceChartItem } from "@/types/response";
+
+import { AttendanceChartItem } from "@/types/types";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
@@ -19,8 +20,12 @@ const chartConfig = {
         label: "Absent",
         color: "#ef4444",
     },
-    onLeave: {
-        label: "On Leave",
+    late: {
+        label: "Late",
+        color: "#f59e0b",
+    },
+    permit: {
+        label: "Permit",
         color: "#6366f1",
     },
 } satisfies ChartConfig
@@ -47,7 +52,8 @@ export function EmployeeAttendanceGraph({ attendanceChartData }: {
                     <ChartLegend content={<ChartLegendContent />} />
                     <Bar dataKey="present" fill="var(--color-present)" radius={20} />
                     <Bar dataKey="absent" fill="var(--color-absent)" radius={20} />
-                    <Bar dataKey="onLeave" fill="var(--color-onLeave)" radius={20} />
+                    <Bar dataKey="late" fill="var(--color-late)" radius={20} />
+                    <Bar dataKey="permit" fill="var(--color-permit)" radius={20} />
                 </BarChart>
             </ChartContainer>
         </Card>

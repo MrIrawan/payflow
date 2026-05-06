@@ -6,7 +6,6 @@ import {
   InputHTMLAttributes,
 } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
-import { AttendanceChartItem, AttendanceSummary, SalaryInfo } from "./response";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -167,11 +166,11 @@ export interface ToasterVariants {
   title: string;
 }
 
-export interface EmployeeDataCardData {
-  attendanceSummary: AttendanceSummary;
-  attendanceChart: AttendanceChartItem[]; // Array of chart items
-  salary: SalaryInfo;
-}
+// export interface EmployeeDataCardData {
+//   attendanceSummary: AttendanceSummary;
+//   attendanceChart: AttendanceChartItem[]; // Array of chart items
+//   salary: SalaryInfo;
+// }
 
 export interface CompanyCardProps {
   companyName: string;
@@ -180,6 +179,7 @@ export interface CompanyCardProps {
   totalEmployees: number;
   companyField: string[];
   companyKey: string;
+  companyId: number;
 }
 
 export interface MultiSelectOption {
@@ -212,4 +212,12 @@ export interface MultiSelectGroupProps {
   // Behaviour
   maxSelect?: number;
   searchable?: boolean;
+}
+
+export interface AttendanceChartItem {
+  month: string;
+  present: number;
+  absent: number;
+  late: number;
+  permit: number;
 }

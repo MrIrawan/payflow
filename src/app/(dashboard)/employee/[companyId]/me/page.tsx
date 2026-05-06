@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+import { useParams } from "next/navigation";
+
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -32,22 +34,24 @@ import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-
 export default function UserProfile() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const params = useParams();
+
+    const companyId = Number(params.companyId);
 
     useEffect(() => {
         async function fetchEmployeeProfile() {
             setIsLoading(true);
 
-            try {
-                const response = await getEmployeeProfile();
+            const response = await getEmployeeProfile(companyId);
 
-                if (response.data.success === false) {
-                    toast.custom(() => <Toaster variant="error" title="kami tidak bisa mengambil data profil" description={`${response.data.message || "maaf, mungkin anda belum mendaftar atau belum masuk."}`} />)
-                }
+            if (response.success === false) {
+                toast.custom(() => <Toaster variant="error" title="kami tidak bisa mengambil data profil" description={`${response.message || "maaf, mungkin anda belum mendaftar atau belum masuk."}`} />)
+                setIsLoading(false);
+                return;
+            }
 
-                setEmployeeProfile(response.data.data)
-            } catch (error) {
-                toast.custom(() => <Toaster variant="error" title="maaf kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
-            } finally {
+            if (response.data !== null) {
+                setEmployeeProfile(response.data);
                 setIsLoading(false);
             }
         };
@@ -63,7 +67,7 @@ export default function UserProfile() {
                     <h1 className="text-3xl font-bold text-gray-900">Profil Saya</h1>
                     <p className="text-gray-600">Informasi lengkap tentang data pribadi dan pekerjaan Anda</p>
                 </div>
-                <Link href="/employee/me/edit">
+                <Link href={`/employee/${companyId}/me/edit`}>
                     <Button className='flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30 font-medium'>
                         <Edit className="w-5 h-5" />
                         Edit Profil
@@ -126,7 +130,7 @@ export default function UserProfile() {
                                         ) : (
                                             <>
                                                 <p className="text-gray-500 text-xs">Email</p>
-                                                <p className="font-medium text-gray-900">{employeeProfile.email_address}</p>
+                                                <p className="font-medium text-gray-900">{employeeProfile.email}</p>
                                             </>
                                         )}
                                     </div>
@@ -220,7 +224,7 @@ export default function UserProfile() {
                                             {employeeProfile === undefined ? (
                                                 <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
                                             ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.email_address}</p>
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.email}</p>
                                             )}
                                         </div>
                                     </div>
@@ -269,7 +273,7 @@ export default function UserProfile() {
                                             {employeeProfile === undefined ? (
                                                 <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
                                             ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.company}</p>
+                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.company_name}</p>
                                             )}
                                         </div>
                                     </div>
