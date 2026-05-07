@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
+
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { StoreEmployeeAttendanceRequest } from "@/types/request";
 import { storeEmployeeAttendance } from "@/lib/services/employee/attendance/storeEmployeeAttendance";
@@ -30,26 +32,29 @@ import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
 
-export function StoreEmployeeAttendanceDrawer({ teacherName }: { teacherName: string }) {
+export function StoreEmployeeAttendanceDrawer({ employeeId }: { employeeId: string }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { register, control, formState: { errors }, handleSubmit } = useForm<StoreEmployeeAttendanceRequest>();
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm<StoreEmployeeAttendanceRequest>();
+
+    const params = useParams();
+    const companyId = Number(params.companyId);
 
     const onSubmit: SubmitHandler<StoreEmployeeAttendanceRequest> = async (data) => {
         setIsLoading(true);
 
-        const locationPromise = await getUserLocation();
         const formattedData = {
             ...data,
+            employee_id: employeeId,
+            company_id: companyId,
             checkin_time: timeStringToTimestamp(data.checkin_time + ":00"),
             checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
-            location: locationPromise
         };
 
         try {
             const response = await storeEmployeeAttendance(formattedData);
 
-            if (response.data.success === false) {
+            if (response.success === false) {
                 toast.custom(() => <Toaster variant="error" title="gagal menambah absensi" description="kami gagal dalam memproses untuk menambahkan absensi untuk anda." />);
                 return;
             }
@@ -59,6 +64,7 @@ export function StoreEmployeeAttendanceDrawer({ teacherName }: { teacherName: st
             toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "suatu error terjadi sehingga kami tidak bisa memproses."}`} />)
         } finally {
             setIsLoading(false);
+            reset();
             setIsOpen(false);
         }
     }
@@ -75,22 +81,18 @@ export function StoreEmployeeAttendanceDrawer({ teacherName }: { teacherName: st
                 <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)}>
                     <DrawerHeader className="flex flex-row items-center justify-between">
                         <div className="flex flex-col gap-1">
-                            <DrawerTitle className="text-2xl font-bold">Tambah Absensi Guru</DrawerTitle>
-                            <DrawerDescription className="text-base font-medium">Tambah dan simpan data absensi guru secara real-time.</DrawerDescription>
+                            <DrawerTitle className="text-2xl font-bold">Tambah Absensi Mandiri</DrawerTitle>
+                            <DrawerDescription className="text-base font-medium">Tambah dan simpan data absensi pegawai secara real-time.</DrawerDescription>
                         </div>
                     </DrawerHeader>
                     <FormContent className="px-4">
                         {/* form fields here */}
                         <InputGroup
                             type="text"
-                            label="Nama Guru"
-                            htmlFor="teacher_name"
-                            errorMsg={errors.teacher_name?.message}
-                            requiredLabel={true}
-                            value={teacherName}
+                            label="Nama Pegawai"
+                            htmlFor="employee_name"
                             readOnly
-                            aria-invalid={errors.teacher_name ? "true" : "false"}
-                            {...register("teacher_name", { required: { message: "Nama guru wajib diisi", value: true } })}
+                            placeholder="Masukkan nama pegawai"
                         />
                         <Controller
                             control={control}
@@ -135,12 +137,13 @@ export function StoreEmployeeAttendanceDrawer({ teacherName }: { teacherName: st
                         </div>
                         <Controller
                             control={control}
-                            name="attendance_status"
+                            name="status"
                             render={({ field }) => (
                                 <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" requiredLabel htmlFor="attendance_status" items={[
                                     { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
                                     { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
-                                    { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
+                                    { value: "late", displayText: <AttendanceBadge placeholder="Late" size="sm" /> },
+                                    { value: "permit", displayText: <AttendanceBadge placeholder="Permit" size="sm" /> }
                                 ]} onChange={field.onChange} />
                             )}
                             rules={{ required: { message: "Status absen wajib di isi.", value: true } }}

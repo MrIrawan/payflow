@@ -35,7 +35,7 @@ export interface Attendance {
     checkout_time: string | null;
 
     // Sesuaikan dengan ENUM di database kamu
-    attendance_status: "present" | "absent" | "late" | "permit";
+    status: "present" | "absent" | "late" | "permit";
 }
 
 /**

@@ -95,19 +95,17 @@ export function EmployeeSidebar() {
                             Icon={Wallet}
                             activeBg
                         />
-                        <CollabsipleSidebarNavigation
-                            label="Absensi"
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/payroll/history`}
+                            label="Penggajian Anda"
+                            Icon={Wallet}
+                            activeBg
+                        />
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/attendance`}
+                            label="absensi mandiri"
                             Icon={CalendarCheck2}
-                            sub={[
-                                {
-                                    label: "absensi mandiri",
-                                    href: `/employee/${companyId}/attendance`
-                                },
-                                {
-                                    label: "statistik absensi anda",
-                                    href: `/employee/${companyId}/statistik-absen`
-                                },
-                            ]}
+                            activeBg
                         />
                     </SidebarMenu>
                 </SidebarGroup>

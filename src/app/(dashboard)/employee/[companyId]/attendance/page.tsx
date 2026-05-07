@@ -33,15 +33,14 @@ import { StoreEmployeeAttendanceDrawer } from "@/components/StoreEmployeeAttenda
 
 const tableColumn: Column<GetEmployeeAttendanceData>[] = [
     { accessor: "attendance_id", header: "ID Absen", cell: (value) => value.slice(0, 8) },
-    { accessor: "teacher_name", header: "Nama Guru" },
     { accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
     { accessor: "checkin_time", header: "Jam masuk kantor" },
     { accessor: "checkout_time", header: "Jam keluar kantor" },
-    { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
+    { accessor: "status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
 ];
 
 export default function EmployeeAttendancePage() {
-    const [employeeAttendance, setEmployeeAttendance] = useState<GetEmployeeAttendanceData[]>([]);
+    const [currentEmployeeAttendance, setCurrentEmployeeAttendance] = useState<GetEmployeeAttendanceData[]>([]);
 
     useEffect(() => {
         async function fetchEmployeeAttendance() {
@@ -53,7 +52,14 @@ export default function EmployeeAttendancePage() {
                     return;
                 }
 
-                setEmployeeAttendance(response.data.data);
+                const currentAttendance = response.data.data.filter(attendance => {
+                    const attendanceDate = new Date(attendance.attendance_date);
+                    const now = new Date();
+
+                    return attendanceDate.toDateString() === now.toDateString();
+                });
+
+                setCurrentEmployeeAttendance(currentAttendance);
             } catch (error) {
                 toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
             }
@@ -62,11 +68,10 @@ export default function EmployeeAttendancePage() {
         fetchEmployeeAttendance();
     }, []);
 
-    const teacherName = employeeAttendance.map((data) => data.teacher_name);
-
-    const presentCount = employeeAttendance.filter(item => item.attendance_status === "present").length || 0;
-    const onLeaveCount = employeeAttendance.filter(item => item.attendance_status === "on leave").length || 0;
-    const absentCount = employeeAttendance.filter(item => item.attendance_status === "absent").length || 0;
+    const presentCount = currentEmployeeAttendance.filter(item => item.status === "present").length || 0;
+    const lateCount = currentEmployeeAttendance.filter(item => item.status === "late").length || 0;
+    const permitCount = currentEmployeeAttendance.filter(item => item.status === "permit").length || 0;
+    const absentCount = currentEmployeeAttendance.filter(item => item.status === "absent").length || 0;
 
     return (
         // CONTAINER UTAMA: Menggunakan flex-col dan memastikan lebar penuh
@@ -88,7 +93,7 @@ export default function EmployeeAttendancePage() {
                         <Download className="size-4" />
                         Unduh Laporan
                     </Button>
-                    <StoreEmployeeAttendanceDrawer teacherName={teacherName[0]} />
+                    <StoreEmployeeAttendanceDrawer employeeId={currentEmployeeAttendance[0]?.employee_id} />
                 </div>
             </div>
             {/* attendance data card */}
@@ -104,7 +109,7 @@ export default function EmployeeAttendancePage() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-1 p-0">
-                        {employeeAttendance === undefined ? (
+                        {currentEmployeeAttendance === undefined ? (
                             <>
                                 <Skeleton className="w-[70px] h-[35px] bg-gray-300" />
                                 <Skeleton className="w-[120px] h-[15px] bg-gray-300" />
@@ -120,24 +125,24 @@ export default function EmployeeAttendancePage() {
                     </CardContent>
                 </Card>
                 {/* on leave data card */}
-                <Card className="w-full flex flex-col justify-between border-l-4 border-l-indigo-600 shadow-sm p-4">
+                <Card className="w-full flex flex-col justify-between border-l-4 border-l-red-600 shadow-sm p-4">
                     <CardHeader className="flex flex-row items-start justify-between p-0">
-                        <span className="w-fit p-3 rounded-md bg-indigo-100">
-                            <Clock className="size-5 text-indigo-600" />
+                        <span className="w-fit p-3 rounded-md bg-red-100">
+                            <XCircle className="size-5 text-red-600" />
                         </span>
                         <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                            Total Izin / Sakit
+                            Total Tidak Hadir
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-1 p-0">
-                        {employeeAttendance === undefined ? (
+                        {currentEmployeeAttendance === undefined ? (
                             <>
                                 <Skeleton className="w-[70px] h-[35px] bg-gray-300" />
                                 <Skeleton className="w-[120px] h-[15px] bg-gray-300" />
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{onLeaveCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <div className="text-3xl font-bold text-gray-900">{absentCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
                                 <p className="text-xs text-muted-foreground">
                                     Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                                 </p>
@@ -146,24 +151,49 @@ export default function EmployeeAttendancePage() {
                     </CardContent>
                 </Card>
                 {/* absent data card */}
-                <Card className="w-full flex flex-col justify-between border-l-4 border-l-red-600 shadow-sm p-4">
+                <Card className="w-full flex flex-col justify-between border-l-4 border-l-yellow-600 shadow-sm p-4">
                     <CardHeader className="flex flex-row items-start justify-between p-0">
-                        <span className="w-fit p-3 rounded-md bg-red-100">
-                            <XCircle className="size-5 text-red-600" />
+                        <span className="w-fit p-3 rounded-md bg-yellow-100">
+                            <Clock className="size-5 text-yellow-600" />
                         </span>
                         <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                            Total Alpa
+                            Total Ketelatan
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-1 p-0">
-                        {employeeAttendance === undefined ? (
+                        {currentEmployeeAttendance === undefined ? (
                             <>
                                 <Skeleton className="w-[70px] h-[35px] bg-gray-300" />
                                 <Skeleton className="w-[120px] h-[15px] bg-gray-300" />
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{absentCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <div className="text-3xl font-bold text-gray-900">{lateCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
+                                </p>
+                            </>
+                        )}
+                    </CardContent>
+                </Card>
+                <Card className="w-full flex flex-col justify-between border-l-4 border-l-indigo-600 shadow-sm p-4">
+                    <CardHeader className="flex flex-row items-start justify-between p-0">
+                        <span className="w-fit p-3 rounded-md bg-indigo-100">
+                            <XCircle className="size-5 text-indigo-600" />
+                        </span>
+                        <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                            Total Cuti
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-1 p-0">
+                        {currentEmployeeAttendance === undefined ? (
+                            <>
+                                <Skeleton className="w-[70px] h-[35px] bg-gray-300" />
+                                <Skeleton className="w-[120px] h-[15px] bg-gray-300" />
+                            </>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-gray-900">{permitCount} <span className="text-base font-normal text-muted-foreground">Hari</span></div>
                                 <p className="text-xs text-muted-foreground mt-1">
                                     Bulan {new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" })}
                                 </p>
@@ -182,7 +212,7 @@ export default function EmployeeAttendancePage() {
                 </CardHeader>
                 <CardContent className="p-0">
                     {/* data table here */}
-                    <DataTable columns={tableColumn} data={employeeAttendance} wrapper={false} />
+                    <DataTable columns={tableColumn} data={currentEmployeeAttendance} wrapper={false} />
                 </CardContent>
             </Card>
         </div>

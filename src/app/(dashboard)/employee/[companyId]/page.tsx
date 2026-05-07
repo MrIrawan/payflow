@@ -37,7 +37,7 @@ const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
     { accessor: "checkin_time", header: "Jam Masuk" },
     { accessor: "checkout_time", header: "Jam Keluar" },
     {
-        accessor: "attendance_status",
+        accessor: "status",
         header: "Status Absensi",
         cell: (value) => <AttendanceBadge placeholder={value} />
     },
@@ -64,7 +64,7 @@ export default function UserDashboard() {
 
     const currentDate = new Date()
     const presentCount = employeeInfo?.attendance.filter(
-        (a) => a.attendance_status === "present"
+        (a) => a.status === "present"
     ).length || 0
 
     const currentMonthAttendance = employeeInfo?.attendance.filter(
