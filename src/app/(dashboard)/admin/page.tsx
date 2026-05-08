@@ -26,16 +26,13 @@ import {
   Users,
   UserCircle,
   UserCheck,
-  BarChart3,
   Clock,
   Receipt,
-  Download
 } from "lucide-react";
 import { Column } from "@/types/table";
 import { Attendance } from "@/types/base";
 import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
 import { AdminAttendanceGraph } from "@/components/AdminAttendanceGraph/admin-attendance-graph";
-import { RawAttendanceData } from "@/types/chart";
 import { AttendanceChartItem } from "@/types/types";
 
 const attendanceTableColumns: Column<Attendance>[] = [
@@ -122,10 +119,10 @@ export default function AdminDashboardPage() {
             Ringkasan data pegawai, absensi harian, dan status penggajian.
           </p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center gap-2">
+        {/* <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center gap-2">
           <Download className="size-4" />
           Export Laporan Bulan Ini
-        </Button>
+        </Button> */}
       </div>
       {/* admin data card */}
       <div className="flex flex-col lg:flex-row w-full gap-4">

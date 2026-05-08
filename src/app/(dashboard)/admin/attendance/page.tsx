@@ -7,13 +7,12 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
-    Download,
     CheckCircle2,
     Clock,
     XCircle,
     CalendarDays,
+    LogOut,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
@@ -32,9 +31,10 @@ export default function AdminAttendancePage() {
 
     // by month variable
     const currentMonthAttendances = attendanceData?.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID", { month: "long" }) === currentDate.toLocaleDateString("id-ID", { month: "long" }))
-    const presentCount = currentMonthAttendances?.filter(attendance => attendance.attendance_status === "present").length || 0;
-    const absentCount = currentMonthAttendances?.filter(attendance => attendance.attendance_status === "absent").length || 0;
-    const onLeaveCount = currentMonthAttendances?.filter(attendance => attendance.attendance_status === "on leave").length || 0;
+    const presentCount = currentMonthAttendances?.filter(attendance => attendance.status === "present").length || 0;
+    const absentCount = currentMonthAttendances?.filter(attendance => attendance.status === "absent").length || 0;
+    const lateCount = currentMonthAttendances?.filter(attendance => attendance.status === "late").length || 0;
+    const permitCount = currentMonthAttendances?.filter(attendance => attendance.status === "permit").length || 0;
 
     // by day variable
     const currentDayAttendances = attendanceData?.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID", { day: "numeric", month: "long" }) === currentDate.toLocaleDateString("id-ID", { day: "numeric", month: "long" }))
@@ -70,10 +70,7 @@ export default function AdminAttendancePage() {
                     </p>
                 </div>
 
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md flex items-center gap-2 transition-all">
-                    <Download className="size-4" />
-                    Export Rekap Absensi
-                </Button>
+                {/* <StoreAttendanceDrawer /> */}
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 w-full">
@@ -92,28 +89,7 @@ export default function AdminAttendancePage() {
                             <>
                                 <div className="text-3xl font-bold text-gray-900">{presentCount} <span className="text-base font-normal text-muted-foreground capitalize">Pegawai</span></div>
                                 <p className="text-sm text-green-600 font-medium">
-                                    +2 dari hari kemarin
-                                </p>
-                            </>
-                        )}
-                    </CardContent>
-                </Card>
-                <Card className="w-full p-4 h-[200px] flex flex-col justify-between border-l-4 border-l-indigo-600 shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between p-0 gap-0">
-                        <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Sedang Izin / Sakit Bulan Ini</CardTitle>
-                        <Clock className="size-5 text-indigo-600" />
-                    </CardHeader>
-                    <CardContent className="flex flex-col p-0 gap-1">
-                        {attendanceData === undefined ? (
-                            <>
-                                <Skeleton className="w-[112px] h-[35px] bg-gray-300" />
-                                <Skeleton className="w-[150px] h-[20px] bg-gray-300" />
-                            </>
-                        ) : (
-                            <>
-                                <div className="text-3xl font-bold text-gray-900">{onLeaveCount} <span className="text-base font-normal text-muted-foreground capitalize">Pegawai</span></div>
-                                <p className="text-sm font-medium text-indigo-600">
-                                    Surat keterangan terlampir
+                                    Kehadiran seluruh pegawai
                                 </p>
                             </>
                         )}
@@ -135,6 +111,48 @@ export default function AdminAttendancePage() {
                                 <div className="text-3xl font-bold text-gray-900">{absentCount} <span className="text-base font-normal text-muted-foreground capitalize">Pegawai</span></div>
                                 <p className="text-sm text-red-600 font-medium">
                                     Tanpa keterangan hari ini
+                                </p>
+                            </>
+                        )}
+                    </CardContent>
+                </Card>
+                <Card className="w-full p-4 h-[200px] flex flex-col justify-between border-l-4 border-l-yellow-600 shadow-sm">
+                    <CardHeader className="flex flex-row items-center justify-between p-0 gap-0">
+                        <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Ketelatan</CardTitle>
+                        <Clock className="size-5 text-yellow-600" />
+                    </CardHeader>
+                    <CardContent className="flex flex-col p-0 gap-1">
+                        {attendanceData === undefined ? (
+                            <>
+                                <Skeleton className="w-[112px] h-[35px] bg-gray-300" />
+                                <Skeleton className="w-[150px] h-[20px] bg-gray-300" />
+                            </>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-gray-900">{lateCount} <span className="text-base font-normal text-muted-foreground capitalize">Pegawai</span></div>
+                                <p className="text-sm font-medium text-yellow-600">
+                                    Lewat dari jam masuk kantor
+                                </p>
+                            </>
+                        )}
+                    </CardContent>
+                </Card>
+                <Card className="w-full p-4 h-[200px] flex flex-col justify-between border-l-4 border-l-indigo-600 shadow-sm">
+                    <CardHeader className="flex flex-row items-center justify-between p-0 gap-0">
+                        <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Sedang Izin / Sakit Bulan Ini</CardTitle>
+                        <LogOut className="size-5 text-indigo-600" />
+                    </CardHeader>
+                    <CardContent className="flex flex-col p-0 gap-1">
+                        {attendanceData === undefined ? (
+                            <>
+                                <Skeleton className="w-[112px] h-[35px] bg-gray-300" />
+                                <Skeleton className="w-[150px] h-[20px] bg-gray-300" />
+                            </>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-gray-900">{permitCount} <span className="text-base font-normal text-muted-foreground capitalize">Pegawai</span></div>
+                                <p className="text-sm font-medium text-indigo-600">
+                                    Surat keterangan terlampir
                                 </p>
                             </>
                         )}
