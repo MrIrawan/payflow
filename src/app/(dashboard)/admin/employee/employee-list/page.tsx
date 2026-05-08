@@ -10,10 +10,8 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
     Users,
-    Plus,
     UserCheck,
     GraduationCap,
     Briefcase
@@ -27,7 +25,6 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "@/components/InfoBadge/info-badge";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
-import Link from "next/link";
 
 const employeesTableColumn: Column<GetAllEmployeesData>[] = [
     { accessor: "full_name", header: "Nama Pegawai" },
@@ -92,12 +89,12 @@ export default function AdminTeacherDataPage() {
                         Kelola informasi profil, jabatan, dan kredensial seluruh guru & staff.
                     </p>
                 </div>
-                <Link href={"/admin/employee/add-employee"}>
+                {/* <Link href={"/admin/employee/add-employee"}>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md flex items-center gap-2 transition-all">
                         <Plus className="size-4" />
                         Tambah Pegawai Baru
                     </Button>
-                </Link>
+                </Link> */}
             </div>
             <div className="flex flex-row item-center justify-between gap-4 w-full">
                 {/* Card 1 */}
@@ -115,7 +112,7 @@ export default function AdminTeacherDataPage() {
                         ) : (
                             <>
                                 <div className="text-3xl font-bold text-gray-900">{employeesData.length}</div>
-                                <p className="text-sm font-medium text-muted-foreground">Seluruh guru & staff aktif</p>
+                                <p className="text-sm font-medium text-muted-foreground">Seluruh pegawai & staff</p>
                             </>
                         )}
                     </CardContent>
@@ -124,7 +121,7 @@ export default function AdminTeacherDataPage() {
                 {/* Card 2 */}
                 <Card className="w-full border-l-4 border-l-green-500 shadow-sm flex flex-col justify-between p-4 h-[160px]">
                     <CardHeader className="flex flex-row items-center justify-between p-0 gap-0">
-                        <CardTitle className="text-sm font-semibold text-muted-foreground">Guru Pengajar</CardTitle>
+                        <CardTitle className="text-sm font-semibold text-muted-foreground">Pegawai Aktif</CardTitle>
                         <GraduationCap className="size-5 text-green-500" />
                     </CardHeader>
                     <CardContent className="p-0 flex flex-col gap-1">
@@ -135,8 +132,8 @@ export default function AdminTeacherDataPage() {
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">{isTeacher}</div>
-                                <p className="text-sm font-medium text-muted-foreground">Memiliki jam pelajaran</p>
+                                <div className="text-3xl font-bold text-gray-900">{employeesData.length}</div>
+                                <p className="text-sm font-medium text-muted-foreground">Seluruh pegawai & staff aktif</p>
                             </>
                         )}
                     </CardContent>
@@ -156,8 +153,8 @@ export default function AdminTeacherDataPage() {
                             </>
                         ) : (
                             <>
-                                <div className="text-3xl font-bold text-gray-900">13</div>
-                                <p className="text-sm font-medium text-muted-foreground">TU, Kepsek, Kaprok, dll</p>
+                                <div className="text-3xl font-bold text-gray-900">0</div>
+                                <p className="text-sm font-medium text-muted-foreground">Marketing, IT, Creative, dll</p>
                             </>
                         )}
                     </CardContent>

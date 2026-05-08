@@ -47,19 +47,11 @@ export function AdminSidebar() {
               Icon={House}
               activeBg
             />
-            <CollabsipleSidebarNavigation
+            <SidebarNavigationLink
+              href="/admin/employee/employee-list"
               label="data pegawai"
               Icon={Users}
-              sub={[
-                {
-                  label: "lihat data pegawai",
-                  href: "/admin/employee/employee-list"
-                },
-                {
-                  label: "tambah data pegawai",
-                  href: "/admin/employee/add-employee"
-                },
-              ]}
+              activeBg
             />
             <CollabsipleSidebarNavigation
               label="penggajian"
@@ -129,7 +121,7 @@ export function AdminSidebar() {
                       <p className="text-sm font-medium">Kelola Penggajian</p>
                     </Button>
                   </Link>
-                  <Link href={"/admin/payroll"}>
+                  <Link href={"/admin/payroll/history"}>
                     <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                       <ReceiptText />
                       <p className="text-sm font-medium">Riwayat Penggajian</p>

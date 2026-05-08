@@ -37,6 +37,8 @@ import { AttendanceChartItem } from "@/types/types";
 
 const attendanceTableColumns: Column<Attendance>[] = [
   { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
+  { accessor: "company_id", header: "ID Perusahaan" },
+  { accessor: "employee_id", header: "ID Pegawai", cell: (value: string) => value.slice(0, 8) },
   {
     accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", {
       month: "long",
@@ -231,7 +233,7 @@ export default function AdminDashboardPage() {
         </Card>
 
         {/* Histori Slip Gaji */}
-        <Card className="w-3/4 shadow-sm border-gray-200 flex flex-col gap-5 p-5">
+        {/* <Card className="w-3/4 shadow-sm border-gray-200 flex flex-col gap-5 p-5">
           <CardHeader className="bg-white flex flex-row items-center justify-between p-0">
             <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
               <Receipt className="size-5 text-blue-600" />
@@ -241,10 +243,9 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <Separator />
           <CardContent className="p-0">
-            {/* data table here */}
             <DataTable columns={payrollHistoryTableColumns} data={[]} wrapper={false} />
           </CardContent>
-        </Card>
+        </Card> */}
 
       </div>
     </div>

@@ -4,10 +4,10 @@ import { DataTable } from "../DataTable/data-table";
 import { GetAllAttendances } from "@/types/response";
 import { Column } from "@/types/table";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
-import { AttendanceActionPopover } from "../AttendanceActionPopover/attendance-action-popover";
 
 const tableColumn: Column<GetAllAttendances>[] = [
     { header: "ID Absen", accessor: "attendance_id", cell: (value: string) => value.slice(0, 8) },
+    { header: "ID Perusahaan", accessor: "company_id" },
     { header: "ID Pegawai", accessor: "employee_id", cell: (value: string) => value.slice(0, 8) },
     { header: "Tanggal Absensi", accessor: "attendance_date", cell: (value) => new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
     { header: "Waktu Check-in", accessor: "checkin_time" },
@@ -25,9 +25,6 @@ export function AttendanceTable({ attendanceData }: { attendanceData: GetAllAtte
             <DataTable
                 columns={tableColumn}
                 data={attendanceData}
-                renderRowAction={(row) => (
-                    <AttendanceActionPopover attendanceData={row} />
-                )}
                 wrapper={false}
             />
         </div>
