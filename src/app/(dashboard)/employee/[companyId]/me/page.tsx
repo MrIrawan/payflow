@@ -239,7 +239,7 @@ export default function UserProfile() {
                                             <Skeleton className="w-[80%] h-[35px] bg-gray-300" />
                                         ) : (
                                             <p className="text-base font-semibold text-gray-900">
-                                                {employeeProfile?.home_address ? employeeProfile.home_address : "belum ada deskripsi alamat rumah."}
+                                                {employeeProfile?.address ? employeeProfile.address : "belum ada deskripsi alamat rumah."}
                                             </p>
                                         )}
                                     </div>

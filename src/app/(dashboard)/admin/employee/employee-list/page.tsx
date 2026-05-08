@@ -23,7 +23,7 @@ import { DataTable } from "@/components/DataTable/data-table";
 import { Column } from "@/types/table";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
-import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "@/components/InfoBadge/info-badge";
+import { InfoBadge, jobBadgeMap } from "@/components/InfoBadge/info-badge";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
 
 const employeesTableColumn: Column<GetAllEmployeesData>[] = [
