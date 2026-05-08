@@ -38,7 +38,7 @@ import { AdminAttendanceGraph } from "@/components/AdminAttendanceGraph/admin-at
 import { RawAttendanceData } from "@/types/chart";
 
 const attendanceTableColumns: Column<Attendance>[] = [
-  { accessor: "teacher_name", header: "Nama Guru" },
+  { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
   {
     accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", {
       month: "long",
@@ -48,7 +48,7 @@ const attendanceTableColumns: Column<Attendance>[] = [
   },
   { accessor: "checkin_time", header: "Jam Masuk Kantor" },
   { accessor: "checkout_time", header: "Jam Keluar Kantor" },
-  { accessor: "attendance_status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
+  { accessor: "status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
 ];
 
 const payrollHistoryTableColumns: Column<GetPayrollHistoryData>[] = [
@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
 
     return adminInfo.attendances.map(att => ({
       attendance_date: att.attendance_date,
-      attendance_status: att.attendance_status as "present" | "onLeave" | "sick" | "absent",
+      attendance_status: att.status as "present" | "late" | "permit" | "absent",
     }));
   }, [adminInfo?.attendances]);
 
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
         <Card className="w-full flex flex-col justify-between shadow-sm border-gray-200 p-4 h-[180px]">
           <CardHeader className="flex flex-row items-center justify-between p-0">
             <CardTitle className="text-sm font-semibold text-muted-foreground">
-              Guru Laki-Laki
+              Pegawai Laki-Laki
             </CardTitle>
             <UserCircle className="size-5 text-blue-500" />
           </CardHeader>
@@ -163,7 +163,7 @@ export default function AdminDashboardPage() {
         <Card className="w-full flex flex-col justify-between shadow-sm border-gray-200 p-4 h-[180px]">
           <CardHeader className="flex flex-row items-center justify-between p-0">
             <CardTitle className="text-sm font-semibold text-muted-foreground">
-              Guru Perempuan
+              Pegawai Perempuan
             </CardTitle>
             <UserCircle className="size-5 text-pink-500" />
           </CardHeader>
@@ -212,7 +212,7 @@ export default function AdminDashboardPage() {
           <CardHeader className="bg-white p-0 gap-0">
             <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
               <Clock className="size-5 text-blue-600" />
-              Live Absensi Hari Ini
+              Tabel Absensi
             </CardTitle>
           </CardHeader>
           <Separator />

@@ -14,5 +14,5 @@ export interface AttendanceChartProps {
 
 export interface RawAttendanceData {
   attendance_date: string;
-  attendance_status: "present" | "onLeave" | "absent" | "sick";
+  attendance_status: "present" | "late" | "absent" | "permit";
 }

@@ -81,12 +81,6 @@ export function AdminSidebar() {
               Icon={CalendarCheck2}
               activeBg
             />
-            <SidebarNavigationLink
-              href="/admin/report"
-              label="laporan"
-              Icon={Wallet}
-              activeBg
-            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
@@ -116,11 +110,11 @@ export function AdminSidebar() {
                   </div>
                 </div>
                 <Separator />
-                <div className="w-full flex flex-col gap-0">
+                <div className="w-full flex flex-col gap-0 py-1">
                   <Link href={"/admin/employee/employee-list"}>
                     <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                       <UserCircleIcon />
-                      <p className="text-sm font-medium">Data Guru</p>
+                      <p className="text-sm font-medium">Data Pegawai</p>
                     </Button>
                   </Link>
                   <Link href={"/admin/attendance"}>
@@ -129,16 +123,16 @@ export function AdminSidebar() {
                       <p className="text-sm font-medium">Data Absensi</p>
                     </Button>
                   </Link>
-                  <Link href={"/admin/payroll"}>
+                  <Link href={"/admin/payroll/manage"}>
                     <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                       <WalletIcon />
-                      <p className="text-sm font-medium">Penggajian</p>
+                      <p className="text-sm font-medium">Kelola Penggajian</p>
                     </Button>
                   </Link>
-                  <Link href={"/admin/report"}>
+                  <Link href={"/admin/payroll"}>
                     <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                       <ReceiptText />
-                      <p className="text-sm font-medium">Cetak Laporan</p>
+                      <p className="text-sm font-medium">Riwayat Penggajian</p>
                     </Button>
                   </Link>
                 </div>
