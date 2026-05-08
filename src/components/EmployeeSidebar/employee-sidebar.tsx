@@ -83,23 +83,13 @@ export function EmployeeSidebar() {
                             Icon={Users}
                             activeBg
                         />
-                        <SidebarNavigationLink
-                            href={`/employee/${companyId}/payroll/live`}
-                            label="kalkulator gaji"
-                            Icon={Calculator}
-                            activeBg
-                        />
-                        <SidebarNavigationLink
-                            href={`/employee/${companyId}/payroll/history`}
-                            label="riwayat gaji"
+                        <CollabsipleSidebarNavigation
+                            label="Penggajian"
                             Icon={Wallet}
-                            activeBg
-                        />
-                        <SidebarNavigationLink
-                            href={`/employee/${companyId}/payroll/history`}
-                            label="Penggajian Anda"
-                            Icon={Wallet}
-                            activeBg
+                            sub={[
+                                { label: "Estimasi Gaji", href: `/employee/${companyId}/payroll/live` },
+                                { label: "Riwayat Gaji", href: `/employee/${companyId}/payroll/history` },
+                            ]}
                         />
                         <SidebarNavigationLink
                             href={`/employee/${companyId}/attendance`}
