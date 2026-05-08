@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useParams } from "next/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/DataTable/data-table";
 import { Column } from "@/types/table";
 import {
@@ -15,7 +13,6 @@ import {
     Wallet,
     CalendarDays,
     Clock,
-    CheckCircle2,
 } from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -36,7 +33,6 @@ const earningComponents: PayrollComponent[] = [
     { komponen: "Tunjangan Transport", tipe: "earning", keterangan: "Transport harian ke kantor", jumlah: 750_000 },
     { komponen: "Tunjangan Mengajar", tipe: "earning", keterangan: "10% dari gaji pokok", jumlah: 500_000 },
     { komponen: "Tunjangan Makan", tipe: "earning", keterangan: "Uang makan harian", jumlah: 300_000 },
-    { komponen: "Bonus Kehadiran", tipe: "earning", keterangan: "Bonus hadir penuh bulan ini", jumlah: 200_000 },
 ]
 
 const deductionComponents: PayrollComponent[] = [
@@ -52,10 +48,10 @@ const netSalary = totalEarnings - totalDeductions
 
 const attendanceSummary = {
     hariKerja: 22,
-    hadir: 22,
+    hadir: 0,
     tidakHadir: 0,
     terlambat: 0,
-    status: "Hadir Penuh",
+    status: "Belum Absensi",
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

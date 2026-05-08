@@ -27,7 +27,6 @@ import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
 
 import { MapPin } from "lucide-react";
-import { getUserLocation } from "@/utils/getUserLocation";
 import { timeStringToTimestamp } from "@/utils/timeStringToTimestamp";
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
@@ -91,7 +90,6 @@ export function StoreEmployeeAttendanceDrawer({ employeeId }: { employeeId: stri
                             type="text"
                             label="Nama Pegawai"
                             htmlFor="employee_name"
-                            readOnly
                             placeholder="Masukkan nama pegawai"
                         />
                         <Controller

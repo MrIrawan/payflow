@@ -201,7 +201,7 @@ export default function PayrollHistoryPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-2xl font-bold text-blue-700">{formatRupiah(totalAllTime)}</p>
+                        <p className="text-2xl font-bold text-blue-700">{0}</p>
                         <p className="text-xs text-muted-foreground mt-1">Sepanjang waktu</p>
                     </CardContent>
                 </Card>
@@ -216,7 +216,7 @@ export default function PayrollHistoryPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-2xl font-bold text-emerald-700">{formatRupiah(avgSalary)}</p>
+                        <p className="text-2xl font-bold text-emerald-700">{0}</p>
                         <p className="text-xs text-muted-foreground mt-1">Per bulan</p>
                     </CardContent>
                 </Card>
@@ -231,7 +231,7 @@ export default function PayrollHistoryPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-2xl font-bold text-gray-700">{payrollHistoryData.length}</p>
+                        <p className="text-2xl font-bold text-gray-700">{0}</p>
                         <p className="text-xs text-muted-foreground mt-1">Slip gaji tersedia</p>
                     </CardContent>
                 </Card>
@@ -245,7 +245,7 @@ export default function PayrollHistoryPage() {
                     <h2 className="text-base font-semibold text-gray-800">Semua Periode</h2>
                     <DataTable
                         columns={historyColumns}
-                        data={payrollHistoryData}
+                        data={[]}
                         renderRowAction={(row) => (
                             <Button
                                 variant="ghost"

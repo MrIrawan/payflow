@@ -33,6 +33,9 @@ const attendanceSummaryData: AttendanceChartItem[] = [
 ]
 
 const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
+    { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
+    { accessor: "company_id", header: "ID Perusahaan" },
+    { accessor: "employee_id", header: "ID Pegawai", cell: (value: string) => value.slice(0, 8) },
     { accessor: "attendance_date", header: "Tanggal Absensi" },
     { accessor: "checkin_time", header: "Jam Masuk" },
     { accessor: "checkout_time", header: "Jam Keluar" },
@@ -133,8 +136,8 @@ export default function UserDashboard() {
             {/* Data Cards */}
             <EmployeeDataCard
                 presentCount={presentCount}
-                payslipsCount={5}
-                salary={50000}
+                payslipsCount={0}
+                salary={6550000}
             />
 
             <EmployeeAttendanceGraph attendanceChartData={attendanceSummaryData} />
@@ -154,7 +157,7 @@ export default function UserDashboard() {
                         />
                     </div>
                 </Card>
-                <Card className='h-full w-5/6 flex flex-col gap-3 p-4'>
+                {/* <Card className='h-full w-5/6 flex flex-col gap-3 p-4'>
                     <div className='w-full flex flex-col gap-1'>
                         <CardTitle>Payslips History</CardTitle>
                         <CardDescription>Total hasil menerima slip gaji anda tahun ini.</CardDescription>
@@ -166,7 +169,7 @@ export default function UserDashboard() {
                             wrapper={false}
                         />
                     </div>
-                </Card>
+                </Card> */}
             </Card>
         </div>
     )

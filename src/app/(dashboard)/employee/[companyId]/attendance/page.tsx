@@ -11,19 +11,15 @@ import {
     CardTitle
 } from "@/components/ui/card";
 
-import { Button } from "@/components/ui/button";
 import {
     CheckCircle2,
     XCircle,
     Clock,
     CalendarDays,
-    MapPin,
-    Download
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Toaster } from "@/components/Toaster/toaster";
 import { DataTable } from "@/components/DataTable/data-table";
@@ -89,10 +85,10 @@ export default function EmployeeAttendancePage() {
 
                 {/* Tombol aksi (Opsional: untuk export atau absen manual) */}
                 <div className="flex flex-row gap-2">
-                    <Button variant="outline" className="flex items-center gap-2 bg-white">
+                    {/* <Button variant="outline" className="flex items-center gap-2 bg-white">
                         <Download className="size-4" />
                         Unduh Laporan
-                    </Button>
+                    </Button> */}
                     <StoreEmployeeAttendanceDrawer employeeId={currentEmployeeAttendance[0]?.employee_id} />
                 </div>
             </div>
