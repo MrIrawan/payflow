@@ -11,21 +11,24 @@ import { Separator } from "../ui/separator";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import { SelectGroupComponent } from "../SelectGroup/select-group";
 import { BarChart3 } from "lucide-react";
 
 const chartConfig = {
     present: {
-        label: "Hadir",
+        label: "Present",
         color: "#22c55e",
     },
-    onLeave: {
-        label: "Cuti/Izin",
+    late: {
+        label: "Late",
         color: "#eab308",
     },
     absent: {
-        label: "Alpa",
+        label: "Absent",
         color: "#ef4444",
+    },
+    permit: {
+        label: "Permit",
+        color: "#6366f1",
     }
 } satisfies ChartConfig;
 
@@ -55,7 +58,7 @@ export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
                     <CardDescription>Tren absensi seluruh pegawai selama tahun {selectedYear}.</CardDescription>
                 </div>
 
-                <div className="w-[250px]">
+                {/* <div className="w-[250px]">
                     <SelectGroupComponent
                         label="Tahun Ajaran"
                         htmlFor="tahun_ajaran"
@@ -64,12 +67,12 @@ export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
                         value={selectedYear}
                         onChange={(val: string) => setSelectedYear(val)}
                     />
-                </div>
+                </div> */}
             </CardHeader>
             <Separator />
             <CardContent className="p-0 flex items-center justify-center h-[400px] bg-white pt-6">
                 <ChartContainer config={chartConfig} className="h-[400px] w-full">
-                    <BarChart accessibilityLayer data={formattedChartData}>
+                    <BarChart accessibilityLayer data={data}>
                         <CartesianGrid vertical={false} strokeDasharray="3 3" />
                         <XAxis
                             dataKey="month"
@@ -79,8 +82,9 @@ export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
                         />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Bar dataKey="present" fill="var(--color-present)" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="onLeave" fill="var(--color-onLeave)" radius={[4, 4, 0, 0]} />
                         <Bar dataKey="absent" fill="var(--color-absent)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="late" fill="var(--color-late)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="permit" fill="var(--color-permit)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                 </ChartContainer>
             </CardContent>

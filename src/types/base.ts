@@ -1,12 +1,14 @@
 export interface Teacher {
-    guru_id: string;
+    employee_id: string;
+    user_id: string;
+    company_id: number;
     created_at: string;
     full_name: string;
     email: string;
 
     // Data Pribadi & Kontak
     date_of_birth: string; // Format YYYY-MM-DD
-    home_address: string;
+    address: string;
     gender: "male" | "female";
 
     // Data Pekerjaan

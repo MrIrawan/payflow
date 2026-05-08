@@ -36,6 +36,7 @@ import { Attendance } from "@/types/base";
 import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
 import { AdminAttendanceGraph } from "@/components/AdminAttendanceGraph/admin-attendance-graph";
 import { RawAttendanceData } from "@/types/chart";
+import { AttendanceChartItem } from "@/types/types";
 
 const attendanceTableColumns: Column<Attendance>[] = [
   { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
@@ -58,6 +59,14 @@ const payrollHistoryTableColumns: Column<GetPayrollHistoryData>[] = [
   { accessor: "total_salary", header: "Gaji Akhir" }
 ];
 
+const attendanceSummaryData: AttendanceChartItem[] = [
+  { month: "Januari", present: 20, late: 2, absent: 1, permit: 5 },
+  { month: "Februari", present: 18, late: 3, absent: 2, permit: 5 },
+  { month: "Maret", present: 22, late: 1, absent: 0, permit: 5 },
+  { month: "April", present: 21, late: 1, absent: 1, permit: 5 },
+  { month: "Mei", present: 19, late: 2, absent: 2, permit: 5 },
+]
+
 export default function AdminDashboardPage() {
   const [adminInfo, setAdminInfo] = useState<GetAdminInfoData | undefined>(undefined);
 
@@ -69,14 +78,14 @@ export default function AdminDashboardPage() {
   // attendance count variable
   const currentDate = new Date().toLocaleDateString("id-ID");
   const presentCount = adminInfo?.attendances.filter(attendance => new Date(attendance.attendance_date).toLocaleDateString("id-ID") === currentDate).length || 0;
-  const chartData: RawAttendanceData[] = useMemo(() => {
-    if (!adminInfo?.attendances) return [];
+  // const chartData: RawAttendanceData[] = useMemo(() => {
+  //   if (!adminInfo?.attendances) return [];
 
-    return adminInfo.attendances.map(att => ({
-      attendance_date: att.attendance_date,
-      attendance_status: att.status as "present" | "late" | "permit" | "absent",
-    }));
-  }, [adminInfo?.attendances]);
+  //   return adminInfo.attendances.map(att => ({
+  //     attendance_date: att.attendance_date,
+  //     attendance_status: att.status as "present" | "late" | "permit" | "absent",
+  //   }));
+  // }, [adminInfo?.attendances]);
 
   useEffect(() => {
     async function fetchAdminInfo() {
@@ -88,6 +97,8 @@ export default function AdminDashboardPage() {
           console.log(response)
           return;
         }
+
+        console.log(response)
 
         setAdminInfo(response.data.data);
       } catch (error) {
@@ -204,7 +215,7 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
       {/* chart area */}
-      <AdminAttendanceGraph data={chartData} />
+      <AdminAttendanceGraph data={attendanceSummaryData} />
       {/* table section */}
       <div className="flex flex-col lg:flex-row w-full gap-6">
         {/* Live Absensi */}

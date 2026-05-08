@@ -48,15 +48,15 @@ export function AdminSidebar() {
               activeBg
             />
             <CollabsipleSidebarNavigation
-              label="data guru"
+              label="data pegawai"
               Icon={Users}
               sub={[
                 {
-                  label: "lihat data guru",
+                  label: "lihat data pegawai",
                   href: "/admin/employee/employee-list"
                 },
                 {
-                  label: "tambah data guru",
+                  label: "tambah data pegawai",
                   href: "/admin/employee/add-employee"
                 },
               ]}

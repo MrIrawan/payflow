@@ -7,23 +7,13 @@ import { getAllEmployees } from "@/lib/services/admin/employee/getAllEmployees";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select";
 import {
     Users,
     Plus,
-    Filter,
     UserCheck,
     GraduationCap,
     Briefcase
@@ -38,12 +28,11 @@ import { Toaster } from "@/components/Toaster/toaster";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "@/components/InfoBadge/info-badge";
 import { GenderBadge } from "@/components/GenderBadge/gender-badge";
 import Link from "next/link";
-import TeacherTable from "@/components/TeacherTable/teacher-table";
 
 const employeesTableColumn: Column<GetAllEmployeesData>[] = [
     { accessor: "full_name", header: "Nama Pegawai" },
-    { accessor: "email_address", header: "Alamat Email" },
-    { accessor: "company", header: "Perusahaan" },
+    { accessor: "email", header: "Alamat Email" },
+    { accessor: "company_id", header: "ID Perusahaan" },
     { accessor: "gender", header: "Jenis Kelamin", cell: (value) => <GenderBadge placeholder={value} /> },
     {
         accessor: "date_of_birth", header: "Tanggal Lahir", cell: (value) => new Date(value).toLocaleDateString("id-ID", {
@@ -61,15 +50,6 @@ const employeesTableColumn: Column<GetAllEmployeesData>[] = [
             </div>
         ) : "-"
     },
-    {
-        accessor: "subject_name", header: "Mata Pelajaran", cell: (value: string[]) => value ? (
-            <div className="w-[250px] flex flex-row gap-1.5 flex-wrap">
-                {value.map((sub, index) => (
-                    <InfoBadge key={index} label={sub} className={subjectBadgeMap[sub].className} icon={subjectBadgeMap[sub].icon} />
-                ))}
-            </div>
-        ) : "-"
-    }
 ]
 
 export default function AdminTeacherDataPage() {
@@ -205,7 +185,8 @@ export default function AdminTeacherDataPage() {
                 </Card>
             </div>
             <Card className="w-full shadow-sm border-gray-200 flex flex-col gap-0 p-6">
-                <TeacherTable data={employeesData} />
+                {/* <TeacherTable data={employeesData} /> */}
+                <DataTable columns={employeesTableColumn} data={employeesData || []} wrapper={false} />
             </Card>
         </div>
     );
