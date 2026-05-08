@@ -35,7 +35,7 @@ import { Spinner } from "../ui/spinner";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { Calculator, CalendarCheck2, House, LogOut, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { Calculator, CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 export function EmployeeSidebar() {
@@ -130,17 +130,35 @@ export function EmployeeSidebar() {
                                         </div>
                                     </div>
                                     <Separator />
-                                    <div className="w-full flex flex-col gap-0">
+                                    <div className="w-full flex flex-col gap-0 py-1">
+                                        <Link href={`/employee/${companyId}`}>
+                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
+                                                <HomeIcon />
+                                                <p className="text-sm font-medium">Dashboard</p>
+                                            </Button>
+                                        </Link>
                                         <Link href={`/employee/${companyId}/me`}>
                                             <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                                                 <UserCircleIcon />
                                                 <p className="text-sm font-medium">Profile Anda</p>
                                             </Button>
                                         </Link>
-                                        <Link href={`/employee/${companyId}/payroll`}>
+                                        <Link href={`/employee/${companyId}/payroll/live`}>
                                             <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
                                                 <WalletIcon />
-                                                <p className="text-sm font-medium">Penggajian Anda</p>
+                                                <p className="text-sm font-medium">Estimasi Gaji</p>
+                                            </Button>
+                                        </Link>
+                                        <Link href={`/employee/${companyId}/payroll/history`}>
+                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
+                                                <ReceiptText />
+                                                <p className="text-sm font-medium">Riwayat Gaji</p>
+                                            </Button>
+                                        </Link>
+                                        <Link href={`/employee/${companyId}/attendance`}>
+                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
+                                                <CalendarCheck2 />
+                                                <p className="text-sm font-medium">Absensi Mandiri</p>
                                             </Button>
                                         </Link>
                                     </div>
