@@ -50,18 +50,20 @@ export function StoreEmployeeAttendanceDrawer({ employeeId }: { employeeId: stri
             checkout_time: timeStringToTimestamp(data.checkout_time + ":00"),
         };
 
-        try {
-            const response = await storeEmployeeAttendance(formattedData);
+        console.log(formattedData)
 
-            if (response.success === false) {
-                toast.custom(() => <Toaster variant="error" title="gagal menambah absensi" description="kami gagal dalam memproses untuk menambahkan absensi untuk anda." />);
-                return;
-            }
+        const response = await storeEmployeeAttendance(formattedData);
 
-            toast.custom(() => <Toaster variant="success" title="berhasil menambahkan absensi" description="anda telah berhasil menambahkan absensi." />)
-        } catch (error) {
-            toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "suatu error terjadi sehingga kami tidak bisa memproses."}`} />)
-        } finally {
+        if (response.success === false) {
+            toast.custom(() => <Toaster variant="error" title="gagal menambah absensi" description="kami gagal dalam memproses untuk menambahkan absensi untuk anda." />);
+            setIsLoading(false);
+            reset();
+            setIsOpen(false);
+            return;
+        }
+
+        if (response.success === true) {
+            toast.custom(() => <Toaster variant="success" title="berhasil menambahkan absensi" description="anda telah berhasil menambahkan absensi." />);
             setIsLoading(false);
             reset();
             setIsOpen(false);

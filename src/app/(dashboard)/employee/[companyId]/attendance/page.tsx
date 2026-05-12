@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { getEmployeeAttendance } from "@/lib/services/employee/attendance/getEmployeeAttendance";
 import { GetEmployeeAttendanceData } from "@/types/response";
 
@@ -26,6 +27,7 @@ import { DataTable } from "@/components/DataTable/data-table";
 import { Column } from "@/types/table";
 import { AttendanceBadge } from "@/components/AttendaceBadge/attendance-badge";
 import { StoreEmployeeAttendanceDrawer } from "@/components/StoreEmployeeAttendanceDrawer/store-employee-attendance-drawer";
+import { getEmployeeInfo } from "@/lib/services/employee/info/getEmployeeInfo";
 
 const tableColumn: Column<GetEmployeeAttendanceData>[] = [
     { accessor: "attendance_id", header: "ID Absen", cell: (value) => value.slice(0, 8) },
@@ -37,18 +39,33 @@ const tableColumn: Column<GetEmployeeAttendanceData>[] = [
 
 export default function EmployeeAttendancePage() {
     const [currentEmployeeAttendance, setCurrentEmployeeAttendance] = useState<GetEmployeeAttendanceData[]>([]);
+    const [employeeId, setEmployeeId] = useState<string>("");
+
+    const params = useParams();
+    const companyId = Number(params.companyId);
 
     useEffect(() => {
         async function fetchEmployeeAttendance() {
-            try {
-                const response = await getEmployeeAttendance();
+            const response = await getEmployeeAttendance();
+            const employeeId = await getEmployeeInfo(companyId);
 
-                if (response.data.success === false) {
-                    toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data absensi" description="kami gagal dalam mengambil data absensi anda." />)
+            if (employeeId.success === true && employeeId.data !== null) {
+                setEmployeeId(employeeId.data.profile.employee_id);
+            }
+
+            if (response.success === false) {
+
+                if (response.status === 404) {
+                    toast.custom(() => <Toaster variant="info" title="berhasil mengambil data absensi" description="tidak ada data absensi untuk di tampilkan sekarang." />);
                     return;
                 }
 
-                const currentAttendance = response.data.data.filter(attendance => {
+                toast.custom(() => <Toaster variant="error" title="gagal mendapatkan data absensi" description="kami gagal dalam mengambil data absensi anda." />)
+                return;
+            }
+
+            if (response.success === true && response.data !== null) {
+                const currentAttendance = response.data.filter(attendance => {
                     const attendanceDate = new Date(attendance.attendance_date);
                     const now = new Date();
 
@@ -56,8 +73,6 @@ export default function EmployeeAttendancePage() {
                 });
 
                 setCurrentEmployeeAttendance(currentAttendance);
-            } catch (error) {
-                toast.custom(() => <Toaster variant="error" title="kami tidak bisa memproses" description={`${error || "terjadi suatu error sehingga kami tidak bisa memproses."}`} />)
             }
         }
 
@@ -89,7 +104,7 @@ export default function EmployeeAttendancePage() {
                         <Download className="size-4" />
                         Unduh Laporan
                     </Button> */}
-                    <StoreEmployeeAttendanceDrawer employeeId={currentEmployeeAttendance[0]?.employee_id} />
+                    <StoreEmployeeAttendanceDrawer employeeId={employeeId} />
                 </div>
             </div>
             {/* attendance data card */}

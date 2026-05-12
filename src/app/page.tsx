@@ -7,7 +7,7 @@ import Image from "next/image";
 import PayFLowLogo from "../../public/images/payflow-logo.svg";
 import PayFLowLogoWithTitle from "../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, Clock, Shield, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, Clock, LogInIcon, Shield, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -70,7 +70,7 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href="/register"
+                  href="/signUp"
                 >
                   <Button className="w-fit h-fit group px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-xl hover:shadow-blue-600/30 flex items-center gap-2 font-medium">
                     Mulai Sekarang
@@ -78,10 +78,12 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link
-                  href="/login"
-                  className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-medium"
+                  href="/signIn"
                 >
-                  Masuk ke Akun
+                  <Button variant={"outline"} className="w-fit h-fit px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-medium hover:text-blue-600">
+                    Masuk ke Akun
+                    <LogInIcon />
+                  </Button>
                 </Link>
               </div>
             </div>

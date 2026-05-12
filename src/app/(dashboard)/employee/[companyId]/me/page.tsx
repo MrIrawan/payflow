@@ -14,11 +14,9 @@ import {
     Briefcase,
     Building2,
     GraduationCap,
-    Edit
 } from 'lucide-react';
 import { GenderBadge } from '@/components/GenderBadge/gender-badge';
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from '@/components/InfoBadge/info-badge';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
@@ -68,10 +66,10 @@ export default function UserProfile() {
                     <p className="text-gray-600">Informasi lengkap tentang data pribadi dan pekerjaan Anda</p>
                 </div>
                 <Link href={`/employee/${companyId}/me/edit`}>
-                    <Button className='flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30 font-medium'>
+                    {/* <Button className='flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30 font-medium'>
                         <Edit className="w-5 h-5" />
                         Edit Profil
-                    </Button>
+                    </Button> */}
                 </Link>
             </div>
             {/* main content */}

@@ -132,14 +132,14 @@ export default function LoginPage() {
             </FormFooter>
           </FormComponent>
           {/* Divider */}
-          <div className='w-full flex flex-row items-center justify-center gap-3 overflow-hidden'>
+          {/* <div className='w-full flex flex-row items-center justify-center gap-3 overflow-hidden'>
             <Separator className='w-fit' />
             <p className='text-muted-foreground font-medium'>Atau</p>
             <Separator className='w-fit' />
-          </div>
+          </div> */}
 
           {/* Back to Home */}
-          <div className='flex flex-row justify-between items-center gap-3 w-full'>
+          {/* <div className='flex flex-row justify-between items-center gap-3 w-full'>
             <Link href={"/"} className='w-full'>
               <Button className='w-full ring ring-border flex flex-row items-center justify-center gap-3 bg-white hover:bg-muted'>
                 <Image src={GoogleSymbol} alt='google symbol' width={20} height={20} className='w-5 h-5' />
@@ -152,7 +152,7 @@ export default function LoginPage() {
                 <p className='text-sm font-medium text-black'>Daftar dengan Facebook</p>
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
