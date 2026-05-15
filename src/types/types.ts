@@ -6,6 +6,7 @@ import {
   InputHTMLAttributes,
 } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { Teacher } from "./base";
 
 export interface BreadcrumbsProps {
   currentPage: string;
@@ -221,3 +222,5 @@ export interface AttendanceChartItem {
   late: number;
   permit: number;
 }
+
+export interface EmployeeProfileCardProps extends Teacher { };
