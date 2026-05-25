@@ -131,6 +131,7 @@ export interface GetAllEmployeesResponse {
 export interface GetAllEmployeesOnCompanyData {
   employees: Teacher[];
   companyName: string;
+  currentUser: string;
 }
 
 export interface GetAllEmployeesOnCompanyResponse {

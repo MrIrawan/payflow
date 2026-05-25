@@ -23,7 +23,7 @@ export function EmployeeProfileCard({ employeeData }: {
                                     <AvatarImage />
                                 </Avatar>
                                 <div className="w-full h-fit flex flex-col items-start justify-start gap-0">
-                                    <CardTitle className="text-sm">{data.full_name}</CardTitle>
+                                    <CardTitle className="text-sm">{employeeData.currentUser === data.full_name ? `${data.full_name} (You)` : data.full_name}</CardTitle>
                                     <CardDescription className="text-xs font-semibold">{data.email}</CardDescription>
                                 </div>
                             </div>

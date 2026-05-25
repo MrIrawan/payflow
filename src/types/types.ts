@@ -226,4 +226,5 @@ export interface AttendanceChartItem {
 export interface EmployeeProfileCardProps {
   employees: Teacher[];
   companyName: string;
+  currentUser: string;
 }
