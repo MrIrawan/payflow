@@ -128,6 +128,17 @@ export interface GetAllEmployeesResponse {
   data: GetAllEmployeesData[];
 }
 
+export interface GetAllEmployeesOnCompanyData {
+  employees: Teacher[];
+  companyName: string;
+}
+
+export interface GetAllEmployeesOnCompanyResponse {
+  success: boolean;
+  message: string;
+  data: GetAllEmployeesOnCompanyData;
+}
+
 export interface AddEmployeeData extends Teacher { }
 
 export interface AddEmployeeResponse {

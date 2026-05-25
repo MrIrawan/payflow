@@ -223,4 +223,7 @@ export interface AttendanceChartItem {
   permit: number;
 }
 
-export interface EmployeeProfileCardProps extends Teacher { };
+export interface EmployeeProfileCardProps {
+  employees: Teacher[];
+  companyName: string;
+}

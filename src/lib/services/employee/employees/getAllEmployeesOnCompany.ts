@@ -1,18 +1,20 @@
 import userClient from "@/lib/axios/userClient";
 
 import { ApiResponse } from "@/types/api";
-import { GetAllEmployeesData, GetAllEmployeesResponse } from "@/types/response";
+import { GetAllEmployeesOnCompanyData, GetAllEmployeesOnCompanyResponse } from "@/types/response";
 
 export const getAllEmployeesOnCompany = async (companyId: number) => {
     try {
-        const response = await userClient.get<ApiResponse<GetAllEmployeesData[]>>(`/employees?companyId=${companyId}`);
+        const response = await userClient.get<ApiResponse<GetAllEmployeesOnCompanyData>>(`/employees?companyId=${companyId}`);
+
+        console.log(response)
 
         return {
             success: true,
             message: response.data.message,
             data: response.data
         }
-    } catch (error: ApiResponse<GetAllEmployeesResponse> | any) {
+    } catch (error: ApiResponse<GetAllEmployeesOnCompanyResponse> | any) {
         return {
             success: false,
             message: error.message,

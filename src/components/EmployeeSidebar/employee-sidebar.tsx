@@ -48,8 +48,6 @@ export function EmployeeSidebar() {
         async function fetchEmployeeProfile() {
             const response = await getEmployeeProfile(companyId);
 
-            console.log("response profile pegawai:", response.data);
-
             if (response.success === false) {
                 console.error("gagal mengambil data profile pegawai:", response.message);
                 return;

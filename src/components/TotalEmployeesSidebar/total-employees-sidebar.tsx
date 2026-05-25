@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
-import { GetAllEmployeesData } from "@/types/response";
+import { GetAllEmployeesOnCompanyData } from "@/types/response";
 import { getAllEmployeesOnCompany } from "@/lib/services/employee/employees/getAllEmployeesOnCompany";
 
 import { UsersIcon } from "lucide-react";
@@ -17,7 +17,7 @@ export function TotalEmployeesSidebar() {
     const params = useParams();
     const companyId = Number(params.companyId);
 
-    const [totalEmployees, setTotalEmployees] = useState<GetAllEmployeesData[] | undefined>(undefined);
+    const [totalEmployees, setTotalEmployees] = useState<GetAllEmployeesOnCompanyData | undefined>(undefined);
 
     useEffect(() => {
         async function fetchAllEmployees(companyId: number) {
@@ -36,6 +36,8 @@ export function TotalEmployeesSidebar() {
         fetchAllEmployees(companyId)
     }, [companyId]);
 
+    console.log(totalEmployees)
+
     return (
         <Sidebar side="right" className="p-2.5">
             <SidebarHeader className="w-full p-2">
@@ -51,7 +53,7 @@ export function TotalEmployeesSidebar() {
                             <Separator className="data-[orientation=horizontal]:w-20 bg-muted-foreground" orientation="horizontal" />
                         </div>
                         <div className="w-fit">
-                            <CardDescription className="text-base font-medium">{totalEmployees.length}</CardDescription>
+                            <CardDescription className="text-base font-medium">{totalEmployees.employees.length}</CardDescription>
                         </div>
                     </Card>
                 )}
@@ -59,11 +61,11 @@ export function TotalEmployeesSidebar() {
             <SidebarContent className="py-2">
                 {totalEmployees === undefined ? (
                     <>
-                        <Skeleton className="w-full h-14 bg-gray-300 rounded-xl" />
-                        <Skeleton className="w-full h-14 bg-gray-300 rounded-xl" />
-                        <Skeleton className="w-full h-14 bg-gray-300 rounded-xl" />
-                        <Skeleton className="w-full h-14 bg-gray-300 rounded-xl" />
-                        <Skeleton className="w-full h-14 bg-gray-300 rounded-xl" />
+                        <Skeleton className="w-full h-15 bg-gray-300 rounded-xl" />
+                        <Skeleton className="w-full h-15 bg-gray-300 rounded-xl" />
+                        <Skeleton className="w-full h-15 bg-gray-300 rounded-xl" />
+                        <Skeleton className="w-full h-15 bg-gray-300 rounded-xl" />
+                        <Skeleton className="w-full h-15 bg-gray-300 rounded-xl" />
                     </>
                 ) : (
                     <>
