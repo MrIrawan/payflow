@@ -59,7 +59,9 @@ export interface SignInAdminResponse {
   message: string;
 }
 
-export interface GetEmployeeProfileData extends Teacher { }
+// Diganti dari "extends Teacher {}" ke type alias
+// untuk menghindari no-empty-object-type error
+export type GetEmployeeProfileData = Teacher;
 
 export interface GetEmployeeProfileResponse {
   success: boolean;
@@ -67,7 +69,7 @@ export interface GetEmployeeProfileResponse {
   data: GetEmployeeProfileData;
 }
 
-export interface EditEmployeeProfileData extends Teacher { }
+export type EditEmployeeProfileData = Teacher;
 
 export interface EditEmployeeProfileResponse {
   success: boolean;
@@ -80,7 +82,7 @@ export interface LogOutEmployeeResponse {
   message: string;
 }
 
-export interface GetEmployeeAttendanceData extends Attendance { }
+export type GetEmployeeAttendanceData = Attendance;
 
 export interface GetEmployeeAttendanceResponse {
   success: boolean;
@@ -88,7 +90,7 @@ export interface GetEmployeeAttendanceResponse {
   data: GetEmployeeAttendanceData;
 }
 
-export interface StoreEmployeeAttendanceData extends Attendance { }
+export type StoreEmployeeAttendanceData = Attendance;
 
 export interface StoreEmployeeAttendanceResponse {
   success: boolean;
@@ -107,7 +109,7 @@ export interface GetAdminInfoResponse {
   data: GetAdminInfoData;
 }
 
-export interface GetPayrollHistoryData extends PayrollHistory { };
+export type GetPayrollHistoryData = PayrollHistory;
 
 export interface GetPayrollHistoryResponse {
   success: boolean;
@@ -120,7 +122,7 @@ export interface LogOutAdminResponse {
   message: string;
 }
 
-export interface GetAllEmployeesData extends Teacher { }
+export type GetAllEmployeesData = Teacher;
 
 export interface GetAllEmployeesResponse {
   success: boolean;
@@ -140,7 +142,7 @@ export interface GetAllEmployeesOnCompanyResponse {
   data: GetAllEmployeesOnCompanyData;
 }
 
-export interface AddEmployeeData extends Teacher { }
+export type AddEmployeeData = Teacher;
 
 export interface AddEmployeeResponse {
   success: boolean;
@@ -148,7 +150,7 @@ export interface AddEmployeeResponse {
   data: AddEmployeeData;
 }
 
-export interface EditEmployeeData extends Teacher { }
+export type EditEmployeeData = Teacher;
 
 export interface EditEmployeeResponse {
   success: boolean;
@@ -161,7 +163,7 @@ export interface DeleteEmployeeResponse {
   message: string;
 }
 
-export interface GetAllAttendances extends Attendance { }
+export type GetAllAttendances = Attendance;
 
 export interface GetAllAttendancesResponse {
   success: boolean;
@@ -169,7 +171,7 @@ export interface GetAllAttendancesResponse {
   data: GetAllAttendances[];
 }
 
-export interface AddAttendanceData extends Attendance { }
+export type AddAttendanceData = Attendance;
 
 export interface AddAttendanceResponse {
   success: boolean;
@@ -177,7 +179,7 @@ export interface AddAttendanceResponse {
   data: AddAttendanceData;
 }
 
-export interface EditAttendanceData extends Attendance { }
+export type EditAttendanceData = Attendance;
 
 export interface EditAttendanceResponse {
   success: boolean;
@@ -208,7 +210,7 @@ export interface GetOwnCompanyResponse {
   data: GetOwnCompanyData;
 }
 
-export interface GetOwnCompanyData extends Companies { }
+export type GetOwnCompanyData = Companies;
 
 export interface AddNewCompanyResponse {
   success: boolean;
@@ -216,7 +218,7 @@ export interface AddNewCompanyResponse {
   data: AddNewCompanyData;
 }
 
-export interface AddNewCompanyData extends Companies { }
+export type AddNewCompanyData = Companies;
 
 export interface JoinCompanyData {
   company_id: number;
