@@ -69,7 +69,7 @@ export function TotalEmployeesSidebar() {
                     </>
                 ) : (
                     <>
-                        <EmployeeProfileCard employeeData={totalEmployees} />
+                        <EmployeeProfileCard employeeData={totalEmployees} companyId={companyId} />
                     </>
                 )}
             </SidebarContent>
