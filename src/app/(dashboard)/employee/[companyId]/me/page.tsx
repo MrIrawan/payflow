@@ -58,293 +58,273 @@ export default function UserProfile() {
     }, []);
 
     return (
-        <div className='w-full flex flex-col gap-6 p-6'>
+        // user profile page.
+        <div className="w-full flex flex-col gap-5 p-6">
             <PageHeader />
+
+            {/* Page title */}
             <div className="flex items-center justify-between">
-                <div className='flex flex-col gap-1'>
-                    <h1 className="text-3xl font-bold text-gray-900">Profil Saya</h1>
-                    <p className="text-gray-600">Informasi lengkap tentang data pribadi dan pekerjaan Anda</p>
+                <div className="flex flex-col gap-0.5">
+                    <h1 className="text-2xl font-bold text-gray-900">Profil Saya</h1>
+                    <p className="text-sm text-gray-500">Informasi data pribadi dan kepegawaian Anda</p>
                 </div>
-                <Link href={`/employee/${companyId}/me/edit`}>
-                    {/* <Button className='flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-600/30 font-medium'>
-                        <Edit className="w-5 h-5" />
-                        Edit Profil
-                    </Button> */}
-                </Link>
             </div>
-            {/* main content */}
-            <div className="w-full flex flex-row items-start gap-6">
-                <div className='w-1/2 flex flex-col gap-6'>
-                    {/* profile card */}
-                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-                        <div className="flex flex-col gap-4">
-                            {/* profile avatar */}
-                            <div className='w-full flex flex-col gap-4 items-center'>
-                                {employeeProfile === undefined ? (
-                                    <Skeleton className="w-32 h-32 rounded-full bg-gray-300" />
+
+            {/* main content — responsive grid */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 items-stretch">
+
+                {/* ── LEFT: Profile summary card ── */}
+                <div className="flex flex-col gap-4">
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden h-full">
+                        {/* Avatar banner */}
+                        <div className="h-16 bg-gradient-to-r from-blue-500 to-blue-600" />
+                        <div className="px-4 pb-4 -mt-8 flex flex-col items-center gap-3">
+                            {/* Avatar */}
+                            {isLoading ? (
+                                <Skeleton className="w-16 h-16 rounded-full ring-4 ring-white bg-gray-300" />
+                            ) : (
+                                <Avatar className="w-16 h-16 rounded-full ring-4 ring-white">
+                                    <AvatarFallback
+                                        className={`text-xl font-bold text-white ${
+                                            /* dummy: "Budi Santoso" → male → blue */
+                                            "male" === "male"
+                                                ? "bg-blue-500"
+                                                : "bg-pink-500"
+                                        }`}
+                                    >
+                                        {/* dummy fallback initials */}
+                                        BS
+                                    </AvatarFallback>
+                                </Avatar>
+                            )}
+
+                            {/* Name & job title */}
+                            <div className="flex flex-col items-center gap-1.5 text-center">
+                                {isLoading ? (
+                                    <>
+                                        <Skeleton className="w-36 h-5 bg-gray-300 rounded" />
+                                        <Skeleton className="w-24 h-4 bg-gray-200 rounded" />
+                                    </>
                                 ) : (
-                                    <Avatar className='w-32 h-32 rounded-full flex items-center justify-center'>
-                                        <AvatarFallback className={`${employeeProfile.gender === "male" ? "bg-gradient-to-br from-blue-500 to-blue-600" : "bg-gradient-to-br from-pink-500 to-pink-600"} text-3xl font-bold text-white`}>{employeeProfile.full_name.slice(0, 2)}</AvatarFallback>
-                                    </Avatar>
+                                    <>
+                                        <p className="text-base font-bold text-gray-900">Budi Santoso</p>
+                                        {/* dummy job_title: null state */}
+                                        <p className="text-xs text-gray-400 italic">belum ada deskripsi pekerjaan.</p>
+                                    </>
                                 )}
-
-                                <div className='flex flex-col gap-1 items-center'>
-                                    {employeeProfile === undefined ? (
-                                        <>
-                                            <Skeleton className="w-[200px] bg-gray-300 h-[25px]" />
-                                            <Skeleton className="w-[300px] h-[70px] bg-gray-300" />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <h2 className="text-2xl font-bold text-gray-900">{employeeProfile.full_name}</h2>
-                                            {employeeProfile.job_title ? (
-                                                <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
-                                                    {employeeProfile.job_title.map((job, index) => (
-                                                        <InfoBadge key={index} label={job} className={jobBadgeMap[job].className} icon={jobBadgeMap[job].icon} />
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <div className='w-56 flex flex-row items-center justify-center flex-wrap gap-1'>
-                                                    <p className="text-sm font-medium">Belum ada deskripsi pekerjaan.</p>
-                                                </div>
-                                            )}
-                                        </>
-                                    )}
-                                </div>
                             </div>
+
                             <Separator />
-                            {/* email and join date info */}
-                            <div className="flex flex-col gap-4">
-                                <div className="flex items-center gap-3 text-sm">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Mail className="w-5 h-5 text-blue-600" />
+
+                            {/* Quick info rows */}
+                            <div className="w-full flex flex-col gap-3">
+                                {/* Email */}
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                                        <Mail className="w-4 h-4 text-blue-500" />
                                     </div>
-                                    <div className="flex flex-col gap-1">
-                                        {employeeProfile === undefined ? (
-                                            <>
-                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
-                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
-                                            </>
+                                    <div className="flex flex-col min-w-0">
+                                        {isLoading ? (
+                                            <Skeleton className="w-32 h-4 bg-gray-200 rounded" />
                                         ) : (
-                                            <>
-                                                <p className="text-gray-500 text-xs">Email</p>
-                                                <p className="font-medium text-gray-900">{employeeProfile.email}</p>
-                                            </>
+                                            <span className="text-sm font-medium text-gray-800 truncate">budi.santoso@gmail.com</span>
                                         )}
+                                        <span className="text-xs text-gray-400">Email</span>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 text-sm">
-                                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Calendar className="w-5 h-5 text-green-600" />
+                                {/* Join date */}
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
+                                        <Calendar className="w-4 h-4 text-green-500" />
                                     </div>
-                                    <div className="flex flex-col gap-1">
-                                        {employeeProfile === undefined ? (
-                                            <>
-                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
-                                                <Skeleton className="w-[100px] h-[15px] bg-gray-300" />
-                                            </>
+                                    <div className="flex flex-col min-w-0">
+                                        {isLoading ? (
+                                            <Skeleton className="w-24 h-4 bg-gray-200 rounded" />
                                         ) : (
-                                            <>
-                                                <p className="text-gray-500 text-xs">Bergabung Sejak</p>
-                                                <p className="font-medium text-gray-900">{employeeProfile.join_date ? formatDate(employeeProfile.join_date) : "belum ada deskripsi tanggal bergabung"}</p>
-                                            </>
+                                            /* dummy join_date: null state */
+                                            <span className="text-sm text-gray-400 italic">belum ada tanggal bergabung.</span>
                                         )}
+                                        <span className="text-xs text-gray-400">Bergabung Sejak</span>
+                                    </div>
+                                </div>
+
+                                {/* Gender */}
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
+                                        <User className="w-4 h-4 text-purple-500" />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        {isLoading ? (
+                                            <Skeleton className="w-16 h-4 bg-gray-200 rounded" />
+                                        ) : (
+                                            <GenderBadge placeholder="male" size="sm" />
+                                        )}
+                                        <span className="text-xs text-gray-400">Jenis Kelamin</span>
+                                    </div>
+                                </div>
+
+                                {/* Alamat */}
+                                <div className="flex items-start gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                                        <MapPin className="w-4 h-4 text-orange-500" />
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        {isLoading ? (
+                                            <Skeleton className="w-28 h-4 bg-gray-200 rounded" />
+                                        ) : (
+                                            /* dummy address: null state */
+                                            <span className="text-sm text-gray-400 italic">belum ada alamat.</span>
+                                        )}
+                                        <span className="text-xs text-gray-400">Alamat</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* information details card */}
-                <div className='w-full flex flex-col gap-6'>
-                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
-                        <div className="p-4 border-b border-gray-200">
-                            <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                    <User className="w-6 h-6 text-blue-600" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-900">Informasi Pribadi</h2>
-                                    <p className="text-sm text-gray-500">Data pribadi dan identitas</p>
-                                </div>
+
+                {/* ── RIGHT: Detail cards ── */}
+                <div className="flex flex-col gap-4">
+
+                    {/* Personal info card */}
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        {/* Card header */}
+                        <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+                            <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                                <User className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-semibold text-gray-900">Informasi Pribadi</p>
+                                <p className="text-xs text-gray-400">Data pribadi dan identitas</p>
                             </div>
                         </div>
 
-                        <div className="p-4">
-                            <div className="flex flex-col justify-between gap-6">
+                        {/* Card body */}
+                        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+                            {/* Nama Lengkap */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Nama Lengkap</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-32 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    <p className="text-base font-semibold text-gray-900">Budi Santoso</p>
+                                )}
+                            </div>
 
-                                <div className='w-[60%] grid grid-cols-2'>
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Nama Lengkap
-                                        </Label>
-                                        {employeeProfile === undefined ? (
-                                            <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                        ) : (
-                                            <p className="text-base font-semibold text-gray-900">{employeeProfile?.full_name}</p>
-                                        )}
-                                    </div>
+                            {/* Jenis Kelamin */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Jenis Kelamin</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-20 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    <GenderBadge placeholder="male" size="sm" />
+                                )}
+                            </div>
 
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Jenis Kelamin
-                                        </Label>
-                                        {employeeProfile === undefined ? (
-                                            <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                        ) : (
-                                            <GenderBadge placeholder={employeeProfile?.gender as "male" | "female"} size='sm' />
-                                        )}
-                                    </div>
-                                </div>
+                            {/* Tanggal Lahir */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Tanggal Lahir</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    /* dummy date_of_birth: null state */
+                                    <p className="text-base text-gray-400 italic">belum ada tanggal lahir.</p>
+                                )}
+                            </div>
 
-                                <div className='w-[60%] grid grid-cols-2'>
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Tanggal Lahir
-                                        </Label>
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="w-4 h-4 text-gray-400" />
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <p className="text-base font-semibold text-gray-900">{formatDate(employeeProfile?.date_of_birth)}</p>
-                                            )}
-                                        </div>
-                                    </div>
+                            {/* Alamat Email */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Alamat Email</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-40 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    <p className="text-base font-semibold text-gray-900">budi.santoso@gmail.com</p>
+                                )}
+                            </div>
 
-                                    <div className="flex flex-col gap-1">
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Alamat Email
-                                        </Label>
-                                        <div className="flex items-center gap-2">
-                                            <Mail className="w-4 h-4 text-gray-400" />
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.email}</p>
-                                            )}
-                                        </div>
+                            {/* Alamat Rumah — full width */}
+                            <div className="flex flex-col gap-1 sm:col-span-2">
+                                <Label className="text-sm text-gray-400">Alamat Rumah</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-full h-8 bg-gray-200 rounded" />
+                                ) : (
+                                    /* dummy address: null state */
+                                    <div className="flex items-start gap-1.5">
+                                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
+                                        <p className="text-base text-gray-400 italic">belum ada alamat.</p>
                                     </div>
-                                </div>
-                                <div className="w-full flex flex-col gap-1">
-                                    <Label className='text-sm font-medium text-gray-500'>
-                                        Alamat Rumah
-                                    </Label>
-                                    <div className="w-full flex items-start gap-2">
-                                        <MapPin className="w-4 h-4 text-gray-400 mt-1" />
-                                        {employeeProfile === undefined ? (
-                                            <Skeleton className="w-[80%] h-[35px] bg-gray-300" />
-                                        ) : (
-                                            <p className="text-base font-semibold text-gray-900">
-                                                {employeeProfile?.address ? employeeProfile.address : "belum ada deskripsi alamat rumah."}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
-                    {/* work infomation card */}
-                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
-                        <div className="p-4 border-b border-gray-200">
-                            <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                    <Briefcase className="w-6 h-6 text-green-600" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-gray-900">Informasi Pekerjaan</h2>
-                                    <p className="text-sm text-gray-500">Data kepegawaian dan jabatan</p>
-                                </div>
+
+                    {/* Work info card */}
+                    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        {/* Card header */}
+                        <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+                            <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center shrink-0">
+                                <Briefcase className="w-4 h-4 text-green-600" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-semibold text-gray-900">Informasi Pekerjaan</p>
+                                <p className="text-xs text-gray-400">Data kepegawaian dan jabatan</p>
                             </div>
                         </div>
 
-                        <div className="p-4">
-                            <div className="flex flex-col justify-between gap-6">
-                                <div className='w-full grid grid-cols-2'>
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Nama Perusahaan
-                                        </Label>
-                                        <div className="flex items-center gap-2">
-                                            <Building2 className="w-4 h-4 text-gray-400" />
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile?.company_name}</p>
-                                            )}
-                                        </div>
+                        {/* Card body */}
+                        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+                            {/* Nama Perusahaan */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Nama Perusahaan</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-32 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    <div className="flex items-center gap-1.5">
+                                        <Building2 className="w-4 h-4 text-gray-400" />
+                                        <p className="text-base font-semibold text-gray-900">SMK Nusantara</p>
                                     </div>
+                                )}
+                            </div>
 
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Jabatan dan Posisi
-                                        </Label>
-                                        <>
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <>
-                                                    {employeeProfile?.job_title ? (
-                                                        <div className='flex flex-row gap-1 flex-wrap'>
-                                                            {employeeProfile.job_title.map((job, index) => (
-                                                                <InfoBadge key={index} label={job} className={jobBadgeMap[job].className} icon={jobBadgeMap[job].icon} />
-                                                            ))}
-                                                        </div>
-                                                    ) : (
-                                                        <p className="text-base font-semibold text-gray-900">belum ada deskripsi jabatan dan posisi</p>
-                                                    )}
-                                                </>
-                                            )}
-                                        </>
-                                    </div>
-                                </div>
+                            {/* Tanggal Bergabung */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Tanggal Bergabung</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    /* dummy join_date: null state */
+                                    <p className="text-base text-gray-400 italic">belum ada tanggal bergabung.</p>
+                                )}
+                            </div>
 
-                                <div className='w-full grid grid-cols-2'>
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Mata Pelajaran
-                                        </Label>
-                                        <div className="flex items-start gap-2">
-                                            <GraduationCap className="text-gray-400 shrink-0 size-5" />
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <>
-                                                    {employeeProfile?.subject_name ? (
-                                                        <div className='flex flex-row gap-1 items-center justify-start flex-wrap w-5/6'>
-                                                            {employeeProfile.subject_name.map((sub, index) => (
-                                                                <InfoBadge key={index} label={sub} className={subjectBadgeMap[sub].className} icon={subjectBadgeMap[sub].icon} />
-                                                            ))}
-                                                        </div>
-                                                    ) : (
-                                                        <p className="text-base font-semibold text-gray-900">belum ada deskripsi mata pelajaran</p>
-                                                    )}
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
+                            {/* Jabatan */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">Jabatan dan Posisi</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-24 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    /* dummy job_title: null state */
+                                    <p className="text-base text-gray-400 italic">belum ada deskripsi pekerjaan.</p>
+                                )}
+                            </div>
 
-                                    <div className='flex flex-col gap-1'>
-                                        <Label className='text-sm font-medium text-gray-500'>
-                                            Tanggal Bergabung
-                                        </Label>
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="w-4 h-4 text-gray-400" />
-                                            {employeeProfile === undefined ? (
-                                                <Skeleton className="w-[80%] h-[20px] bg-gray-300" />
-                                            ) : (
-                                                <p className="text-base font-semibold text-gray-900">{employeeProfile.join_date ? formatDate(employeeProfile.join_date) : "belum ada deskripsi tanggal bergabung"}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                            {/* ID Karyawan */}
+                            <div className="flex flex-col gap-1">
+                                <Label className="text-sm text-gray-400">ID Karyawan</Label>
+                                {isLoading ? (
+                                    <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
+                                ) : (
+                                    /* dummy employee_id */
+                                    <p className="text-base font-mono font-semibold text-gray-900 tracking-wide">EMP-001</p>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
+        // user profile page end.
     );
 }
 
