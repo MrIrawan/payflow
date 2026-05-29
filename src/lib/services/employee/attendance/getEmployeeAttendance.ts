@@ -1,7 +1,8 @@
 import userClient from "@/lib/axios/userClient";
-
 import { ApiResponse } from "@/types/api";
-import { GetEmployeeAttendanceData, GetEmployeeAttendanceResponse } from "@/types/response";
+import { GetEmployeeAttendanceData } from "@/types/response";
+
+// GetEmployeeAttendanceResponse tidak dipakai — dihapus dari import
 
 export const getEmployeeAttendance = async () => {
     try {
@@ -12,12 +13,14 @@ export const getEmployeeAttendance = async () => {
             message: response.data.message,
             data: response.data.data
         };
-    } catch (error: ApiResponse<GetEmployeeAttendanceResponse> | any) {
+    } catch (error: unknown) {
+        // Ganti "any" dengan "unknown" lalu cast ke Error
+        const err = error as Error & { status?: number };
         return {
             success: false,
-            status: error.status,
-            message: error.message,
+            status: err.status,
+            message: err.message,
             data: null
-        }
+        };
     }
-}
+};
