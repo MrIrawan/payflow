@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 import { Ban, Check, Info } from "lucide-react";
 import { CardDescription, CardTitle } from "../ui/card";
-import { ToasterVariants } from "@/types/types";
+// import { ToasterVariants } from "@/types/types";
 
 const toasterVariants = {
     success: {
