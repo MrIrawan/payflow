@@ -35,16 +35,28 @@ export function JoinCompanyDialog() {
         const response = await joinCompany({ company_key: data.company_key });
 
         if (response.success === false) {
-            toast.custom(() => <Toaster variant='error' title='Failed to Join Company' description={response?.message || "we cant process your request to join company"} />)
+            toast.custom(() => (
+                <Toaster
+                    variant="error"
+                    title="Failed to Join Company"
+                    // Ganti ' dengan &apos; untuk fix no-unescaped-entities
+                    description={response?.message || "we can&apos;t process your request to join company"}
+                />
+            ));
             console.error("Failed to join company:", response.message);
-
             setIsLoading(false);
             reset();
             return;
         }
 
         if (response.success === true) {
-            toast.custom(() => <Toaster variant='success' title='Successfully Joined Company' description={response?.message || "you have successfully joined the company"} />)
+            toast.custom(() => (
+                <Toaster
+                    variant="success"
+                    title="Successfully Joined Company"
+                    description={response?.message || "you have successfully joined the company"}
+                />
+            ));
             setIsLoading(false);
             reset();
             setOpen(false);
@@ -63,7 +75,8 @@ export function JoinCompanyDialog() {
                 <DialogHeader>
                     <DialogTitle>Join an Existing Company</DialogTitle>
                     <DialogDescription className="text-sm">
-                        Enter the unique code provided by your company administrator to join your company's PayFlow account.
+                        Enter the unique code provided by your company administrator to join
+                        your company&apos;s PayFlow account.
                     </DialogDescription>
                 </DialogHeader>
                 <FormComponent asWrapper={false} onSubmit={handleSubmit(onSubmit)} className="p-0">

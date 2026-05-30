@@ -10,10 +10,7 @@ import { signInEmployee } from '@/lib/services/employee/auth/signInEmployee';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import FacebookSymbol from '../../../../public/images/facebook_symbol.svg';
-import GoogleSymbol from '../../../../public/images/google_symbol.svg';
 
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { FormComponent, FormContent, FormFooter } from '@/components/Form/Form';
 import { InputGroup } from '@/components/InputGroup/input-group';
