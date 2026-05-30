@@ -9,7 +9,8 @@ export interface AttendanceChartData {
 
 export interface AttendanceChartProps {
   config: ChartConfig;
-  data: any[];
+  // Ganti any[] dengan union type yang cover semua kemungkinan data chart
+  data: AttendanceChartData[] | RawAttendanceData[];
 }
 
 export interface RawAttendanceData {

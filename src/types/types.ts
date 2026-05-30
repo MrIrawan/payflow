@@ -53,7 +53,8 @@ export interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   requiredLabel?: boolean;
   htmlFor: string;
   className?: string;
-  errorMsg?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  // Ganti any dengan unknown di dalam Merge — FieldErrorsImpl butuh object type
+  errorMsg?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<Record<string, unknown>>> | undefined;
 }
 
 export interface DatePickerProps {
@@ -63,9 +64,8 @@ export interface DatePickerProps {
   requiredLabel?: boolean;
   value?: Date;
   onChange?: (date?: Date) => void;
-  errorMessage?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  errorMessage?: string | React.ReactElement | FieldError | Merge<FieldError, FieldErrorsImpl<Record<string, unknown>>> | undefined;
 }
-
 
 export interface RadioOptionsProps {
   label: string;
@@ -154,7 +154,6 @@ export interface SelectGroupItemProps {
   displayText: string | number | React.ReactElement;
 }
 
-
 export interface UserLocation {
   longitude: number;
   latitude: number;
@@ -166,12 +165,6 @@ export interface ToasterVariants {
   icon: string;
   title: string;
 }
-
-// export interface EmployeeDataCardData {
-//   attendanceSummary: AttendanceSummary;
-//   attendanceChart: AttendanceChartItem[]; // Array of chart items
-//   salary: SalaryInfo;
-// }
 
 export interface CompanyCardProps {
   companyName: string;
@@ -189,28 +182,19 @@ export interface MultiSelectOption {
 }
 
 export interface MultiSelectGroupProps {
-  // Label
   label: string;
   labelClassName?: string;
   required?: boolean;
-
-  // Options
   options: MultiSelectOption[];
-
-  // RHF compatible — forwardRef ready
   value?: string[];
   onChange?: (values: string[]) => void;
   onBlur?: () => void;
   name?: string;
   disabled?: boolean;
-
-  // UI
   placeholder?: string;
   emptyMessage?: string;
   className?: string;
   error?: string;
-
-  // Behaviour
   maxSelect?: number;
   searchable?: boolean;
 }

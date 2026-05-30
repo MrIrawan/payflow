@@ -40,27 +40,45 @@ export function StoreAttendanceDrawer() {
         setIsLoading(true);
 
         const locationPromise = await getUserLocation();
-        const attendanceStatus = watch("attendance_status");
-        let formattedData = {
+        const attendanceStatus = watch("status");
+
+        // Ganti let → const karena tidak di-reassign (prefer-const)
+        const formattedData = {
             ...data,
-            checkin_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
-            checkout_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
+            checkin_time: attendanceStatus === "present"
+                ? timeStringToTimestamp(data.checkin_time + ":00")
+                : timeStringToTimestamp("00:00" + ":00"),
+            checkout_time: attendanceStatus === "present"
+                ? timeStringToTimestamp(data.checkin_time + ":00")
+                : timeStringToTimestamp("00:00" + ":00"),
             location: locationPromise
         };
 
         const response = await addAttendance(formattedData);
 
         if (response.data.success === false) {
-            toast.custom(() => <Toaster title="gagal menyimpan data absensi" description="kami gagal menyimpan data absensi yang anda masukkan." variant="error" />);
+            toast.custom(() => (
+                <Toaster
+                    title="gagal menyimpan data absensi"
+                    description="kami gagal menyimpan data absensi yang anda masukkan."
+                    variant="error"
+                />
+            ));
+            setIsLoading(false);
             return;
         }
 
-        toast.custom(() => <Toaster title="berhasil menyimpan data absensi" description="kami berhasil menyimpan data absensi yang anda masukkan." variant="success" />);
+        toast.custom(() => (
+            <Toaster
+                title="berhasil menyimpan data absensi"
+                description="kami berhasil menyimpan data absensi yang anda masukkan."
+                variant="success"
+            />
+        ));
 
         setIsLoading(false);
         reset();
-    }
-
+    };
 
     return (
         <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
@@ -75,24 +93,16 @@ export function StoreAttendanceDrawer() {
                     <DrawerHeader className="flex flex-row items-center justify-between">
                         <div className="flex flex-col gap-1">
                             <DrawerTitle className="text-2xl font-bold">Tambah Absensi Guru</DrawerTitle>
-                            <DrawerDescription className="text-base font-medium">Tambah dan simpan data absensi guru secara real-time.</DrawerDescription>
+                            <DrawerDescription className="text-base font-medium">
+                                Tambah dan simpan data absensi guru secara real-time.
+                            </DrawerDescription>
                         </div>
                     </DrawerHeader>
                     <FormContent className="px-4">
-                        {/* form fields here */}
-                        <InputGroup
-                            type="text"
-                            label="Nama Guru"
-                            htmlFor="teacher_name"
-                            errorMsg={errors.teacher_name?.message}
-                            requiredLabel={true}
-                            aria-invalid={errors.teacher_name ? "true" : "false"}
-                            {...register("teacher_name", { required: { message: "Nama guru wajib diisi", value: true } })}
-                        />
                         <Controller
                             control={control}
                             name="attendance_date"
-                            render={({ field: { onChange, value }, formState: { errors } }) => (
+                            render={({ field: { onChange, value }, formState: { errors: formErrors } }) => (
                                 <DatePicker
                                     label="Tanggal Absensi"
                                     htmlFor="attendance_date"
@@ -100,7 +110,7 @@ export function StoreAttendanceDrawer() {
                                     onChange={onChange}
                                     value={value}
                                     requiredLabel={true}
-                                    errorMessage={errors.attendance_date?.message}
+                                    errorMessage={formErrors.attendance_date?.message}
                                 />
                             )}
                             rules={{
@@ -118,7 +128,9 @@ export function StoreAttendanceDrawer() {
                                 requiredLabel={true}
                                 errorMsg={errors.checkin_time?.message}
                                 aria-invalid={errors.checkin_time ? "true" : "false"}
-                                {...register("checkin_time", { required: { message: "Waktu check-in wajib diisi", value: true } })}
+                                {...register("checkin_time", {
+                                    required: { message: "Waktu check-in wajib diisi", value: true }
+                                })}
                             />
                             <InputGroup
                                 type="time"
@@ -127,25 +139,37 @@ export function StoreAttendanceDrawer() {
                                 requiredLabel={true}
                                 errorMsg={errors.checkout_time?.message}
                                 aria-invalid={errors.checkout_time ? "true" : "false"}
-                                {...register("checkout_time", { required: { message: "Waktu check-out wajib diisi", value: true } })}
+                                {...register("checkout_time", {
+                                    required: { message: "Waktu check-out wajib diisi", value: true }
+                                })}
                             />
                         </div>
                         <Controller
                             control={control}
-                            name="attendance_status"
+                            name="status"
                             render={({ field }) => (
-                                <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" requiredLabel htmlFor="attendance_status" items={[
-                                    { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
-                                    { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
-                                    { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
-                                ]} onChange={field.onChange} />
+                                <SelectGroupComponent
+                                    label="Status Absensi"
+                                    placeholder="Pilih status absensi"
+                                    requiredLabel
+                                    htmlFor="attendance_status"
+                                    items={[
+                                        { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
+                                        { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
+                                        { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
+                                    ]}
+                                    onChange={field.onChange}
+                                />
                             )}
                             rules={{ required: { message: "Status absen wajib di isi.", value: true } }}
                         />
                     </FormContent>
                     <DrawerFooter className="flex flex-col gap-1.5">
                         <Button variant={"outline"} type="submit" className="border-blue-600 bg-blue-800/70 hover:bg-blue-600/70">
-                            {isLoading ? (<Spinner className="text-white" />) : (<p className="text-base font-medium text-white">Simpan Absensi</p>)}
+                            {isLoading
+                                ? <Spinner className="text-white" />
+                                : <p className="text-base font-medium text-white">Simpan Absensi</p>
+                            }
                         </Button>
                         <DrawerClose asChild>
                             <Button variant={"outline"} className="border-red-600 bg-red-800/70 hover:bg-red-600/70">

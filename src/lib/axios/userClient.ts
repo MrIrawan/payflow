@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_EMPLOYEE_API_URL || "http://localhost:8800/api/v1";
 
 const userClient = axios.create({
     baseURL: BASE_URL,
-    withCredentials: true, // INI KUNCINYA: Browser otomatis bawa Cookie
+    withCredentials: true,
     headers: {
         "Content-Type": "application/json",
     },
@@ -14,14 +14,20 @@ const userClient = axios.create({
 // REFRESH GUARD (RESPONSE INTERCEPTOR)
 // =================================================================
 let isRefreshing = false;
-let failedQueue: any[] = [];
 
-const processQueue = (error: any) => {
+// Ganti any[] dengan type yang proper untuk queue item
+interface QueueItem {
+    resolve: () => void;
+    reject: (error: unknown) => void;
+}
+let failedQueue: QueueItem[] = [];
+
+const processQueue = (error: unknown) => {
     failedQueue.forEach((prom) => {
         if (error) {
             prom.reject(error);
         } else {
-            prom.resolve(); // Tidak perlu kirim token, cukup resolve signal retry
+            prom.resolve();
         }
     });
     failedQueue = [];
@@ -29,16 +35,12 @@ const processQueue = (error: any) => {
 
 userClient.interceptors.response.use(
     (response) => response,
-    async (error) => {
-        const originalRequest = error.config;
+    async (error: AxiosError<{ message?: string }>) => {
+        const originalRequest = error.config as typeof error.config & { _retry?: boolean };
 
-        // Cek 401 & Belum Retry
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest?._retry) {
 
-            // Cegah loop di endpoint auth
-            if (originalRequest.url.includes("/signIn") || originalRequest.url.includes("/refresh")) {
-                // Jika endpoint refresh sendiri yang 401, berarti session habis total.
-                // REDIRECT (KILL SWITCH) DISINI
+            if (originalRequest?.url?.includes("/signIn") || originalRequest?.url?.includes("/refresh")) {
                 if (typeof window !== "undefined" && !window.location.pathname.includes("/signIn")) {
                     window.location.href = "/signIn";
                 }
@@ -46,39 +48,25 @@ userClient.interceptors.response.use(
             }
 
             if (isRefreshing) {
-                // Antrikan request lain yang datang bersamaan
-                return new Promise(function (resolve, reject) {
+                return new Promise<void>(function (resolve, reject) {
                     failedQueue.push({ resolve, reject });
                 })
                     .then(() => {
-                        // Saat antrian dilepas, cookie browser sudah baru.
-                        // Langsung retry request original.
-                        return userClient(originalRequest);
+                        return userClient(originalRequest!);
                     })
                     .catch((err) => Promise.reject(err));
             }
 
-            originalRequest._retry = true;
+            originalRequest!._retry = true;
             isRefreshing = true;
 
             try {
-                // 1. Panggil Endpoint Refresh
-                // Backend akan validasi cookie refreshToken lama, dan Set-Cookie accessToken baru
                 await userClient.post("/refresh");
-
-                // 2. Jika sukses (tidak error), berarti Cookie di browser SUDAH TERUPDATE otomatis.
-
-                // 3. Proses antrian
                 processQueue(null);
-
-                // 4. Retry request awal
-                // Axios akan kirim request baru, dan browser otomatis lampirkan cookie baru.
-                return userClient(originalRequest);
+                return userClient(originalRequest!);
 
             } catch (err) {
                 processQueue(err);
-
-                // KILL SWITCH: Refresh Gagal -> Logout Paksa
                 if (typeof window !== "undefined" && !window.location.pathname.includes("/signIn")) {
                     window.location.href = "/signIn";
                 }
@@ -88,11 +76,11 @@ userClient.interceptors.response.use(
             }
         }
 
-        const serverMessage = error.response?.data?.message
+        // Error normalizer — attach server message ke error.message
+        const serverMessage = error.response?.data?.message;
         if (serverMessage) {
-            error.message = serverMessage
+            error.message = serverMessage;
         }
-
 
         return Promise.reject(error);
     }

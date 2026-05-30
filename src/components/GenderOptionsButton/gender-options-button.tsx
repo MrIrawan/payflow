@@ -29,7 +29,10 @@ export function GenderOptionsButton() {
             <PopoverContent className="flex flex-col gap-3">
                 <div className="flex flex-col gap-1.5">
                     <CardTitle>Gender filter</CardTitle>
-                    <CardDescription>select gender options between "male" or "female".</CardDescription>
+                    {/* Ganti " " dengan &quot; untuk fix no-unescaped-entities */}
+                    <CardDescription>
+                        select gender options between &quot;male&quot; or &quot;female&quot;.
+                    </CardDescription>
                 </div>
                 <div className="flex flex-col gap-2 items-start">
                     <Button

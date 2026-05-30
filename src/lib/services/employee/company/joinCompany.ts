@@ -1,5 +1,4 @@
 import userClient from "@/lib/axios/userClient";
-
 import { ApiResponse } from "@/types/api";
 import { JoinCompanyRequest } from "@/types/request";
 import { JoinCompanyData } from "@/types/response";
@@ -13,12 +12,13 @@ export const joinCompany = async (companyKey: JoinCompanyRequest) => {
             message: response.data.message,
             data: response.data.data,
             status: response.status,
-        }
-    } catch (error: ApiResponse<JoinCompanyData> | any) {
+        };
+    } catch (error: unknown) {
+        const err = error as Error & { response?: { status?: number } };
         return {
             success: false,
-            message: error.message as string,
-            status: error.response?.status as number | undefined,
-        }
+            message: err.message,
+            status: err.response?.status,
+        };
     }
-}
+};

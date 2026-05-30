@@ -1,5 +1,6 @@
 import { Attendance, Companies, Teacher } from "./base";
-import { UserLocation } from "./types";
+
+// UserLocation dihapus dari import karena tidak dipakai di file ini
 
 export interface SignUpEmployeeRequest {
   first_name: string;
@@ -41,7 +42,8 @@ export interface EditEmployeeRequest extends Omit<Teacher, "guru_id" | "created_
   date_of_birth: Date;
 }
 
-export interface GetEmployeeByIdData extends Teacher { }
+// Diganti dari "extends Teacher {}" ke type alias
+export type GetEmployeeByIdData = Teacher;
 
 export interface GetEmployeeByIdResponse {
   success: boolean;
@@ -61,7 +63,8 @@ export interface AddAttendanceRequest extends Omit<Attendance, "attendance_id" |
   checkout_time: number;
 }
 
-export interface AddNewCompanyRequest extends Omit<Companies, "company_id" | "created_at" | "updated_at" | "owner_id" | "company_key"> { }
+// Diganti dari "extends Companies {}" ke type alias
+export type AddNewCompanyRequest = Omit<Companies, "company_id" | "created_at" | "updated_at" | "owner_id" | "company_key">;
 
 export interface JoinCompanyRequest {
   company_key: string;

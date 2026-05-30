@@ -52,9 +52,9 @@ const employeesTableColumn: Column<GetAllEmployeesData>[] = [
 export default function AdminTeacherDataPage() {
     const [employeesData, setEmployeesData] = useState<GetAllEmployeesData[] | undefined>(undefined);
 
-    const isTeacher = employeesData?.filter(teacher => teacher.job_title?.includes("Guru")).length || 0;
-    const isStaff = employeesData?.map((teacher) => teacher.job_title?.length === 2);
-    console.log(isStaff)
+    // const isTeacher = employeesData?.filter(teacher => teacher.job_title?.includes("Guru")).length || 0;
+    // const isStaff = employeesData?.map((teacher) => teacher.job_title?.length === 2);
+    // console.log(isStaff)
 
     useEffect(() => {
         async function fetchAllEmployees() {
