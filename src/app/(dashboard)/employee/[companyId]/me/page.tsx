@@ -300,7 +300,7 @@ export default function UserProfile() {
                                     <Skeleton className="w-24 h-5 bg-gray-200 rounded" />
                                 ) : (
                                     /* dummy job_title: null state */
-                                    <p className="text-base text-gray-400 italic">{employeeProfile?.job_title === null ? "belum ada deskripsi pekerjaan." : employeeProfile?.gender}</p>
+                                    <p className="text-base text-gray-400 italic">{employeeProfile?.job_title === null ? "belum ada deskripsi pekerjaan." : employeeProfile?.job_title}</p>
                                 )}
                             </div>
 
