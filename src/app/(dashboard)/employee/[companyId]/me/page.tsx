@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
 import React from 'react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import {
     User,
     Mail,
@@ -13,10 +13,10 @@ import {
     MapPin,
     Briefcase,
     Building2,
-    GraduationCap,
+    // GraduationCap,
 } from 'lucide-react';
 import { GenderBadge } from '@/components/GenderBadge/gender-badge';
-import { InfoBadge, jobBadgeMap, subjectBadgeMap } from '@/components/InfoBadge/info-badge';
+// import { InfoBadge, jobBadgeMap, subjectBadgeMap } from '@/components/InfoBadge/info-badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
@@ -85,15 +85,10 @@ export default function UserProfile() {
                             ) : (
                                 <Avatar className="w-16 h-16 rounded-full ring-4 ring-white">
                                     <AvatarFallback
-                                        className={`text-xl font-bold text-white ${
-                                            /* dummy: "Budi Santoso" → male → blue */
-                                            "male" === "male"
-                                                ? "bg-blue-500"
-                                                : "bg-pink-500"
-                                        }`}
+                                        className={`text-xl font-bold text-white ${employeeProfile?.gender === "male" ? "bg-blue-500" : "bg-pink-500"}`}
                                     >
                                         {/* dummy fallback initials */}
-                                        BS
+                                        {employeeProfile?.full_name.slice(0, 2)}
                                     </AvatarFallback>
                                 </Avatar>
                             )}
@@ -107,9 +102,9 @@ export default function UserProfile() {
                                     </>
                                 ) : (
                                     <>
-                                        <p className="text-base font-bold text-gray-900">Budi Santoso</p>
+                                        <p className="text-base font-bold text-gray-900">{employeeProfile?.full_name}</p>
                                         {/* dummy job_title: null state */}
-                                        <p className="text-xs text-gray-400 italic">belum ada deskripsi pekerjaan.</p>
+                                        <p className="text-xs text-gray-400 italic">{employeeProfile?.job_title === null ? "belum ada deskripsi pekerjaan." : employeeProfile?.job_title}</p>
                                     </>
                                 )}
                             </div>
@@ -127,7 +122,7 @@ export default function UserProfile() {
                                         {isLoading ? (
                                             <Skeleton className="w-32 h-4 bg-gray-200 rounded" />
                                         ) : (
-                                            <span className="text-sm font-medium text-gray-800 truncate">budi.santoso@gmail.com</span>
+                                            <span className="text-sm font-medium text-gray-800 truncate">{employeeProfile?.email}</span>
                                         )}
                                         <span className="text-xs text-gray-400">Email</span>
                                     </div>
@@ -143,7 +138,7 @@ export default function UserProfile() {
                                             <Skeleton className="w-24 h-4 bg-gray-200 rounded" />
                                         ) : (
                                             /* dummy join_date: null state */
-                                            <span className="text-sm text-gray-400 italic">belum ada tanggal bergabung.</span>
+                                            <span className={`capitalize text-sm ${employeeProfile?.join_date === null ? "text-gray-400 italic" : "font-medium text-gray-800 truncate"}`}>{employeeProfile?.join_date === null ? "belum ada tanggal bergabung." : formatDate(String(employeeProfile?.join_date))}</span>
                                         )}
                                         <span className="text-xs text-gray-400">Bergabung Sejak</span>
                                     </div>
@@ -158,7 +153,7 @@ export default function UserProfile() {
                                         {isLoading ? (
                                             <Skeleton className="w-16 h-4 bg-gray-200 rounded" />
                                         ) : (
-                                            <GenderBadge placeholder="male" size="sm" />
+                                            <GenderBadge placeholder={String(employeeProfile?.gender)} size="sm" />
                                         )}
                                         <span className="text-xs text-gray-400">Jenis Kelamin</span>
                                     </div>
@@ -174,7 +169,7 @@ export default function UserProfile() {
                                             <Skeleton className="w-28 h-4 bg-gray-200 rounded" />
                                         ) : (
                                             /* dummy address: null state */
-                                            <span className="text-sm text-gray-400 italic">belum ada alamat.</span>
+                                            <span className={`capitalize text-sm ${employeeProfile?.address === null ? "text-gray-400 italic" : "font-medium text-gray-800 truncate"}`}>{employeeProfile?.address === null ? "belum ada alamat." : employeeProfile?.address}</span>
                                         )}
                                         <span className="text-xs text-gray-400">Alamat</span>
                                     </div>
@@ -208,7 +203,7 @@ export default function UserProfile() {
                                 {isLoading ? (
                                     <Skeleton className="w-32 h-5 bg-gray-200 rounded" />
                                 ) : (
-                                    <p className="text-base font-semibold text-gray-900">Budi Santoso</p>
+                                    <p className="text-base font-semibold text-gray-900">{employeeProfile?.full_name}</p>
                                 )}
                             </div>
 
@@ -218,7 +213,7 @@ export default function UserProfile() {
                                 {isLoading ? (
                                     <Skeleton className="w-20 h-5 bg-gray-200 rounded" />
                                 ) : (
-                                    <GenderBadge placeholder="male" size="sm" />
+                                    <GenderBadge placeholder={String(employeeProfile?.gender)} size="sm" />
                                 )}
                             </div>
 
@@ -229,7 +224,7 @@ export default function UserProfile() {
                                     <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
                                 ) : (
                                     /* dummy date_of_birth: null state */
-                                    <p className="text-base text-gray-400 italic">belum ada tanggal lahir.</p>
+                                    <p className={`capitalize text-base ${employeeProfile?.date_of_birth === null ? "text-gray-400 italic" : "font-semibold text-gray-900"}`}>{employeeProfile?.date_of_birth === null ? "belum ada tanggal lahir." : formatDate(String(employeeProfile?.date_of_birth))}</p>
                                 )}
                             </div>
 
@@ -239,7 +234,7 @@ export default function UserProfile() {
                                 {isLoading ? (
                                     <Skeleton className="w-40 h-5 bg-gray-200 rounded" />
                                 ) : (
-                                    <p className="text-base font-semibold text-gray-900">budi.santoso@gmail.com</p>
+                                    <p className="text-base font-semibold text-gray-900">{employeeProfile?.email}</p>
                                 )}
                             </div>
 
@@ -252,7 +247,7 @@ export default function UserProfile() {
                                     /* dummy address: null state */
                                     <div className="flex items-start gap-1.5">
                                         <MapPin className="w-4 h-4 text-gray-400 mt-0.5 shrink-0" />
-                                        <p className="text-base text-gray-400 italic">belum ada alamat.</p>
+                                        <p className={`text-base ${employeeProfile?.address === null ? "text-gray-400 italic" : "font-medium text-gray-800 truncate"}`}>{employeeProfile?.address === null ? "belum ada alamat." : employeeProfile?.address}</p>
                                     </div>
                                 )}
                             </div>
@@ -282,7 +277,7 @@ export default function UserProfile() {
                                 ) : (
                                     <div className="flex items-center gap-1.5">
                                         <Building2 className="w-4 h-4 text-gray-400" />
-                                        <p className="text-base font-semibold text-gray-900">SMK Nusantara</p>
+                                        <p className="text-base font-semibold text-gray-900">{employeeProfile?.company_name}</p>
                                     </div>
                                 )}
                             </div>
@@ -294,7 +289,7 @@ export default function UserProfile() {
                                     <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
                                 ) : (
                                     /* dummy join_date: null state */
-                                    <p className="text-base text-gray-400 italic">belum ada tanggal bergabung.</p>
+                                    <p className={`capitalize ${employeeProfile?.join_date === null ? "text-base text-gray-400 italic" : "text-base font-semibold text-gray-900"}`}>{employeeProfile?.join_date === null ? "belum ada tanggal bergabung." : formatDate(String(employeeProfile?.join_date))}</p>
                                 )}
                             </div>
 
@@ -305,7 +300,7 @@ export default function UserProfile() {
                                     <Skeleton className="w-24 h-5 bg-gray-200 rounded" />
                                 ) : (
                                     /* dummy job_title: null state */
-                                    <p className="text-base text-gray-400 italic">belum ada deskripsi pekerjaan.</p>
+                                    <p className="text-base text-gray-400 italic">{employeeProfile?.job_title === null ? "belum ada deskripsi pekerjaan." : employeeProfile?.gender}</p>
                                 )}
                             </div>
 
@@ -316,7 +311,7 @@ export default function UserProfile() {
                                     <Skeleton className="w-28 h-5 bg-gray-200 rounded" />
                                 ) : (
                                     /* dummy employee_id */
-                                    <p className="text-base font-mono font-semibold text-gray-900 tracking-wide">EMP-001</p>
+                                    <p className="text-base font-mono font-semibold text-gray-900 tracking-wide">EMP-{employeeProfile?.user_id.slice(0, 8)}</p>
                                 )}
                             </div>
                         </div>
