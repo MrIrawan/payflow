@@ -20,25 +20,21 @@ import { setActiveCompany } from '@/utils/activeCompany';
 import { AttendanceChartItem } from '@/types/types';
 import { Attendance } from '@/types/base';
 
-// ── Dummy Data ────────────────────────────────────────────────────────────────
-
-/** Data chart absensi 12 bulan penuh (dummy) */
 const attendanceSummaryData: AttendanceChartItem[] = [
-    { month: "Januari",   present: 20, late: 2, absent: 1, permit: 1 },
-    { month: "Februari",  present: 18, late: 3, absent: 2, permit: 1 },
-    { month: "Maret",     present: 22, late: 1, absent: 0, permit: 1 },
-    { month: "April",     present: 21, late: 1, absent: 1, permit: 1 },
-    { month: "Mei",       present: 19, late: 2, absent: 2, permit: 1 },
-    { month: "Juni",      present: 23, late: 0, absent: 0, permit: 1 },
-    { month: "Juli",      present: 20, late: 2, absent: 1, permit: 1 },
-    { month: "Agustus",   present: 17, late: 3, absent: 3, permit: 1 },
+    { month: "Januari", present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Februari", present: 18, late: 3, absent: 2, permit: 1 },
+    { month: "Maret", present: 22, late: 1, absent: 0, permit: 1 },
+    { month: "April", present: 21, late: 1, absent: 1, permit: 1 },
+    { month: "Mei", present: 19, late: 2, absent: 2, permit: 1 },
+    { month: "Juni", present: 23, late: 0, absent: 0, permit: 1 },
+    { month: "Juli", present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Agustus", present: 17, late: 3, absent: 3, permit: 1 },
     { month: "September", present: 21, late: 1, absent: 1, permit: 1 },
-    { month: "Oktober",   present: 22, late: 0, absent: 1, permit: 1 },
-    { month: "November",  present: 20, late: 2, absent: 1, permit: 1 },
-    { month: "Desember",  present: 18, late: 1, absent: 2, permit: 3 },
+    { month: "Oktober", present: 22, late: 0, absent: 1, permit: 1 },
+    { month: "November", present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Desember", present: 18, late: 1, absent: 2, permit: 3 },
 ]
 
-/** Data riwayat absensi dummy untuk tabel */
 const dummyAttendanceHistory: Attendance[] = [
     {
         attendance_id: "att-001-abcd-efgh",
@@ -102,9 +98,6 @@ const dummyAttendanceHistory: Attendance[] = [
     },
 ]
 
-// ── Column Definition ─────────────────────────────────────────────────────────
-
-/** Definisi kolom tabel riwayat absensi (4 kolom yang relevan) */
 const attendanceHistoryColumn: Column<Attendance>[] = [
     {
         accessor: "attendance_date",
@@ -135,8 +128,6 @@ const attendanceHistoryColumn: Column<Attendance>[] = [
     },
 ]
 
-// ── Page Component ────────────────────────────────────────────────────────────
-
 export default function UserDashboard() {
     const params = useParams()
     const router = useRouter()
@@ -146,14 +137,11 @@ export default function UserDashboard() {
     const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined)
 
     useEffect(() => {
-        // Guard: companyId harus valid
         if (!companyId || isNaN(companyId)) {
             router.replace("/lobby")
             return
         }
 
-        // Sync cookie dengan URL — kalau user langsung akses
-        // URL tertentu, cookie ikut diupdate
         setActiveCompany(companyId)
 
         async function fetchEmployeeInfo() {
@@ -179,6 +167,8 @@ export default function UserDashboard() {
 
     }, [companyId])
 
+    console.log(employeeInfo)
+
     return (
         <div className="flex flex-col gap-4 p-5 w-full bg-white min-h-screen">
 
@@ -190,7 +180,7 @@ export default function UserDashboard() {
 
             {/* ── Section 2: Data Cards ── */}
             <EmployeeDataCard
-                presentCount={18}
+                presentCount={Number(employeeInfo?.attendance?.length)}
                 payslipsCount={5}
                 salary={6550000}
             />
@@ -217,7 +207,7 @@ export default function UserDashboard() {
                 </div>
                 <DataTable
                     columns={attendanceHistoryColumn}
-                    data={dummyAttendanceHistory}
+                    data={employeeInfo?.attendance || []}
                     wrapper={false}
                 />
             </Card>
@@ -226,9 +216,6 @@ export default function UserDashboard() {
     )
 }
 
-// ── Sub-Components ────────────────────────────────────────────────────────────
-
-/** Page Header: Sidebar trigger + Breadcrumb dengan border biru muda */
 function PageHeader() {
     return (
         <div className="h-fit w-full flex flex-row items-center gap-3 border-b border-blue-100 pb-3">
@@ -238,7 +225,6 @@ function PageHeader() {
     )
 }
 
-/** Welcome Section: Greeting + tanggal + label dashboard */
 function WelcomeSection({ employeeInfo }: { employeeInfo: GetEmployeeInfoData | undefined }) {
     const todayFormatted = new Date().toLocaleDateString("id-ID", {
         weekday: "long",
