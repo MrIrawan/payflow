@@ -7,8 +7,7 @@ import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { AttendanceBadge } from '@/components/AttendaceBadge/attendance-badge';
 import { EmployeeDataCard } from '@/components/EmployeeDataCard/employee-data-card';
 import { EmployeeAttendanceGraph } from '@/components/EmployeeAttendanceGraph/employee-attendance-graph';
-import { GetAllAttendances, GetEmployeeInfoData } from '@/types/response';
-import { Separator } from '@/components/ui/separator';
+import { GetEmployeeInfoData } from '@/types/response';
 import { DataTable } from '@/components/DataTable/data-table';
 import { Column } from '@/types/table';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -17,42 +16,123 @@ import { getEmployeeInfo } from '@/lib/services/employee/info/getEmployeeInfo';
 import { toast } from 'sonner';
 import { Toaster } from '@/components/Toaster/toaster';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PayrollHistory } from '@/types/base';
 import { setActiveCompany } from '@/utils/activeCompany';
 import { AttendanceChartItem } from '@/types/types';
+import { Attendance } from '@/types/base';
 
-// ── Sample data (tetap tidak diubah) ─────────────────────────────────────────
+// ── Dummy Data ────────────────────────────────────────────────────────────────
 
+/** Data chart absensi 12 bulan penuh (dummy) */
 const attendanceSummaryData: AttendanceChartItem[] = [
-    { month: "Januari", present: 20, late: 2, absent: 1, permit: 5 },
-    { month: "Februari", present: 18, late: 3, absent: 2, permit: 5 },
-    { month: "Maret", present: 22, late: 1, absent: 0, permit: 5 },
-    { month: "April", present: 21, late: 1, absent: 1, permit: 5 },
-    { month: "Mei", present: 19, late: 2, absent: 2, permit: 5 },
-    { month: "Juni", present: 23, late: 0, absent: 0, permit: 5 },
+    { month: "Januari",   present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Februari",  present: 18, late: 3, absent: 2, permit: 1 },
+    { month: "Maret",     present: 22, late: 1, absent: 0, permit: 1 },
+    { month: "April",     present: 21, late: 1, absent: 1, permit: 1 },
+    { month: "Mei",       present: 19, late: 2, absent: 2, permit: 1 },
+    { month: "Juni",      present: 23, late: 0, absent: 0, permit: 1 },
+    { month: "Juli",      present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Agustus",   present: 17, late: 3, absent: 3, permit: 1 },
+    { month: "September", present: 21, late: 1, absent: 1, permit: 1 },
+    { month: "Oktober",   present: 22, late: 0, absent: 1, permit: 1 },
+    { month: "November",  present: 20, late: 2, absent: 1, permit: 1 },
+    { month: "Desember",  present: 18, late: 1, absent: 2, permit: 3 },
 ]
 
-const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
-    { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
-    { accessor: "company_id", header: "ID Perusahaan" },
-    { accessor: "employee_id", header: "ID Pegawai", cell: (value: string) => value.slice(0, 8) },
-    { accessor: "attendance_date", header: "Tanggal Absensi" },
-    { accessor: "checkin_time", header: "Jam Masuk" },
-    { accessor: "checkout_time", header: "Jam Keluar" },
+/** Data riwayat absensi dummy untuk tabel */
+const dummyAttendanceHistory: Attendance[] = [
     {
-        accessor: "status",
-        header: "Status Absensi",
-        cell: (value) => <AttendanceBadge placeholder={value} />
+        attendance_id: "att-001-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-01T08:00:00Z",
+        attendance_date: "2026-06-01",
+        checkin_time: "08:02",
+        checkout_time: "16:05",
+        status: "present",
+    },
+    {
+        attendance_id: "att-002-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-02T08:00:00Z",
+        attendance_date: "2026-06-02",
+        checkin_time: "08:35",
+        checkout_time: "16:00",
+        status: "late",
+    },
+    {
+        attendance_id: "att-003-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-03T08:00:00Z",
+        attendance_date: "2026-06-03",
+        checkin_time: null,
+        checkout_time: null,
+        status: "absent",
+    },
+    {
+        attendance_id: "att-004-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-04T08:00:00Z",
+        attendance_date: "2026-06-04",
+        checkin_time: "08:00",
+        checkout_time: "16:10",
+        status: "present",
+    },
+    {
+        attendance_id: "att-005-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-05T08:00:00Z",
+        attendance_date: "2026-06-05",
+        checkin_time: null,
+        checkout_time: null,
+        status: "permit",
+    },
+    {
+        attendance_id: "att-006-abcd-efgh",
+        company_id: 1,
+        employee_id: "emp-001-wxyz",
+        created_at: "2026-06-06T08:00:00Z",
+        attendance_date: "2026-06-06",
+        checkin_time: "07:55",
+        checkout_time: "16:00",
+        status: "present",
     },
 ]
 
-const payrollHistoryColumn: Column<PayrollHistory>[] = [
-    { accessor: "teacher_name", header: "Nama Guru" },
-    { accessor: "period_month", header: "Periode Bulan" },
-    { accessor: "period_year", header: "Periode Tahun" },
-    { accessor: "teaching_salary", header: "Gaji Mengajar" },
-    { accessor: "transport_salary", header: "Gaji Transport" },
-    { accessor: "total_salary", header: "Total Gaji" },
+// ── Column Definition ─────────────────────────────────────────────────────────
+
+/** Definisi kolom tabel riwayat absensi (4 kolom yang relevan) */
+const attendanceHistoryColumn: Column<Attendance>[] = [
+    {
+        accessor: "attendance_date",
+        header: "Tanggal",
+        cell: (value) => {
+            const date = new Date(String(value));
+            return date.toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            });
+        },
+    },
+    {
+        accessor: "checkin_time",
+        header: "Jam Masuk",
+        cell: (value) => (value ? String(value) : "-"),
+    },
+    {
+        accessor: "checkout_time",
+        header: "Jam Keluar",
+        cell: (value) => (value ? String(value) : "-"),
+    },
+    {
+        accessor: "status",
+        header: "Status",
+        cell: (value) => <AttendanceBadge placeholder={String(value)} />,
+    },
 ]
 
 // ── Page Component ────────────────────────────────────────────────────────────
@@ -64,17 +144,6 @@ export default function UserDashboard() {
     const companyId = Number(params.companyId)
 
     const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined)
-
-    const currentDate = new Date()
-    const presentCount = employeeInfo?.attendance.filter(
-        (a) => a.status === "present"
-    ).length || 0
-
-    const currentMonthAttendance = employeeInfo?.attendance.filter(
-        (a) => new Date(a.attendance_date).toLocaleDateString("id-ID", {
-            month: "long"
-        }) === currentDate.toLocaleDateString("id-ID", { month: "long" })
-    )
 
     useEffect(() => {
         // Guard: companyId harus valid
@@ -111,75 +180,95 @@ export default function UserDashboard() {
     }, [companyId])
 
     return (
-        <div className="flex flex-col gap-6 p-6 w-full">
+        <div className="flex flex-col gap-4 p-5 w-full bg-white min-h-screen">
+
+            {/* ── Section 1: Page Header ── */}
             <PageHeader />
 
-            {/* Welcome Section */}
-            <div className="flex flex-col gap-0.5">
-                {employeeInfo === undefined ? (
-                    <>
-                        <Skeleton className='w-[441px] h-[35px] bg-gray-300 mb-2' />
-                        <Skeleton className='w-[488px] h-[23px] bg-gray-300' />
-                    </>
-                ) : (
-                    <>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            Selamat Datang, {employeeInfo.profile.full_name}! 👋
-                        </h1>
-                        <p className="text-gray-600">
-                            Berikut adalah ringkasan data penggajian dan absensi Anda
-                        </p>
-                    </>
-                )}
-            </div>
+            {/* ── Section 2: Welcome Section ── */}
+            <WelcomeSection employeeInfo={employeeInfo} />
 
-            {/* Data Cards */}
+            {/* ── Section 2: Data Cards ── */}
             <EmployeeDataCard
-                presentCount={presentCount}
-                payslipsCount={0}
+                presentCount={18}
+                payslipsCount={5}
                 salary={6550000}
             />
 
-            <EmployeeAttendanceGraph attendanceChartData={attendanceSummaryData} />
+            {/* ── Section 3: Chart Absensi ── */}
+            <div className="rounded-xl border border-blue-100 overflow-hidden">
+                <EmployeeAttendanceGraph attendanceChartData={attendanceSummaryData} />
+            </div>
 
-            {/* Attendance & Payslips Tables */}
-            <Card className='w-full flex flex-row gap-5 min-h-[500px] p-0 shadow-none ring-0 border-none bg-transparent'>
-                <Card className='h-full w-full flex flex-col gap-3 p-4'>
-                    <div className='w-full flex flex-col gap-1'>
-                        <CardTitle>Attendance History</CardTitle>
-                        <CardDescription>Riwayat Absensi anda bulan ini</CardDescription>
+            {/* ── Section 4: Tabel Riwayat Absensi ── */}
+            <Card className="w-full flex flex-col gap-3 p-4 border border-blue-100 shadow-sm rounded-xl bg-white">
+                <div className="w-full flex flex-row items-center justify-between">
+                    <div className="flex flex-col gap-0.5">
+                        <CardTitle className="text-blue-900 text-base font-semibold">
+                            Riwayat Absensi
+                        </CardTitle>
+                        <CardDescription className="text-blue-400 text-sm">
+                            Riwayat absensi Anda bulan ini
+                        </CardDescription>
                     </div>
-                    <div className='w-full h-full'>
-                        <DataTable
-                            columns={attendanceHistoryColumn}
-                            data={currentMonthAttendance || []}
-                            wrapper={false}
-                        />
-                    </div>
-                </Card>
-                {/* <Card className='h-full w-5/6 flex flex-col gap-3 p-4'>
-                    <div className='w-full flex flex-col gap-1'>
-                        <CardTitle>Payslips History</CardTitle>
-                        <CardDescription>Total hasil menerima slip gaji anda tahun ini.</CardDescription>
-                    </div>
-                    <div className='w-full h-full'>
-                        <DataTable
-                            columns={payrollHistoryColumn}
-                            data={employeeInfo?.payslips || []}
-                            wrapper={false}
-                        />
-                    </div>
-                </Card> */}
+                    <span className="text-xs font-medium bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
+                        {dummyAttendanceHistory.length} Catatan
+                    </span>
+                </div>
+                <DataTable
+                    columns={attendanceHistoryColumn}
+                    data={dummyAttendanceHistory}
+                    wrapper={false}
+                />
             </Card>
+
         </div>
     )
 }
 
+// ── Sub-Components ────────────────────────────────────────────────────────────
+
+/** Page Header: Sidebar trigger + Breadcrumb dengan border biru muda */
 function PageHeader() {
     return (
-        <div className="h-fit w-full flex flex-row items-center gap-3">
-            <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
+        <div className="h-fit w-full flex flex-row items-center gap-3 border-b border-blue-100 pb-3">
+            <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" />
             <DashboardBreadcrumb data={{ page: "Dashboard" }} />
+        </div>
+    )
+}
+
+/** Welcome Section: Greeting + tanggal + label dashboard */
+function WelcomeSection({ employeeInfo }: { employeeInfo: GetEmployeeInfoData | undefined }) {
+    const todayFormatted = new Date().toLocaleDateString("id-ID", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    })
+
+    return (
+        <div className="flex flex-col gap-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400">
+                Employee Dashboard
+            </span>
+            {employeeInfo === undefined ? (
+                <>
+                    <Skeleton className="w-[320px] h-[32px] bg-blue-100 rounded-lg" />
+                    <Skeleton className="w-[440px] h-[20px] bg-blue-100 rounded-lg mt-1" />
+                </>
+            ) : (
+                <>
+                    <h1 className="text-2xl font-bold text-blue-900">
+                        Selamat Datang, {employeeInfo.profile.full_name}! 👋
+                    </h1>
+                    <p className="text-sm text-blue-500">
+                        {todayFormatted}
+                        {" • "}
+                        Berikut ringkasan data penggajian dan absensi Anda
+                    </p>
+                </>
+            )}
         </div>
     )
 }
