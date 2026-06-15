@@ -33,16 +33,16 @@ const attendanceSummaryData: AttendanceChartItem[] = [
 ]
 
 const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
-    { accessor: "attendance_id", header: "ID Absensi", cell: (value: string) => value.slice(0, 8) },
+    { accessor: "attendance_id", header: "ID Absensi", cell: (value) => String(value).slice(0, 8) },
     { accessor: "company_id", header: "ID Perusahaan" },
-    { accessor: "employee_id", header: "ID Pegawai", cell: (value: string) => value.slice(0, 8) },
+    { accessor: "employee_id", header: "ID Pegawai", cell: (value) => String(value).slice(0, 8) },
     { accessor: "attendance_date", header: "Tanggal Absensi" },
     { accessor: "checkin_time", header: "Jam Masuk" },
     { accessor: "checkout_time", header: "Jam Keluar" },
     {
         accessor: "status",
         header: "Status Absensi",
-        cell: (value) => <AttendanceBadge placeholder={value} />
+        cell: (value) => <AttendanceBadge placeholder={String(value)} />
     },
 ]
 

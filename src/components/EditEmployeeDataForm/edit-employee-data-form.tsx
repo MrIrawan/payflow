@@ -43,12 +43,12 @@ export function EditEmployeeDataForm({ currentData, employeeId }: { currentData:
     const { register, control, handleSubmit, formState: { errors } } = useForm<EditEmployeeRequest>({
         defaultValues: {
             full_name: currentData?.full_name,
-            home_address: currentData?.home_address,
+            address: currentData?.address,
             gender: currentData?.gender,
             job_title: currentData?.job_title,
             subject_name: currentData?.subject_name,
             total_weekly_hours: currentData?.total_weekly_hours === null ? currentData.total_weekly_hours : 0,
-            company: currentData?.company,
+            company_name: currentData?.company_name,
             date_of_birth: currentData?.date_of_birth
         }
     });
@@ -133,10 +133,10 @@ export function EditEmployeeDataForm({ currentData, employeeId }: { currentData:
 
                         <div className="w-full flex flex-col gap-1">
                             <Label htmlFor="home_address">Alamat Rumah</Label>
-                            <Textarea id="home_address" {...register("home_address", { required: true })} aria-invalid={errors.home_address ? "true" : "false"} />
-                            {errors.home_address && (
+                            <Textarea id="home_address" {...register("address", { required: true })} aria-invalid={errors.address ? "true" : "false"} />
+                            {errors.address && (
                                 <p className="text-sm font-medium text-destructive">
-                                    {String(errors.home_address.message)}
+                                    {String(errors.address.message)}
                                 </p>
                             )}
                         </div>
@@ -168,9 +168,9 @@ export function EditEmployeeDataForm({ currentData, employeeId }: { currentData:
                                 <InputGroup
                                     label="Nama Instansi"
                                     htmlFor="company"
-                                    {...register("company", { required: true })}
-                                    aria-invalid={errors.company ? "true" : "false"}
-                                    errorMsg={errors.company?.message}
+                                    {...register("company_name", { required: true })}
+                                    aria-invalid={errors.company_name ? "true" : "false"}
+                                    errorMsg={errors.company_name?.message}
                                     readOnly
                                     className="bg-gray-50"
                                 />

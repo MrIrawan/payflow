@@ -118,27 +118,27 @@ const historyColumns: Column<PayrollHistory>[] = [
         accessor: "totalEarnings",
         header: "Penghasilan",
         cell: (value) => (
-            <span className="text-emerald-600 font-semibold">{formatRupiah(value)}</span>
+            <span className="text-emerald-600 font-semibold">{formatRupiah(Number(value))}</span>
         )
     },
     {
         accessor: "totalDeductions",
         header: "Potongan",
         cell: (value) => (
-            <span className="text-red-500 font-semibold">- {formatRupiah(value)}</span>
+            <span className="text-red-500 font-semibold">- {formatRupiah(Number(value))}</span>
         )
     },
     {
         accessor: "netSalary",
         header: "Gaji Bersih",
         cell: (value) => (
-            <span className="text-blue-700 font-bold">{formatRupiah(value)}</span>
+            <span className="text-blue-700 font-bold">{formatRupiah(Number(value))}</span>
         )
     },
     {
         accessor: "status",
         header: "Status",
-        cell: (value) => <StatusBadge status={value} />
+        cell: (value) => <StatusBadge status={value as PayrollHistory["status"]} />
     },
     { accessor: "tanggalBayar", header: "Tanggal Bayar" },
 ]
@@ -157,7 +157,7 @@ const detailColumns: Column<PayrollDetail>[] = [
         header: "Jumlah",
         cell: (value, row) => (
             <span className={`font-semibold ${row.tipe === "earning" ? "text-emerald-600" : "text-red-500"}`}>
-                {row.tipe === "deduction" ? "- " : ""}{formatRupiah(value)}
+                {row.tipe === "deduction" ? "- " : ""}{formatRupiah(Number(value))}
             </span>
         )
     },

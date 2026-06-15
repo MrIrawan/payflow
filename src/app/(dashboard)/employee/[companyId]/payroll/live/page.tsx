@@ -69,7 +69,7 @@ const earningColumns: Column<PayrollComponent>[] = [
         header: "Jumlah",
         cell: (value) => (
             <span className="font-semibold text-emerald-600">
-                {formatRupiah(value)}
+                {formatRupiah(Number(value))}
             </span>
         )
     },
@@ -82,8 +82,8 @@ const deductionColumns: Column<PayrollComponent>[] = [
         accessor: "jumlah",
         header: "Jumlah",
         cell: (value) => (
-            <span className={`font-semibold ${value > 0 ? "text-red-500" : "text-gray-400"}`}>
-                {value > 0 ? `- ${formatRupiah(value)}` : "Rp 0"}
+            <span className={`font-semibold ${Number(value) > 0 ? "text-red-500" : "text-gray-400"}`}>
+                {Number(value) > 0 ? `- ${formatRupiah(Number(value))}` : "Rp 0"}
             </span>
         )
     },

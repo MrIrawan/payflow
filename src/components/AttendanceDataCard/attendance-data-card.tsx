@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAllAttendance } from "@/lib/service/admin/attendance/getAllAtendance";
+import { getAllAttendances } from "../../lib/services/admin/attendance/getAllAttendance";
 
 import { CardDescription, CardTitle } from "../ui/card";
 import {
@@ -21,13 +21,14 @@ export function AttendanceDataCard() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [presentCount, setPresentCount] = useState<number>(0);
     const [absentCount, setAbsentCount] = useState<number>(0);
-    const [onLeaveCount, setOnLeaveCount] = useState<number>(0);
+    const [permitCount, setPermitCount] = useState<number>(0);
+    const [lateCount, setLateCount] = useState<number>(0);
 
     useEffect(() => {
         setIsLoading(true);
         async function getAttendanceCount() {
             try {
-                const result = await getAllAttendance();
+                const result = await getAllAttendances();
                 // // const currentAttendance = result.data.filter((attendance) => {
                 // //     const currentAttendance = new Date(attendance.attendance_date).toLocaleDateString("id-ID");
                 // //     const currentDate = new Date().toLocaleDateString("id-ID");
@@ -37,9 +38,10 @@ export function AttendanceDataCard() {
                 // //     };
                 // // });
 
-                setPresentCount(result.data?.data.filter((attendance) => attendance.attendance_status === "present").length || 0)
-                setAbsentCount(result.data?.data.filter((attendance) => attendance.attendance_status === "absent").length || 0)
-                setOnLeaveCount(result.data?.data.filter((attendance) => attendance.attendance_status === "on leave").length || 0)
+                setPresentCount(result.data?.data.filter((attendance) => attendance.status === "present").length || 0)
+                setAbsentCount(result.data?.data.filter((attendance) => attendance.status === "absent").length || 0)
+                setPermitCount(result.data?.data.filter((attendance) => attendance.status === "permit").length || 0)
+                setLateCount(result.data?.data.filter((attendance) => attendance.status === "late").length || 0)
             } catch (error) {
                 console.error("get attendance count error:", error);
             } finally {
@@ -69,7 +71,7 @@ export function AttendanceDataCard() {
                     <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : presentCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
-                    <p className="text-sm font-medium text-muted-foreground">{isLoading ? (<Spinner className="size-4" />) : `${onLeaveCount + absentCount} Guru Tersisa`}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{isLoading ? (<Spinner className="size-4" />) : `${permitCount + absentCount} Guru Tersisa`}</p>
                 </DataCardFooter>
             </DataCard>
             {/* <on leave> attendance data card */}
@@ -86,7 +88,7 @@ export function AttendanceDataCard() {
                     </div>
                 </DataCardHeader>
                 <DataCardBody className="h-fit p-0">
-                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : onLeaveCount}</h2>
+                    <h2 className="text-5xl font-medium text-black">{isLoading ? (<Spinner className="size-8" />) : permitCount}</h2>
                 </DataCardBody>
                 <DataCardFooter className="h-fit p-0">
                     <p className="text-sm font-medium text-muted-foreground">Approved leave</p>

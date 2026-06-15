@@ -30,11 +30,11 @@ import { StoreEmployeeAttendanceDrawer } from "@/components/StoreEmployeeAttenda
 import { getEmployeeInfo } from "@/lib/services/employee/info/getEmployeeInfo";
 
 const tableColumn: Column<GetEmployeeAttendanceData>[] = [
-    { accessor: "attendance_id", header: "ID Absen", cell: (value) => value.slice(0, 8) },
-    { accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
+    { accessor: "attendance_id", header: "ID Absen", cell: (value) => String(value).slice(0, 8) },
+    { accessor: "attendance_date", header: "Tanggal Absensi", cell: (value) => new Date(String(value)).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) },
     { accessor: "checkin_time", header: "Jam masuk kantor" },
     { accessor: "checkout_time", header: "Jam keluar kantor" },
-    { accessor: "status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={value} /> }
+    { accessor: "status", header: "Status Absensi", cell: (value) => <AttendanceBadge placeholder={String(value)} /> }
 ];
 
 export default function EmployeeAttendancePage() {
