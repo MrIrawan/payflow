@@ -46,11 +46,11 @@ export default function EditEmployeeProfileForm({ currentData }: {
     const { register, handleSubmit, control, formState: { errors } } = useForm<EditEmployeeProfileRequest>({
         defaultValues: {
             full_name: currentData ? currentData.full_name : "anjayy",
-            company: currentData?.company,
+            company_name: currentData?.company_name,
             date_of_birth: currentData?.date_of_birth,
             join_date: currentData?.join_date,
             gender: currentData?.gender,
-            home_address: currentData?.home_address,
+            address: currentData?.address,
             job_title: currentData?.job_title,
             subject_name: currentData?.subject_name
         }
@@ -148,7 +148,7 @@ export default function EditEmployeeProfileForm({ currentData }: {
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label>Alamat Rumah</Label>
-                            <Textarea placeholder="Tulis alamat rumah di sini..." {...register("home_address", {
+                            <Textarea placeholder="Tulis alamat rumah di sini..." {...register("address", {
                                 required: {
                                     value: true,
                                     message: "alamat rumah wajib di isi."
@@ -172,7 +172,7 @@ export default function EditEmployeeProfileForm({ currentData }: {
                             label="Nama Perusahaan"
                             htmlFor="company"
                             requiredLabel
-                            {...register("company", {
+                            {...register("company_name", {
                                 required: {
                                     value: true,
                                     message: "nama perusahaan wajib di isi."

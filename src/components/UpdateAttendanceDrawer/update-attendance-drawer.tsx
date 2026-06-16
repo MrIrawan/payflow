@@ -37,8 +37,8 @@ export function UpdateAttendanceDrawer({ attendanceData }: {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const { register, handleSubmit, control, formState: { errors }, watch } = useForm<EditAttendanceRequest>({
         defaultValues: {
-            teacher_name: attendanceData.teacher_name,
-            attendance_status: attendanceData.attendance_status,
+            employee_id: attendanceData.employee_id,
+            status: attendanceData.status,
             attendance_date: new Date(attendanceData.attendance_date),
         }
     });
@@ -46,7 +46,7 @@ export function UpdateAttendanceDrawer({ attendanceData }: {
     const onSubmitToUpdateAttendance: SubmitHandler<EditAttendanceRequest> = async (data) => {
         setIsLoading(true);
 
-        const attendanceStatus = watch("attendance_status");
+        const attendanceStatus = watch("status");
         const formattedData = {
             ...data,
             checkin_time: attendanceStatus === "present" ? timeStringToTimestamp(data.checkin_time + ":00") : timeStringToTimestamp("00:00" + ":00"),
@@ -81,16 +81,6 @@ export function UpdateAttendanceDrawer({ attendanceData }: {
                         </div>
                     </DrawerHeader>
                     <FormContent className="px-4">
-                        {/* form fields here */}
-                        <InputGroup
-                            type="text"
-                            label="Nama Guru"
-                            htmlFor="teacher_name"
-                            errorMsg={errors.teacher_name?.message}
-                            requiredLabel={true}
-                            aria-invalid={errors.teacher_name ? "true" : "false"}
-                            {...register("teacher_name", { required: { message: "Nama guru wajib diisi", value: true } })}
-                        />
                         <Controller
                             control={control}
                             name="attendance_date"
@@ -134,12 +124,13 @@ export function UpdateAttendanceDrawer({ attendanceData }: {
                         </div>
                         <Controller
                             control={control}
-                            name="attendance_status"
+                            name="status"
                             render={({ field }) => (
-                                <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" requiredLabel htmlFor="attendance_status" items={[
+                                <SelectGroupComponent label="Status Absensi" placeholder="Pilih status absensi" requiredLabel htmlFor="status" items={[
                                     { value: "present", displayText: <AttendanceBadge placeholder="Present" size="sm" /> },
                                     { value: "absent", displayText: <AttendanceBadge placeholder="Absent" size="sm" /> },
-                                    { value: "on leave", displayText: <AttendanceBadge placeholder="On Leave" size="sm" /> }
+                                    { value: "late", displayText: <AttendanceBadge placeholder="Late" size="sm" /> },
+                                    { value: "permit", displayText: <AttendanceBadge placeholder="Permit" size="sm" /> }
                                 ]}
                                     onChange={field.onChange}
                                     value={field.value}

@@ -40,14 +40,14 @@ export function TeacherActionPopover({ teacherData }: {
                 <div className="w-[250px] flex flex-col gap-2.5 p-2.5">
                     <CardDescription className="text-xs font-medium">Teacher Actions</CardDescription>
                     {/* action buttons here */}
-                    <Link href={`/admin/employee/edit-employee/${teacherData.guru_id}`}>
+                    <Link href={`/admin/employee/edit-employee/${teacherData.employee_id}`}>
                         <Button variant={"default"} size={"sm"} className="w-fit h-fit flex flex-row gap-2 p-2 bg-white hover:bg-muted-foreground/20">
                             <FilePenLineIcon className="text-black" />
                             <p className="text-black text-sm font-semibold">Update data guru</p>
                         </Button>
                     </Link>
                     {/* delete teacher alert dialog */}
-                    <DeleteTeacherDialog dataId={teacherData.guru_id} />
+                    <DeleteTeacherDialog dataId={teacherData.employee_id} />
                 </div>
             </PopoverContent>
         </Popover>

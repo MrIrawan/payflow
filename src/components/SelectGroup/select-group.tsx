@@ -33,7 +33,7 @@ export function SelectGroupComponent({
                 </Label>
             )}
 
-            <Select value={value} onValueChange={onChange}>
+            <Select value={String(value)} onValueChange={onChange}>
                 <SelectTrigger
                     id={htmlFor}
                     className="w-full px-2 aria-invalid:ring-red-100 aria-invalid:border-red-600 aria-invalid:ring-[3px]"
@@ -46,7 +46,7 @@ export function SelectGroupComponent({
                     <SelectGroup>
                         <SelectLabel className="font-medium">{label}</SelectLabel>
                         {items.map((item) => (
-                            <SelectItem key={item.value} value={item.value}>
+                            <SelectItem key={item.value} value={String(item.value)}>
                                 {item.displayText}
                             </SelectItem>
                         ))}

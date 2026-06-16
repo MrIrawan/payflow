@@ -3,7 +3,7 @@ import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 
 export function GenderBadge({ placeholder, size = "md" }: {
-    placeholder: string | number | null;
+    placeholder: string
     size?: "sm" | "md";
 }) {
     const gender = String(placeholder).toLowerCase();

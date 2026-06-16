@@ -23,16 +23,17 @@ import { PlusCircleIcon } from "lucide-react";
 import { TeacherActionPopover } from "../TeacherActionPopover/teacher-action-popover";
 import { InfoBadge, jobBadgeMap, subjectBadgeMap } from "../InfoBadge/info-badge";
 import { Spinner } from "../ui/spinner";
+import { formatDate } from "@/utils/formatDate";
 
 const teacherColumns: Column<GetAllEmployeesData>[] = [
     { header: "Nama Lengkap", accessor: "full_name" },
-    { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value: Date) => value ? new Date(value).toLocaleDateString("id-ID", { month: "long", day: "numeric", year: "numeric" }) : "-" },
-    { header: "Jenis Kelamin", accessor: "gender", cell: (value: string) => <GenderBadge placeholder={value} /> },
-    { header: "Alamat Email", accessor: "email_address", cell: (value: string) => <p className="font-medium">{value}</p> },
+    { header: "Tanggal Lahir", accessor: "date_of_birth", cell: (value) => value ? formatDate(String(value)) : "-" },
+    { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={String(value)} /> },
+    { header: "Alamat Email", accessor: "email", cell: (value) => <p className="font-medium">{value}</p> },
     {
-        header: "Jabatan", accessor: "job_title", cell: (value: string[]) => (
+        header: "Jabatan", accessor: "job_title", cell: (value: any) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
-                {value?.map((job, index) => {
+                {value?.map((job: string, index: number) => {
                     return (
                         <InfoBadge
                             key={index}
@@ -46,9 +47,9 @@ const teacherColumns: Column<GetAllEmployeesData>[] = [
         )
     },
     {
-        header: "Mata Pelajaran", accessor: "subject_name", cell: (value: string[]) => (
+        header: "Mata Pelajaran", accessor: "subject_name", cell: (value: any) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
-                {value?.map((subject, index) => {
+                {value?.map((subject: string, index: number) => {
                     return (
                         <InfoBadge
                             key={index}
