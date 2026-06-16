@@ -31,9 +31,9 @@ const teacherColumns: Column<GetAllEmployeesData>[] = [
     { header: "Jenis Kelamin", accessor: "gender", cell: (value) => <GenderBadge placeholder={String(value)} /> },
     { header: "Alamat Email", accessor: "email", cell: (value) => <p className="font-medium">{value}</p> },
     {
-        header: "Jabatan", accessor: "job_title", cell: (value: any) => (
+        header: "Jabatan", accessor: "job_title", cell: (value) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
-                {value?.map((job: string, index: number) => {
+                {Array.from(String(value))?.map((job: string, index: number) => {
                     return (
                         <InfoBadge
                             key={index}
@@ -47,9 +47,9 @@ const teacherColumns: Column<GetAllEmployeesData>[] = [
         )
     },
     {
-        header: "Mata Pelajaran", accessor: "subject_name", cell: (value: any) => (
+        header: "Mata Pelajaran", accessor: "subject_name", cell: (value) => (
             <div className="w-[280px] flex flex-row gap-1.5 flex-wrap">
-                {value?.map((subject: string, index: number) => {
+                {Array.from(String(value))?.map((subject: string, index: number) => {
                     return (
                         <InfoBadge
                             key={index}
