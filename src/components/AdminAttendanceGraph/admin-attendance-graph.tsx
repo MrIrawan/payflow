@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 
-import { transformChartData } from "@/utils/chartData";
 import { RawAttendanceData } from "@/types/chart";
 
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
@@ -35,17 +34,6 @@ const chartConfig = {
 export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState<string>(currentYear.toString());
-
-    const formattedChartData = useMemo(() => {
-        return transformChartData(data, selectedYear);
-    }, [data, selectedYear]);
-
-    const yearOptions = useMemo(() => {
-        return Array.from({ length: 12 }, (_, index) => {
-            const year = currentYear - index;
-            return { value: year.toString(), displayText: year };
-        });
-    }, [currentYear]);
 
     return (
         <Card className="w-full shadow-sm border-gray-200 p-5 flex flex-col gap-3">
