@@ -13,7 +13,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubItem,
 } from "../ui/sidebar";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 import { ChevronDownIcon } from "lucide-react";

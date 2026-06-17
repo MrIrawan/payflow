@@ -94,7 +94,7 @@ function FormFooter({
   ...props
 }: FormFooterPops) {
   return (
-    <CardFooter className={cn("p-0 w-full", className)}>
+    <CardFooter className={cn("p-0 w-full", className)} {...props}>
       {button ? (
         <Button
           size={"lg"}

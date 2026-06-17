@@ -33,13 +33,12 @@ const chartConfig = {
 export function EmployeeAttendanceGraph({ attendanceChartData }: {
     attendanceChartData: AttendanceChartItem[] | undefined;
 }) {
-    const [attendanceData, setAttendanceData] = useState<AttendanceChartItem[] | undefined>(attendanceChartData || undefined);
 
     return (
         <Card className="shadow-none">
             <ChartHeader />
             <ChartContainer config={chartConfig} className="h-[500px] w-full">
-                <BarChart accessibilityLayer data={attendanceData}>
+                <BarChart accessibilityLayer data={attendanceChartData}>
                     <CartesianGrid vertical={false} />
                     <XAxis
                         dataKey="month"

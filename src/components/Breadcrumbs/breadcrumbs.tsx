@@ -6,7 +6,6 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-  BreadcrumbEllipsis,
 } from "../ui/breadcrumb";
 
 import { BreadcrumbsProps } from "@/types/types";
@@ -16,7 +15,7 @@ export default function Breadcrumbs({ items, currentPage }: BreadcrumbsProps) {
     <Breadcrumb className="w-full flex items-center">
       <div className="w-full px-2">
         <BreadcrumbList className="w-full">
-          {items.map((item, index) => (
+          {items.map(() => (
             <>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>

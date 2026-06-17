@@ -38,17 +38,6 @@ interface PayrollDetail {
     jumlah: number;
 }
 
-// ── Hardcoded Data ─────────────────────────────────────────────────────────────
-
-const payrollHistoryData: PayrollHistory[] = [
-    { id: "PR-001", periode: "April 2026", totalEarnings: 6_750_000, totalDeductions: 150_000, netSalary: 6_600_000, status: "paid", tanggalBayar: "30 April 2026" },
-    { id: "PR-002", periode: "Maret 2026", totalEarnings: 6_750_000, totalDeductions: 150_000, netSalary: 6_600_000, status: "paid", tanggalBayar: "31 Maret 2026" },
-    { id: "PR-003", periode: "Februari 2026", totalEarnings: 6_550_000, totalDeductions: 150_000, netSalary: 6_400_000, status: "paid", tanggalBayar: "28 Februari 2026" },
-    { id: "PR-004", periode: "Januari 2026", totalEarnings: 6_750_000, totalDeductions: 150_000, netSalary: 6_600_000, status: "paid", tanggalBayar: "31 Januari 2026" },
-    { id: "PR-005", periode: "Desember 2025", totalEarnings: 7_750_000, totalDeductions: 150_000, netSalary: 7_600_000, status: "paid", tanggalBayar: "31 Desember 2025" },
-    { id: "PR-006", periode: "November 2025", totalEarnings: 6_750_000, totalDeductions: 150_000, netSalary: 6_600_000, status: "paid", tanggalBayar: "30 November 2025" },
-]
-
 // Detail dummy per payroll — dipakai saat user klik lihat detail
 const payrollDetailMap: Record<string, PayrollDetail[]> = {
     "PR-001": [

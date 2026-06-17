@@ -35,7 +35,7 @@ import { Spinner } from "../ui/spinner";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { Calculator, CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 export function EmployeeSidebar() {
@@ -59,7 +59,7 @@ export function EmployeeSidebar() {
         };
 
         fetchEmployeeProfile();
-    }, []);
+    }, [companyId]);
     return (
         <Sidebar className="px-2.5">
             <SidebarHeader className="p-4">

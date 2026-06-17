@@ -43,7 +43,7 @@ export default function EditEmployeeProfileForm({ currentData }: {
     currentData: EditEmployeeProfileRequest | undefined
 }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { register, handleSubmit, control, formState: { errors } } = useForm<EditEmployeeProfileRequest>({
+    const { register, handleSubmit, control } = useForm<EditEmployeeProfileRequest>({
         defaultValues: {
             full_name: currentData ? currentData.full_name : "anjayy",
             company_name: currentData?.company_name,

@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { RawAttendanceData } from "@/types/chart";
 
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";

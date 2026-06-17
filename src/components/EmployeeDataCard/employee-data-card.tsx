@@ -1,8 +1,7 @@
 import { AttendanceBadge } from "../AttendaceBadge/attendance-badge";
-import { Card, CardTitle, CardDescription } from "../ui/card";
+import { Card } from "../ui/card";
 
 import { Calendar, FileText, TrendingUp, Wallet } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
 
 export function EmployeeDataCard({ presentCount, payslipsCount, salary }: {
     presentCount: number;
