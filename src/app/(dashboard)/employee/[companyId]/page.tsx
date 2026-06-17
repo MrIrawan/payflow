@@ -8,7 +8,6 @@ import { AttendanceBadge } from '@/components/AttendaceBadge/attendance-badge';
 import { EmployeeDataCard } from '@/components/EmployeeDataCard/employee-data-card';
 import { EmployeeAttendanceGraph } from '@/components/EmployeeAttendanceGraph/employee-attendance-graph';
 import { GetAllAttendances, GetEmployeeInfoData } from '@/types/response';
-import { Separator } from '@/components/ui/separator';
 import { DataTable } from '@/components/DataTable/data-table';
 import { Column } from '@/types/table';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -17,7 +16,7 @@ import { getEmployeeInfo } from '@/lib/services/employee/info/getEmployeeInfo';
 import { toast } from 'sonner';
 import { Toaster } from '@/components/Toaster/toaster';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PayrollHistory } from '@/types/base';
+// import { PayrollHistory } from '@/types/base';
 import { setActiveCompany } from '@/utils/activeCompany';
 import { AttendanceChartItem } from '@/types/types';
 
@@ -44,15 +43,6 @@ const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
         header: "Status Absensi",
         cell: (value) => <AttendanceBadge placeholder={String(value)} />
     },
-]
-
-const payrollHistoryColumn: Column<PayrollHistory>[] = [
-    { accessor: "teacher_name", header: "Nama Guru" },
-    { accessor: "period_month", header: "Periode Bulan" },
-    { accessor: "period_year", header: "Periode Tahun" },
-    { accessor: "teaching_salary", header: "Gaji Mengajar" },
-    { accessor: "transport_salary", header: "Gaji Transport" },
-    { accessor: "total_salary", header: "Total Gaji" },
 ]
 
 // ── Page Component ────────────────────────────────────────────────────────────

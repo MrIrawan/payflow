@@ -31,31 +31,27 @@ import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-
 
 export default function UserProfile() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const params = useParams();
 
     const companyId = Number(params.companyId);
 
     useEffect(() => {
         async function fetchEmployeeProfile() {
-            setIsLoading(true);
 
             const response = await getEmployeeProfile(companyId);
 
             if (response.success === false) {
                 toast.custom(() => <Toaster variant="error" title="kami tidak bisa mengambil data profil" description={`${response.message || "maaf, mungkin anda belum mendaftar atau belum masuk."}`} />)
-                setIsLoading(false);
                 return;
             }
 
             if (response.data !== null) {
                 setEmployeeProfile(response.data);
-                setIsLoading(false);
             }
         };
 
         fetchEmployeeProfile();
-    }, []);
+    }, [companyId]);
 
     return (
         <div className='w-full flex flex-col gap-6 p-6'>

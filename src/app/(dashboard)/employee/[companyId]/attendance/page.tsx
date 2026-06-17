@@ -77,7 +77,7 @@ export default function EmployeeAttendancePage() {
         }
 
         fetchEmployeeAttendance();
-    }, []);
+    }, [companyId]);
 
     const presentCount = currentEmployeeAttendance.filter(item => item.status === "present").length || 0;
     const lateCount = currentEmployeeAttendance.filter(item => item.status === "late").length || 0;

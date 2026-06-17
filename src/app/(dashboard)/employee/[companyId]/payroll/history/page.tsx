@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardBreadcrumb } from "@/components/DashboardBreadcrumb/dashboard-breadcrumb";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -89,8 +89,6 @@ const formatRupiah = (value: number) =>
         style: "currency", currency: "IDR", minimumFractionDigits: 0
     }).format(value)
 
-const totalAllTime = payrollHistoryData.reduce((acc, p) => acc + p.netSalary, 0)
-const avgSalary = totalAllTime / payrollHistoryData.length
 
 function StatusBadge({ status }: { status: PayrollHistory["status"] }) {
     if (status === "paid") return (

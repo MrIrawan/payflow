@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import PayFlowLogoWithTittle from "../../../public/images/payflow_logo_with_title.svg";
 
-import { ArrowRight, LogInIcon, PlusCircleIcon, SearchIcon } from "lucide-react";
+import { ArrowRight, PlusCircleIcon, SearchIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";

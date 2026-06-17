@@ -33,7 +33,6 @@ const chartConfig = {
 
 export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
     const currentYear = new Date().getFullYear();
-    const [selectedYear, setSelectedYear] = useState<string>(currentYear.toString());
 
     return (
         <Card className="w-full shadow-sm border-gray-200 p-5 flex flex-col gap-3">
@@ -43,7 +42,7 @@ export function AdminAttendanceGraph({ data }: { data: RawAttendanceData[] }) {
                         <BarChart3 className="size-5 text-blue-600" />
                         Statistik Kehadiran Bulanan
                     </CardTitle>
-                    <CardDescription>Tren absensi seluruh pegawai selama tahun {selectedYear}.</CardDescription>
+                    <CardDescription>Tren absensi seluruh pegawai selama tahun {currentYear.toString()}.</CardDescription>
                 </div>
 
                 {/* <div className="w-[250px]">
