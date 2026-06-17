@@ -98,7 +98,7 @@ export default function UserDashboard() {
 
         fetchEmployeeInfo()
 
-    }, [companyId])
+    }, [companyId, router])
 
     return (
         <div className="flex flex-col gap-6 p-6 w-full">

@@ -18,8 +18,6 @@ export default function ProfileCard({
   return (
     <>
       {variant === "sidebar" && <SidebarProfileCard name={name} email={email} avatar={avatar} />}
-      {variant === "medium" && <MediumProfileCard name={name} email={email} avatar={avatar} />}
-      {variant === "large" && <LargeProfileCard name={name} email={email} avatar={avatar} />}
     </>
   );
 }
@@ -49,20 +47,4 @@ function SidebarProfileCard({
       </CardFooter>
     </Card>
   );
-}
-
-function MediumProfileCard({
-  avatar,
-  name,
-  email
-}: ProfileCardProps) {
-  return <></>;
-}
-
-function LargeProfileCard({
-  avatar,
-  name,
-  email
-}: ProfileCardProps) {
-  return <></>;
 }

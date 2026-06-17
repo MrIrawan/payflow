@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { AttendanceChartItem } from "@/types/types";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
