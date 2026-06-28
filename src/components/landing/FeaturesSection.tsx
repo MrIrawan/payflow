@@ -18,7 +18,7 @@ export default function FeaturesSection() {
       className: "md:col-span-2 md:row-span-2",
       icon: Wallet,
       preview: (
-        <div className="mt-6 border border-glass-secondary/15 rounded-glass-md bg-glass-neutral/5 p-4 font-mono text-[0.8rem] space-y-3">
+        <div className="mt-4 border border-glass-secondary/15 rounded-glass-md bg-glass-neutral/5 p-4 font-mono text-[0.8rem] space-y-3">
           <div className="flex justify-between border-b border-glass-secondary/10 pb-2">
             <span className="text-glass-secondary">Gaji Pokok</span>
             <span className="font-semibold text-glass-primary">Rp 6,500,000</span>
@@ -88,10 +88,11 @@ export default function FeaturesSection() {
       id: "rolebased",
       title: "Role-Based Access Control",
       description: "Pembagian hak akses antara Owner, Admin, dan Karyawan untuk menjaga kerahasiaan data.",
-      className: "md:col-span-1 md:row-span-1",
+      className: "md:col-span-2 md:row-span-1",
       icon: Shield,
       preview: (
         <div className="mt-6 flex gap-2">
+          <span className="px-2.5 py-1 bg-glass-tertiary text-glass-surface rounded-glass-sm text-[0.7rem] font-mono">OWNER</span>
           <span className="px-2.5 py-1 bg-glass-primary text-glass-surface rounded-glass-sm text-[0.7rem] font-mono">ADMIN</span>
           <span className="px-2.5 py-1 bg-glass-neutral border border-glass-secondary/20 text-glass-secondary rounded-glass-sm text-[0.7rem] font-mono">EMPLOYEE</span>
         </div>
@@ -140,24 +141,30 @@ export default function FeaturesSection() {
     <section id="features" className="bg-glass-neutral py-20 px-6 lg:px-8 border-b border-glass-secondary/10 scroll-mt-16">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="mb-14">
+        <div className="mb-10">
           <span className="font-mono text-[0.75rem] text-glass-tertiary tracking-wider uppercase mb-3 block">
             FEATURES
           </span>
           <h2 className="text-[2rem] md:text-[2.25rem] font-semibold tracking-[-0.02em] text-glass-primary">
             Everything you need to run payroll<span className="text-glass-tertiary">.</span>
           </h2>
+          <p className="mt-3 text-[0.95rem] leading-[1.55] text-glass-secondary max-w-xl">
+            Dari penghitungan gaji otomatis hingga absensi real-time —
+            semua yang dibutuhkan tim HR ada dalam satu dashboard.
+          </p>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <div
                 key={feature.id}
                 className={cn(
-                  "bg-glass-surface rounded-glass-lg border border-glass-secondary/15 p-6 flex flex-col justify-between hover:shadow-[0_8px_30px_rgb(0,0,0,0.02)] transition-shadow duration-300",
+                  "bg-glass-surface rounded-glass-lg border border-glass-secondary/15 p-6 flex flex-col transition-shadow duration-300",
+                  feature.id === "payroll" ? "justify-start" : "justify-between",
+                  "hover:shadow-[0_8px_30px_rgb(0,0,0,0.02)]",
                   feature.className
                 )}
               >

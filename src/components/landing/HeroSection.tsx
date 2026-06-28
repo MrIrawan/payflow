@@ -1,9 +1,8 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * HeroSection Component
@@ -53,7 +52,7 @@ export default function HeroSection() {
         </div>
 
         {/* High-Fidelity Mockup Dashboard (Flat, Glassline aesthetic) */}
-        <div className="w-full bg-glass-surface rounded-glass-lg border border-glass-secondary/15 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden text-left max-w-4xl">
+        <div className="w-full bg-glass-surface rounded-glass-lg border border-glass-secondary/15 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden text-left">
           {/* Mockup Topbar */}
           <div className="bg-glass-neutral/40 px-4 py-3 border-b border-glass-secondary/10 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -64,14 +63,14 @@ export default function HeroSection() {
                 app.payflow.id/dashboard
               </span>
             </div>
-            <div className="h-4 w-24 bg-glass-secondary/10 rounded-glass-sm"></div>
+            <Skeleton className="h-4 w-24 bg-gray-300" />
           </div>
 
           {/* Mockup Layout */}
           <div className="flex min-h-[360px] flex-col md:flex-row">
             {/* Mockup Sidebar */}
             <div className="w-full md:w-48 bg-glass-neutral/20 border-r border-glass-secondary/10 p-4 space-y-4">
-              <div className="h-6 w-32 bg-glass-secondary/15 rounded-glass-sm"></div>
+              <Skeleton className="h-6 w-32 bg-gray-300" />
               <div className="space-y-2.5 pt-4">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-glass-sm bg-glass-tertiary/20"></div>
@@ -79,8 +78,8 @@ export default function HeroSection() {
                 </div>
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="flex items-center gap-2 opacity-65">
-                    <div className="w-4 h-4 rounded-glass-sm bg-glass-secondary/20"></div>
-                    <div className="h-3 w-24 bg-glass-secondary/30 rounded-glass-sm"></div>
+                    <Skeleton className="w-4 h-4 rounded-glass-sm bg-gray-300" />
+                    <Skeleton className="h-3 w-24 bg-gray-300" />
                   </div>
                 ))}
               </div>
