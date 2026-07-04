@@ -8,6 +8,18 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Glassline Design System Tokens */
+  --color-glass-primary: #0F1419;
+  --color-glass-secondary: #4A5568;
+  --color-glass-tertiary: #2C5EF5;
+  --color-glass-neutral: #F1F3F5;
+  --color-glass-surface: #FFFFFF;
+  
+  --radius-glass-sm: 6px;
+  --radius-glass-md: 10px;
+  --radius-glass-lg: 16px;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
