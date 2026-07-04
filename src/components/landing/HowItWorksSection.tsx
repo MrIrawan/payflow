@@ -29,13 +29,17 @@ export default function HowItWorksSection() {
     <section className="bg-glass-surface py-20 px-6 lg:px-8 border-b border-glass-secondary/10">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="mb-16">
+        <div className="mb-10">
           <span className="font-mono text-[0.75rem] text-glass-tertiary tracking-wider uppercase mb-3 block">
             HOW IT WORKS
           </span>
           <h2 className="text-[2rem] md:text-[2.25rem] font-semibold tracking-[-0.02em] text-glass-primary">
             Up and running in minutes<span className="text-glass-tertiary">.</span>
           </h2>
+          <p className="mt-3 text-[0.95rem] leading-[1.55] text-glass-secondary max-w-xl">
+            Tiga langkah sederhana untuk memulai — tidak perlu tim IT,
+            tidak perlu konfigurasi rumit.
+          </p>
         </div>
 
         {/* Steps Grid */}
