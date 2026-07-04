@@ -3,173 +3,297 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
-import { Card, CardDescription, CardTitle } from '@/components/ui/card';
-import { AttendanceBadge } from '@/components/AttendaceBadge/attendance-badge';
-import { EmployeeDataCard } from '@/components/EmployeeDataCard/employee-data-card';
-import { EmployeeAttendanceGraph } from '@/components/EmployeeAttendanceGraph/employee-attendance-graph';
-import { GetAllAttendances, GetEmployeeInfoData } from '@/types/response';
-import { DataTable } from '@/components/DataTable/data-table';
-import { Column } from '@/types/table';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { DashboardBreadcrumb } from '@/components/DashboardBreadcrumb/dashboard-breadcrumb';
-import { getEmployeeInfo } from '@/lib/services/employee/info/getEmployeeInfo';
 import { toast } from 'sonner';
 import { Toaster } from '@/components/Toaster/toaster';
-import { Skeleton } from '@/components/ui/skeleton';
-// import { PayrollHistory } from '@/types/base';
+
+import { WelcomeSign } from '@/components/WelcomeSign/welcome-sign';
+import { SalaryCard } from '@/components/DataCard/salary-card';
+import { AttendanceCard } from '@/components/DataCard/attendance-card';
+import { PayslipCard } from '@/components/DataCard/payslip-card';
+import { AttendanceBarChart, type AttendanceBarChartData } from '@/components/AttendanceBarChart/attendance-bar-chart';
+import {
+  AttendanceCalendar,
+  type AttendanceDayData,
+  type AttendanceStatus,
+} from '@/components/AttendanceCalendar/attendance-calendar';
+
+import { getEmployeeInfo } from '@/lib/services/employee/info/getEmployeeInfo';
 import { setActiveCompany } from '@/utils/activeCompany';
-import { AttendanceChartItem } from '@/types/types';
+import { type GetEmployeeInfoData } from '@/types/response';
+import { type Attendance } from '@/types/base';
 
-// ── Sample data (tetap tidak diubah) ─────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────────
 
-const attendanceSummaryData: AttendanceChartItem[] = [
-    { month: "Januari", present: 20, late: 2, absent: 1, permit: 5 },
-    { month: "Februari", present: 18, late: 3, absent: 2, permit: 5 },
-    { month: "Maret", present: 22, late: 1, absent: 0, permit: 5 },
-    { month: "April", present: 21, late: 1, absent: 1, permit: 5 },
-    { month: "Mei", present: 19, late: 2, absent: 2, permit: 5 },
-    { month: "Juni", present: 23, late: 0, absent: 0, permit: 5 },
-]
-
-const attendanceHistoryColumn: Column<GetAllAttendances>[] = [
-    { accessor: "attendance_id", header: "ID Absensi", cell: (value) => String(value).slice(0, 8) },
-    { accessor: "company_id", header: "ID Perusahaan" },
-    { accessor: "employee_id", header: "ID Pegawai", cell: (value) => String(value).slice(0, 8) },
-    { accessor: "attendance_date", header: "Tanggal Absensi" },
-    { accessor: "checkin_time", header: "Jam Masuk" },
-    { accessor: "checkout_time", header: "Jam Keluar" },
-    {
-        accessor: "status",
-        header: "Status Absensi",
-        cell: (value) => <AttendanceBadge placeholder={String(value)} />
-    },
-]
-
-// ── Page Component ────────────────────────────────────────────────────────────
-
-export default function UserDashboard() {
-    const params = useParams()
-    const router = useRouter()
-
-    const companyId = Number(params.companyId)
-
-    const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined)
-
-    const currentDate = new Date()
-    const presentCount = employeeInfo?.attendance.filter(
-        (a) => a.status === "present"
-    ).length || 0
-
-    const currentMonthAttendance = employeeInfo?.attendance.filter(
-        (a) => new Date(a.attendance_date).toLocaleDateString("id-ID", {
-            month: "long"
-        }) === currentDate.toLocaleDateString("id-ID", { month: "long" })
-    )
-
-    useEffect(() => {
-        // Guard: companyId harus valid
-        if (!companyId || isNaN(companyId)) {
-            router.replace("/lobby")
-            return
-        }
-
-        // Sync cookie dengan URL — kalau user langsung akses
-        // URL tertentu, cookie ikut diupdate
-        setActiveCompany(companyId)
-
-        async function fetchEmployeeInfo() {
-            const response = await getEmployeeInfo(companyId)
-
-            if (response.success === false) {
-                toast.custom(() => (
-                    <Toaster
-                        variant="error"
-                        title="gagal mengambil info dashboard pegawai"
-                        description={response.message || "gagal mengambil data info dashboard pegawai."}
-                    />
-                ))
-                return
-            }
-
-            if (response.data !== null) {
-                setEmployeeInfo(response.data)
-            }
-        }
-
-        fetchEmployeeInfo()
-
-    }, [companyId, router])
-
-    return (
-        <div className="flex flex-col gap-6 p-6 w-full">
-            <PageHeader />
-
-            {/* Welcome Section */}
-            <div className="flex flex-col gap-0.5">
-                {employeeInfo === undefined ? (
-                    <>
-                        <Skeleton className='w-[441px] h-[35px] bg-gray-300 mb-2' />
-                        <Skeleton className='w-[488px] h-[23px] bg-gray-300' />
-                    </>
-                ) : (
-                    <>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            Selamat Datang, {employeeInfo.profile.full_name}! 👋
-                        </h1>
-                        <p className="text-gray-600">
-                            Berikut adalah ringkasan data penggajian dan absensi Anda
-                        </p>
-                    </>
-                )}
-            </div>
-
-            {/* Data Cards */}
-            <EmployeeDataCard
-                presentCount={presentCount}
-                payslipsCount={0}
-                salary={6550000}
-            />
-
-            <EmployeeAttendanceGraph attendanceChartData={attendanceSummaryData} />
-
-            {/* Attendance & Payslips Tables */}
-            <Card className='w-full flex flex-row gap-5 min-h-[500px] p-0 shadow-none ring-0 border-none bg-transparent'>
-                <Card className='h-full w-full flex flex-col gap-3 p-4'>
-                    <div className='w-full flex flex-col gap-1'>
-                        <CardTitle>Attendance History</CardTitle>
-                        <CardDescription>Riwayat Absensi anda bulan ini</CardDescription>
-                    </div>
-                    <div className='w-full h-full'>
-                        <DataTable
-                            columns={attendanceHistoryColumn}
-                            data={currentMonthAttendance || []}
-                            wrapper={false}
-                        />
-                    </div>
-                </Card>
-                {/* <Card className='h-full w-5/6 flex flex-col gap-3 p-4'>
-                    <div className='w-full flex flex-col gap-1'>
-                        <CardTitle>Payslips History</CardTitle>
-                        <CardDescription>Total hasil menerima slip gaji anda tahun ini.</CardDescription>
-                    </div>
-                    <div className='w-full h-full'>
-                        <DataTable
-                            columns={payrollHistoryColumn}
-                            data={employeeInfo?.payslips || []}
-                            wrapper={false}
-                        />
-                    </div>
-                </Card> */}
-            </Card>
-        </div>
-    )
+/** Count working days (Mon–Fri) in a given month */
+function getWorkingDaysInMonth(year: number, month: number): number {
+  const days = new Date(year, month + 1, 0).getDate();
+  let count = 0;
+  for (let d = 1; d <= days; d++) {
+    const dow = new Date(year, month, d).getDay();
+    if (dow !== 0 && dow !== 6) count++;
+  }
+  return count;
 }
 
+/** Short month label — matches planning.md spec */
+const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+/** Full Indonesian month name */
+const FULL_MONTHS = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+];
+
+/**
+ * Build AttendanceBarChartData[] grouped by month for the current year.
+ * Only months that have any record are populated; the rest default to 0.
+ */
+function buildChartData(attendances: Attendance[], year: number): AttendanceBarChartData[] {
+  const map: Record<number, AttendanceBarChartData> = {};
+
+  for (let m = 0; m < 12; m++) {
+    map[m] = { month: SHORT_MONTHS[m], present: 0, absent: 0, late: 0, permit: 0 };
+  }
+
+  for (const a of attendances) {
+    const d = new Date(a.attendance_date);
+    if (d.getFullYear() !== year) continue;
+    const m = d.getMonth();
+    const entry = map[m];
+    if (a.status === 'present') entry.present++;
+    else if (a.status === 'absent') entry.absent++;
+    else if (a.status === 'late') entry.late++;
+    else if (a.status === 'permit') entry.permit++;
+  }
+
+  return Object.values(map);
+}
+
+/**
+ * Build AttendanceDayData[] for the current month.
+ * Weekends are flagged; future dates get null status.
+ */
+function buildCalendarData(
+  attendances: Attendance[],
+  year: number,
+  month: number,
+): AttendanceDayData[] {
+  const statusMap = new Map<string, AttendanceStatus>();
+
+  for (const a of attendances) {
+    const d = new Date(a.attendance_date);
+    if (d.getFullYear() !== year || d.getMonth() !== month) continue;
+    const key = a.attendance_date.slice(0, 10);
+    statusMap.set(key, a.status as AttendanceStatus);
+  }
+
+  const totalDays = new Date(year, month + 1, 0).getDate();
+  const todayStr  = new Date().toISOString().slice(0, 10);
+  const result: AttendanceDayData[] = [];
+
+  for (let d = 1; d <= totalDays; d++) {
+    const date   = new Date(year, month, d);
+    const key    = date.toISOString().slice(0, 10);
+    const dow    = date.getDay();
+    const isPast = key <= todayStr;
+
+    let status: AttendanceStatus | null = statusMap.get(key) ?? null;
+
+    if (!status && (dow === 0 || dow === 6)) {
+      status = 'weekend';
+    } else if (!status && !isPast) {
+      status = null; // future, no data
+    }
+
+    result.push({ date, status });
+  }
+
+  return result;
+}
+
+// ── Dummy data — used until real fetching is wired in ──────────────────────────
+
+const DUMMY_FIRST_NAME = 'Budi';
+const DUMMY_NET_SALARY = 6_750_000;
+
+function buildDummyAttendances(): Attendance[] {
+  const now = new Date();
+  const year = now.getFullYear();
+  const records: Attendance[] = [];
+  let idCounter = 1;
+
+  // ─ Generate 6 months of dummy data for the bar chart ─
+  const statuses: Array<'present' | 'absent' | 'late' | 'permit'> = [
+    'present', 'present', 'present', 'present', 'present',
+    'late', 'absent', 'permit',
+  ];
+
+  for (let month = 0; month < now.getMonth() + 1; month++) {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const dow  = date.getDay();
+      if (dow === 0 || dow === 6) continue; // skip weekends
+      const dateStr = date.toISOString().slice(0, 10);
+      if (dateStr > now.toISOString().slice(0, 10)) break; // don't exceed today
+
+      const status = statuses[(idCounter - 1) % statuses.length];
+      records.push({
+        attendance_id: `dummy-${idCounter++}`,
+        company_id: 1,
+        employee_id: 'dummy-employee',
+        created_at: dateStr,
+        attendance_date: dateStr,
+        checkin_time: status !== 'absent' ? '08:00:00' : null,
+        checkout_time: status !== 'absent' ? '17:00:00' : null,
+        status,
+      });
+    }
+  }
+
+  return records;
+}
+
+const DUMMY_ATTENDANCES: Attendance[] = buildDummyAttendances();
+const DUMMY_PAYSLIPS_COUNT = 3;
+
+// ── Page component ─────────────────────────────────────────────────────────────
+
+export default function UserDashboard() {
+  const params = useParams();
+  const router = useRouter();
+
+  const companyId = Number(params.companyId);
+
+  const [employeeInfo, setEmployeeInfo] = useState<GetEmployeeInfoData | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ── Date constants ─────────────────────────────────────────────────
+  const currentDate  = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear  = currentDate.getFullYear();
+
+  // ── Derived values (from real data OR dummy while loading) ─────────
+  const profile        = employeeInfo?.profile;
+  const attendances    = employeeInfo?.attendance ?? DUMMY_ATTENDANCES;
+  const payslips       = employeeInfo?.payslips ?? [];
+
+  const firstName = profile?.full_name?.split(' ')[0] ?? DUMMY_FIRST_NAME;
+
+  const currentMonthAttendances = attendances.filter((a) => {
+    const d = new Date(a.attendance_date);
+    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+  });
+
+  const presentCount  = currentMonthAttendances.filter((a) => a.status === 'present').length;
+  const workingDays   = getWorkingDaysInMonth(currentYear, currentMonth);
+
+  const netSalary     = payslips.length > 0
+    ? payslips.reduce((sum, p) => sum + (p.total_salary ?? 0), 0)
+    : DUMMY_NET_SALARY;
+
+  const payslipCount  = payslips.length > 0 ? payslips.length : DUMMY_PAYSLIPS_COUNT;
+
+  const chartData     = buildChartData(attendances, currentYear);
+  const calendarData  = buildCalendarData(attendances, currentYear, currentMonth);
+
+  // ── Data fetching ──────────────────────────────────────────────────
+  useEffect(() => {
+    if (!companyId || isNaN(companyId)) {
+      router.replace('/lobby');
+      return;
+    }
+
+    setActiveCompany(companyId);
+
+    async function fetchEmployeeInfo() {
+      setIsLoading(true);
+      const response = await getEmployeeInfo(companyId);
+
+      if (response.success === false) {
+        toast.custom(() => (
+          <Toaster
+            variant="error"
+            title="Gagal memuat data dashboard"
+            description={response.message || 'Gagal mengambil data info dashboard pegawai.'}
+          />
+        ));
+        setIsLoading(false);
+        return;
+      }
+
+      if (response.data !== null) {
+        setEmployeeInfo(response.data);
+      }
+      setIsLoading(false);
+    }
+
+    fetchEmployeeInfo();
+  }, [companyId, router]);
+
+  // ── Render ─────────────────────────────────────────────────────────
+
+  return (
+    <div
+      className="flex flex-col gap-8 p-6 w-full min-h-screen"
+      style={{ backgroundColor: '#F1F3F5' }}
+    >
+      {/* 1. PageHeader */}
+      <PageHeader />
+
+      {/* 2. Welcome Sign */}
+      <WelcomeSign
+        firstName={isLoading ? undefined : firstName}
+        month={FULL_MONTHS[currentMonth]}
+        year={currentYear}
+        isLoading={isLoading}
+      />
+
+      {/* 3. Data Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <SalaryCard
+          netSalary={isLoading ? undefined : netSalary}
+          month={FULL_MONTHS[currentMonth]}
+          isLoading={isLoading}
+        />
+        <AttendanceCard
+          presentCount={isLoading ? undefined : presentCount}
+          workingDays={isLoading ? undefined : workingDays}
+          isLoading={isLoading}
+        />
+        <PayslipCard
+          payslipCount={isLoading ? undefined : payslipCount}
+          isLoading={isLoading}
+        />
+      </div>
+
+      {/* 4. Attendance Bar Chart */}
+      <AttendanceBarChart
+        data={chartData}
+        year={currentYear}
+        isLoading={isLoading}
+      />
+
+      {/* 5. Attendance Calendar */}
+      <AttendanceCalendar
+        data={calendarData}
+        month={currentMonth}
+        year={currentYear}
+        isLoading={isLoading}
+      />
+    </div>
+  );
+}
+
+// ── PageHeader (local, tidak diubah dari sebelumnya) ──────────────────────────
+
 function PageHeader() {
-    return (
-        <div className="h-fit w-full flex flex-row items-center gap-3">
-            <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
-            <DashboardBreadcrumb data={{ page: "Dashboard" }} />
-        </div>
-    )
+  return (
+    <div className="h-fit w-full flex flex-row items-center gap-3">
+      <SidebarTrigger className="[&_svg:not([class*='size-'])]:size-6 hover:bg-muted" />
+      <DashboardBreadcrumb data={{ page: 'Dashboard' }} />
+    </div>
+  );
 }
