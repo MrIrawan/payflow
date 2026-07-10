@@ -132,3 +132,41 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Glassline component utilities ─────────────────────────────── */
+@layer components {
+  /**
+   * .glassline-card
+   * Glassline card token: bg surface / border secondary/15 /
+   * rounded 16px / padding 24px
+   */
+  .glassline-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(74, 85, 104, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+  }
+
+  /**
+   * .glassline-label
+   * Geist Mono 0.75rem / uppercase / secondary (#4A5568)
+   */
+  .glassline-label {
+    font-family: var(--font-geist-mono, monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4A5568;
+  }
+
+  /**
+   * .glassline-body
+   * Geist 0.95rem / lh 1.55 / secondary (#4A5568)
+   */
+  .glassline-body {
+    font-family: var(--font-geist-sans, sans-serif);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #4A5568;
+  }
+}
