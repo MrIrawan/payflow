@@ -1,13 +1,13 @@
-import { EmployeeSidebar } from "@/components/EmployeeSidebar/employee-sidebar";
-import { TotalEmployeesSidebar } from "@/components/TotalEmployeesSidebar/total-employees-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { EmployeeLeftSidebar } from "@/components/EmployeeLeftSidebar/employee-left-sidebar";
+import { EmployeeRightSidebar } from "@/components/EmployeeRightSidebar/employee-right-sidebar";
 
 export default function EmployeePageLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <SidebarProvider>
-            <EmployeeSidebar />
+            <EmployeeLeftSidebar />
             {children}
-            <TotalEmployeesSidebar />
+            <EmployeeRightSidebar />
         </SidebarProvider>
     )
 }

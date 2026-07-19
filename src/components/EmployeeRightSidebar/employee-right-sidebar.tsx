@@ -13,7 +13,7 @@ import { Separator } from "../ui/separator";
 import { EmployeeProfileCard } from "../EmployeeProfileCard/employee-profile-card";
 import { Skeleton } from "../ui/skeleton";
 
-export function TotalEmployeesSidebar() {
+export function EmployeeRightSidebar() {
     const params = useParams();
     const companyId = Number(params.companyId);
 
@@ -35,8 +35,6 @@ export function TotalEmployeesSidebar() {
 
         fetchAllEmployees(companyId)
     }, [companyId]);
-
-    console.log(totalEmployees)
 
     return (
         <Sidebar side="right" className="p-2.5">
