@@ -60,6 +60,7 @@ export function EmployeeLeftSidebar() {
 
         fetchEmployeeProfile();
     }, [companyId]);
+
     return (
         <Sidebar className="px-2.5">
             <SidebarHeader className="p-4">

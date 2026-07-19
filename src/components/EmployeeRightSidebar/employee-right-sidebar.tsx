@@ -36,8 +36,6 @@ export function EmployeeRightSidebar() {
         fetchAllEmployees(companyId)
     }, [companyId]);
 
-    console.log(totalEmployees)
-
     return (
         <Sidebar side="right" className="p-2.5">
             <SidebarHeader className="w-full p-2">
