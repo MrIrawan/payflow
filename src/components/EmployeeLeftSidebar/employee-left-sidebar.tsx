@@ -8,9 +8,7 @@ import { GetEmployeeProfileData } from "@/types/response";
 import { logOutEmployee } from "@/lib/services/employee/auth/logOutEmployee";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg"
 
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
@@ -35,8 +33,9 @@ import { Spinner } from "../ui/spinner";
 import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { CalendarCheck2, ChevronsUpDown, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { Card, CardDescription, CardTitle } from "../ui/card";
 
 export function EmployeeLeftSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -62,12 +61,22 @@ export function EmployeeLeftSidebar() {
     }, [companyId]);
 
     return (
-        <Sidebar className="px-2.5">
-            <SidebarHeader className="p-4">
-                <Image src={LogoWithTitle} alt="payflow-logo" width={200} />
+        <Sidebar className="p-4">
+            <SidebarHeader className="p-0 mb-4">
+                {/* <Image src={LogoWithTitle} alt="payflow-logo" width={200} /> */}
+                <Card className="w-full h-fit rounded-xl shadow-none flex flex-row justify-start items-center gap-2 p-2">
+                    <Avatar className="rounded-sm w-9 h-9">
+                        <AvatarFallback className="rounded-sm">AV</AvatarFallback>
+                    </Avatar>
+                    <div className="w-full flex flex-col">
+                        <CardTitle className="text-sm font-semibold">PayFlow</CardTitle>
+                        <CardDescription className="text-xs font-mono">Payroll Web App</CardDescription>
+                    </div>
+                    <ChevronsUpDown />
+                </Card>
             </SidebarHeader>
             <SidebarContent>
-                <SidebarGroup className="h-full">
+                <SidebarGroup className="h-full p-0">
                     {/* Sidebar items go here */}
                     <SidebarMenu className="gap-4">
                         <SidebarNavigationLink
