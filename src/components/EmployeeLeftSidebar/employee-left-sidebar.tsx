@@ -38,7 +38,7 @@ import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigati
 import { CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
-export function EmployeeSidebar() {
+export function EmployeeLeftSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
     const params = useParams();
 
