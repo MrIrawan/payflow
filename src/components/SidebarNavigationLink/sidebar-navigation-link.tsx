@@ -34,10 +34,10 @@ export function SidebarNavigationLink({
       >
         <Link
           href={href}
-          className="w-full flex flex-row items-center justify-start gap-2 h-6"
+          className="w-full flex flex-row items-center justify-start gap-0 h-6"
         >
-          {Icon && <Icon size={14} />}
-          <p className={`text-lg font-medium font-sans`}>
+          {Icon && <Icon />}
+          <p className={`${activeBg ? "text-base" : "text-sm"} font-medium font-sans`}>
             {label}
           </p>
         </Link>
