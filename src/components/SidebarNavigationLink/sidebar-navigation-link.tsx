@@ -14,20 +14,30 @@ export function SidebarNavigationLink({
   const pathName = usePathname();
   const isActive = pathName === href;
 
-  const sidebarLinkClassName = cn()
+  const sidebarLinkClassName = activeBg
+    ? cn(
+      "rounded-lg border-2 border-transparent hover:border-2 hover:border-glass-secondary/15 hover:bg-glass-secondary/5",
+      isActive
+        ? "text-glass-tertiary border-2 border-glass-tertiary/20 bg-glass-tertiary/15 hover:bg-glass-tertiary/20 hover:border-glass-tertiary/25 hover:text-glass-tertiary duration-100"
+        : "text-glass-primary bg-white"
+    )
+    : cn(
+      "rounded-lg hover:bg-glass-secondary/5",
+      isActive ? "text-glass-tertiary" : "text-glass-primary"
+    );
 
   return (
-    <SidebarMenuItem className={`rounded-lg ${activeBg ? isActive ? "border-2 border-glass-tertiary bg-glass-tertiary/20" : "bg-white" : "bg-white"} border-2 border-transparent duration-100 hover:border-2 hover:border-glass-secondary/20 hover:bg-glass-secondary/15`}>
+    <SidebarMenuItem>
       <SidebarMenuButton
         asChild
-        className="[&>svg]:size-6 h-fit"
+        className={cn("[&>svg]:size-6 h-fit duration-100 transition-colors", sidebarLinkClassName)}
       >
         <Link
           href={href}
           className="w-full flex flex-row items-center justify-start gap-2 h-6"
         >
-          {Icon && <Icon size={14} className={`${isActive ? "text-blue-600" : "text-black"}`} />}
-          <p className={`text-lg font-medium ${isActive ? "text-blue-600" : "text-black"}`}>
+          {Icon && <Icon size={14} />}
+          <p className={`text-lg font-medium font-sans`}>
             {label}
           </p>
         </Link>
