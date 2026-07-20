@@ -30,10 +30,9 @@ import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
 
-import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, ChevronsUpDown, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { CalendarCheck2, ChevronsUpDown, HandCoins, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 
@@ -78,7 +77,7 @@ export function EmployeeLeftSidebar() {
             <SidebarContent>
                 <SidebarGroup className="h-full p-0">
                     {/* Sidebar items go here */}
-                    <SidebarMenu className="gap-4">
+                    <SidebarMenu className="gap-2">
                         <SidebarNavigationLink
                             href={`/employee/${companyId}`}
                             label="dashboard"
@@ -91,13 +90,17 @@ export function EmployeeLeftSidebar() {
                             Icon={Users}
                             activeBg
                         />
-                        <CollabsipleSidebarNavigation
-                            label="Penggajian"
-                            Icon={Wallet}
-                            sub={[
-                                { label: "Estimasi Gaji", href: `/employee/${companyId}/payroll/live` },
-                                { label: "Riwayat Gaji", href: `/employee/${companyId}/payroll/history` },
-                            ]}
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/attendance`}
+                            label="estimasi gaji"
+                            Icon={HandCoins}
+                            activeBg
+                        />
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/attendance`}
+                            label="riwayat penggajian"
+                            Icon={ReceiptText}
+                            activeBg
                         />
                         <SidebarNavigationLink
                             href={`/employee/${companyId}/attendance`}
