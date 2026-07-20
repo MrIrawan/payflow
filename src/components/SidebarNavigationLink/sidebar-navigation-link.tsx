@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { SidebarNavigationLinkProps } from "@/types/types";
+import { cn } from "@/lib/utils";
 
 export function SidebarNavigationLink({
   href,
@@ -12,8 +13,11 @@ export function SidebarNavigationLink({
 }: SidebarNavigationLinkProps) {
   const pathName = usePathname();
   const isActive = pathName === href;
+
+  const sidebarLinkClassName = cn()
+
   return (
-    <SidebarMenuItem className={`rounded-lg ${activeBg ? isActive ? "bg-blue-100" : "bg-white" : "bg-white"}`}>
+    <SidebarMenuItem className={`rounded-lg ${activeBg ? isActive ? "border-2 border-glass-tertiary bg-glass-tertiary/20" : "bg-white" : "bg-white"} border-2 border-transparent duration-100 hover:border-2 hover:border-glass-secondary/20 hover:bg-glass-secondary/15`}>
       <SidebarMenuButton
         asChild
         className="[&>svg]:size-6 h-fit"
