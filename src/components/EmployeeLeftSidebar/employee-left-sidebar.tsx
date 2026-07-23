@@ -8,7 +8,6 @@ import { GetEmployeeProfileData } from "@/types/response";
 import { logOutEmployee } from "@/lib/services/employee/auth/logOutEmployee";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
@@ -20,22 +19,17 @@ import {
     SidebarGroup,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem
 } from "../ui/sidebar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
 
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, ChevronsUpDown, HandCoins, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { CalendarCheck2, HandCoins, House, LogOut, ReceiptText, Users } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-import { Card, CardDescription, CardTitle } from "../ui/card";
 import { EmployeeProfileDropDown } from "../EmployeeProfileDropDown/employee-profile-dropdown";
+import { CompanyContextDropDown } from "../CompanyContextDropDown/company-context-dropdown";
 
 export function EmployeeLeftSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -63,16 +57,11 @@ export function EmployeeLeftSidebar() {
     return (
         <Sidebar className="p-4">
             <SidebarHeader className="p-0 mb-4">
-                <Card className="w-full h-fit rounded-md shadow-none border-none flex flex-row justify-start items-center gap-2 p-2 hover:bg-glass-secondary/5 duration-300 transition-colors">
-                    <Avatar className="rounded-sm w-9 h-9">
-                        <AvatarFallback className="rounded-sm">AV</AvatarFallback>
-                    </Avatar>
-                    <div className="w-full flex flex-col">
-                        <CardTitle className="text-sm font-semibold">PayFlow</CardTitle>
-                        <CardDescription className="text-xs font-mono">Payroll Web App</CardDescription>
-                    </div>
-                    <ChevronsUpDown />
-                </Card>
+                {employeeProfile === undefined ? (
+                    <Skeleton className="w-full h-[50px] bg-glass-secondary/20 rounded-md" />
+                ) : (
+                    <CompanyContextDropDown employeeProfile={employeeProfile} companyId={companyId} />
+                )}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup className="h-full p-0">
@@ -113,7 +102,7 @@ export function EmployeeLeftSidebar() {
             </SidebarContent>
             <SidebarFooter className="p-0">
                 {employeeProfile === undefined ? (
-                    <Skeleton className="w-full h-[55px] bg-gray-300" />
+                    <Skeleton className="w-full h-[50px] bg-glass-secondary/20 rounded-md" />
                 ) : (
                     <EmployeeProfileDropDown employeeProfile={employeeProfile} companyId={companyId} />
                 )}
