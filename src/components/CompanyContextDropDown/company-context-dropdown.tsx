@@ -1,15 +1,11 @@
-import Link from "next/link";
-
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Card, CardDescription, CardTitle } from "../ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Separator } from "../ui/separator";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-import { CalendarCheck2, ChevronsUpDown, HomeIcon, ReceiptText, UserCircleIcon, WalletIcon } from "lucide-react";
-import { GetEmployeeProfileData } from "@/types/response";
+import { ChevronsUpDown, Plus } from "lucide-react";
 
-export function CompanyContextDropDown({ employeeProfile, companyId }: { employeeProfile: GetEmployeeProfileData, companyId: number }) {
+export function CompanyContextDropDown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -25,52 +21,38 @@ export function CompanyContextDropDown({ employeeProfile, companyId }: { employe
                 </Card>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="right" align="start" className="min-w-[250px] flex flex-col justify-between h-fit">
-                <div className="w-full flex flex-row items-center gap-2 p-2">
-                    <Avatar className="w-10 h-10 rounded-md">
-                        <AvatarFallback className={`rounded-md text-white font-medium ${employeeProfile.gender === "male" ? "bg-blue-600" : "bg-pink-600"}`}>{employeeProfile.full_name.slice(0, 2)}</AvatarFallback>
-                    </Avatar>
-                    <div className="w-full flex flex-col">
-                        <p className="text-sm font-medium text-black">{employeeProfile.full_name}</p>
-                        <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email}</p>
+                <DropdownMenuGroup>
+                    <DropdownMenuLabel className="text-glass-secondary text-xs font-mono font-semibold">Companies</DropdownMenuLabel>
+                    <div className="w-full h-fit flex flex-col gap-1.5">
+                        <DropdownMenuItem className="p-0 group">
+                            <Card className="w-full shadow-none border-none p-1.5 h-fit rounded-sm group-hover:bg-glass-secondary/5 duration-300 transition-colors flex flex-row justify-start items-center gap-2.5">
+                                <Avatar className="rounded-sm">
+                                    <AvatarFallback className="rounded-sm">AV</AvatarFallback>
+                                </Avatar>
+                                <CardTitle className="font-sans text-sm font-normal">PayFlow</CardTitle>
+                            </Card>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="p-0 group">
+                            <Card className="w-full shadow-none border-none p-1.5 h-fit rounded-sm group-hover:bg-glass-secondary/5 duration-300 transition-colors flex flex-row justify-start items-center gap-2.5">
+                                <Avatar className="rounded-sm">
+                                    <AvatarFallback className="rounded-sm">AV</AvatarFallback>
+                                </Avatar>
+                                <CardTitle className="font-sans text-sm font-normal">PayFlow</CardTitle>
+                            </Card>
+                        </DropdownMenuItem>
                     </div>
-                </div>
-                <Separator />
-                <div className="w-full flex flex-col gap-0 py-1">
-                    <Link href={`/employee/${companyId}`}>
-                        <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                            <HomeIcon />
-                            <p className="text-sm font-medium">Dashboard</p>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem className="p-0">
+                        <Button variant={"default"} className="w-full shadow-none bg-glass-surface border-none p-1.5 h-fit rounded-sm hover:bg-glass-secondary/5 duration-300 transition-colors flex flex-row justify-start items-center gap-2.5">
+                            <div className="size-7 border-2 border-glass-tertiary/80 bg-glass-tertiary/20 rounded-sm flex flex-row justify-center items-center">
+                                <Plus className="text-glass-tertiary/80 size-6" />
+                            </div>
+                            <CardTitle className="font-sans text-sm font-normal text-black">Add new company</CardTitle>
                         </Button>
-                    </Link>
-                    <Link href={`/employee/${companyId}/me`}>
-                        <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                            <UserCircleIcon />
-                            <p className="text-sm font-medium">Profile Anda</p>
-                        </Button>
-                    </Link>
-                    <Link href={`/employee/${companyId}/payroll/live`}>
-                        <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                            <WalletIcon />
-                            <p className="text-sm font-medium">Estimasi Gaji</p>
-                        </Button>
-                    </Link>
-                    <Link href={`/employee/${companyId}/payroll/history`}>
-                        <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                            <ReceiptText />
-                            <p className="text-sm font-medium">Riwayat Gaji</p>
-                        </Button>
-                    </Link>
-                    <Link href={`/employee/${companyId}/attendance`}>
-                        <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                            <CalendarCheck2 />
-                            <p className="text-sm font-medium">Absensi Mandiri</p>
-                        </Button>
-                    </Link>
-                </div>
-                <Separator />
-                <div className="w-full p-2">
-                    {/* <LogOutAlertDialog /> */}
-                </div>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     )
