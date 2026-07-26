@@ -8,9 +8,6 @@ import { GetEmployeeProfileData } from "@/types/response";
 import { logOutEmployee } from "@/lib/services/employee/auth/logOutEmployee";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import LogoWithTitle from "../../../public/images/payflow_logo_with_title.svg"
 
 import { toast } from "sonner";
 import { Toaster } from "../Toaster/toaster";
@@ -22,21 +19,17 @@ import {
     SidebarGroup,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem
 } from "../ui/sidebar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { Spinner } from "../ui/spinner";
 
-import { CollabsipleSidebarNavigation } from "../CollapsibleSidebarNavigation/collapsible-sidebar-navigation";
 import { SidebarNavigationLink } from "../SidebarNavigationLink/sidebar-navigation-link";
 
-import { CalendarCheck2, HomeIcon, House, LogOut, ReceiptText, UserCircleIcon, Users, Wallet, WalletIcon } from "lucide-react";
+import { CalendarCheck2, HandCoins, House, LogOut, ReceiptText, Users } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { EmployeeProfileDropDown } from "../EmployeeProfileDropDown/employee-profile-dropdown";
+import { CompanyContextDropDown } from "../CompanyContextDropDown/company-context-dropdown";
 
 export function EmployeeLeftSidebar() {
     const [employeeProfile, setEmployeeProfile] = useState<GetEmployeeProfileData | undefined>(undefined);
@@ -62,14 +55,18 @@ export function EmployeeLeftSidebar() {
     }, [companyId]);
 
     return (
-        <Sidebar className="px-2.5">
-            <SidebarHeader className="p-4">
-                <Image src={LogoWithTitle} alt="payflow-logo" width={200} />
+        <Sidebar className="p-4">
+            <SidebarHeader className="p-0 mb-4">
+                {employeeProfile === undefined ? (
+                    <Skeleton className="w-full h-[50px] bg-glass-secondary/20 rounded-md" />
+                ) : (
+                    <CompanyContextDropDown employeeProfile={employeeProfile} companyId={companyId} />
+                )}
             </SidebarHeader>
             <SidebarContent>
-                <SidebarGroup className="h-full">
+                <SidebarGroup className="h-full p-0">
                     {/* Sidebar items go here */}
-                    <SidebarMenu className="gap-4">
+                    <SidebarMenu className="gap-2">
                         <SidebarNavigationLink
                             href={`/employee/${companyId}`}
                             label="dashboard"
@@ -82,13 +79,17 @@ export function EmployeeLeftSidebar() {
                             Icon={Users}
                             activeBg
                         />
-                        <CollabsipleSidebarNavigation
-                            label="Penggajian"
-                            Icon={Wallet}
-                            sub={[
-                                { label: "Estimasi Gaji", href: `/employee/${companyId}/payroll/live` },
-                                { label: "Riwayat Gaji", href: `/employee/${companyId}/payroll/history` },
-                            ]}
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/attendance`}
+                            label="estimasi gaji"
+                            Icon={HandCoins}
+                            activeBg
+                        />
+                        <SidebarNavigationLink
+                            href={`/employee/${companyId}/attendance`}
+                            label="riwayat penggajian"
+                            Icon={ReceiptText}
+                            activeBg
                         />
                         <SidebarNavigationLink
                             href={`/employee/${companyId}/attendance`}
@@ -99,77 +100,12 @@ export function EmployeeLeftSidebar() {
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
-            <Separator />
-            <SidebarFooter>
-                <SidebarMenu>
-                    {employeeProfile === undefined ? (
-                        <Skeleton className="w-full h-[55px] bg-gray-300" />
-                    ) : (
-                        <SidebarMenuItem>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <SidebarMenuButton className="flex flex-row items-center gap-2 w-full h-fit">
-                                        <Avatar className="w-10 h-10 rounded-md">
-                                            <AvatarFallback className={`rounded-md text-white font-medium ${employeeProfile.gender === "male" ? "bg-blue-600" : "bg-pink-600"}`}>{employeeProfile.full_name.slice(0, 2)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="flex flex-col">
-                                            <p className="text-sm font-medium text-black">{employeeProfile.full_name}</p>
-                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email}</p>
-                                        </div>
-                                    </SidebarMenuButton>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent side="right" className="min-w-[250px] flex flex-col justify-between h-fit">
-                                    <div className="w-full flex flex-row items-center gap-2 p-2">
-                                        <Avatar className="w-10 h-10 rounded-md">
-                                            <AvatarFallback className={`rounded-md text-white font-medium ${employeeProfile.gender === "male" ? "bg-blue-600" : "bg-pink-600"}`}>{employeeProfile.full_name.slice(0, 2)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="w-full flex flex-col">
-                                            <p className="text-sm font-medium text-black">{employeeProfile.full_name}</p>
-                                            <p className="text-xs font-medium text-muted-foreground">{employeeProfile.email}</p>
-                                        </div>
-                                    </div>
-                                    <Separator />
-                                    <div className="w-full flex flex-col gap-0 py-1">
-                                        <Link href={`/employee/${companyId}`}>
-                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                                                <HomeIcon />
-                                                <p className="text-sm font-medium">Dashboard</p>
-                                            </Button>
-                                        </Link>
-                                        <Link href={`/employee/${companyId}/me`}>
-                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                                                <UserCircleIcon />
-                                                <p className="text-sm font-medium">Profile Anda</p>
-                                            </Button>
-                                        </Link>
-                                        <Link href={`/employee/${companyId}/payroll/live`}>
-                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                                                <WalletIcon />
-                                                <p className="text-sm font-medium">Estimasi Gaji</p>
-                                            </Button>
-                                        </Link>
-                                        <Link href={`/employee/${companyId}/payroll/history`}>
-                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                                                <ReceiptText />
-                                                <p className="text-sm font-medium">Riwayat Gaji</p>
-                                            </Button>
-                                        </Link>
-                                        <Link href={`/employee/${companyId}/attendance`}>
-                                            <Button variant={"ghost"} className="w-full flex flex-row gap-1 items-center justify-start has-[>svg]:p-2">
-                                                <CalendarCheck2 />
-                                                <p className="text-sm font-medium">Absensi Mandiri</p>
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                    <Separator />
-                                    <div className="w-full p-2">
-                                        <LogOutAlertDialog />
-                                    </div>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </SidebarMenuItem>
-                    )}
-                </SidebarMenu>
+            <SidebarFooter className="p-0">
+                {employeeProfile === undefined ? (
+                    <Skeleton className="w-full h-[50px] bg-glass-secondary/20 rounded-md" />
+                ) : (
+                    <EmployeeProfileDropDown employeeProfile={employeeProfile} companyId={companyId} />
+                )}
             </SidebarFooter>
         </Sidebar>
     )

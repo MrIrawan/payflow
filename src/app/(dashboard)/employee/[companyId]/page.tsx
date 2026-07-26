@@ -90,13 +90,13 @@ function buildCalendarData(
   }
 
   const totalDays = new Date(year, month + 1, 0).getDate();
-  const todayStr  = new Date().toISOString().slice(0, 10);
+  const todayStr = new Date().toISOString().slice(0, 10);
   const result: AttendanceDayData[] = [];
 
   for (let d = 1; d <= totalDays; d++) {
-    const date   = new Date(year, month, d);
-    const key    = date.toISOString().slice(0, 10);
-    const dow    = date.getDay();
+    const date = new Date(year, month, d);
+    const key = date.toISOString().slice(0, 10);
+    const dow = date.getDay();
     const isPast = key <= todayStr;
 
     let status: AttendanceStatus | null = statusMap.get(key) ?? null;
@@ -134,7 +134,7 @@ function buildDummyAttendances(): Attendance[] {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
-      const dow  = date.getDay();
+      const dow = date.getDay();
       if (dow === 0 || dow === 6) continue; // skip weekends
       const dateStr = date.toISOString().slice(0, 10);
       if (dateStr > now.toISOString().slice(0, 10)) break; // don't exceed today
@@ -171,14 +171,14 @@ export default function UserDashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   // ── Date constants ─────────────────────────────────────────────────
-  const currentDate  = new Date();
+  const currentDate = new Date();
   const currentMonth = currentDate.getMonth();
-  const currentYear  = currentDate.getFullYear();
+  const currentYear = currentDate.getFullYear();
 
   // ── Derived values (from real data OR dummy while loading) ─────────
-  const profile        = employeeInfo?.profile;
-  const attendances    = employeeInfo?.attendance ?? DUMMY_ATTENDANCES;
-  const payslips       = employeeInfo?.payslips ?? [];
+  const profile = employeeInfo?.profile;
+  const attendances = employeeInfo?.attendance ?? DUMMY_ATTENDANCES;
+  const payslips = employeeInfo?.payslips ?? [];
 
   const firstName = profile?.full_name?.split(' ')[0] ?? DUMMY_FIRST_NAME;
 
@@ -187,17 +187,17 @@ export default function UserDashboard() {
     return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
   });
 
-  const presentCount  = currentMonthAttendances.filter((a) => a.status === 'present').length;
-  const workingDays   = getWorkingDaysInMonth(currentYear, currentMonth);
+  const presentCount = currentMonthAttendances.filter((a) => a.status === 'present').length;
+  const workingDays = getWorkingDaysInMonth(currentYear, currentMonth);
 
-  const netSalary     = payslips.length > 0
+  const netSalary = payslips.length > 0
     ? payslips.reduce((sum, p) => sum + (p.total_salary ?? 0), 0)
     : DUMMY_NET_SALARY;
 
-  const payslipCount  = payslips.length > 0 ? payslips.length : DUMMY_PAYSLIPS_COUNT;
+  const payslipCount = payslips.length > 0 ? payslips.length : DUMMY_PAYSLIPS_COUNT;
 
-  const chartData     = buildChartData(attendances, currentYear);
-  const calendarData  = buildCalendarData(attendances, currentYear, currentMonth);
+  const chartData = buildChartData(attendances, currentYear);
+  const calendarData = buildCalendarData(attendances, currentYear, currentMonth);
 
   // ── Data fetching ──────────────────────────────────────────────────
   useEffect(() => {
@@ -237,8 +237,7 @@ export default function UserDashboard() {
 
   return (
     <div
-      className="flex flex-col gap-8 p-6 w-full min-h-screen"
-      style={{ backgroundColor: '#F1F3F5' }}
+      className="flex flex-col gap-8 p-6 w-full min-h-screen bg-glass-neutral"
     >
       {/* 1. PageHeader */}
       <PageHeader />
