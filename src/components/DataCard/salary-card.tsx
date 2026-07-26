@@ -52,10 +52,13 @@ export function SalaryCard({ netSalary, month, isLoading = false }: SalaryCardPr
   return (
     <div className="glassline-card">
       {/* Label row with tertiary accent dot */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 relative">
         <span
-          className="w-2 h-2 rounded-full flex-shrink-0"
-          style={{ backgroundColor: '#2C5EF5' }}
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-glass-tertiary"
+          aria-hidden="true"
+        />
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-glass-tertiary"
           aria-hidden="true"
         />
         <p className="glassline-label">ESTIMASI GAJI</p>
@@ -63,7 +66,7 @@ export function SalaryCard({ netSalary, month, isLoading = false }: SalaryCardPr
 
       {/* Value */}
       <p
-        className="text-[2.25rem] font-semibold mt-2 leading-none"
+        className="text-[2.25rem] font-semibold leading-none"
         style={{
           fontFamily: 'var(--font-geist-sans, sans-serif)',
           color: '#0F1419',
@@ -74,7 +77,7 @@ export function SalaryCard({ netSalary, month, isLoading = false }: SalaryCardPr
       </p>
 
       {/* Subtext */}
-      <p className="glassline-body mt-2">
+      <p className="glassline-body">
         Estimasi bulan {month ?? '—'}
       </p>
     </div>
