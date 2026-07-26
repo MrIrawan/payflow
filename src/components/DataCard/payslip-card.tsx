@@ -38,16 +38,19 @@ export function PayslipCard({ payslipCount = 0, isLoading = false }: PayslipCard
   }
 
   return (
-    <div className="glassline-card relative">
-      {/* Icon — top right */}
-      <FileText
-        className="absolute top-6 right-6"
-        style={{ color: '#4A5568', width: '1.25rem', height: '1.25rem' }}
-        aria-hidden="true"
-      />
-
+    <div className="glassline-card">
       {/* Label */}
-      <p className="glassline-label">SLIP GAJI DITERIMA</p>
+      <div className="flex items-center gap-2 relative">
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-indigo-600"
+          aria-hidden="true"
+        />
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-indigo-600"
+          aria-hidden="true"
+        />
+        <p className="glassline-label">SLIP GAJI DITERIMA</p>
+      </div>
 
       {/* Value */}
       <p
