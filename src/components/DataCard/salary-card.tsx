@@ -1,6 +1,7 @@
 'use client';
 
 import { Skeleton } from '@/components/ui/skeleton';
+import { HandCoins } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -52,16 +53,19 @@ export function SalaryCard({ netSalary, month, isLoading = false }: SalaryCardPr
   return (
     <div className="glassline-card">
       {/* Label row with tertiary accent dot */}
-      <div className="flex items-center gap-2 relative">
-        <span
-          className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-glass-tertiary"
-          aria-hidden="true"
-        />
-        <span
-          className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-glass-tertiary"
-          aria-hidden="true"
-        />
-        <p className="glassline-label">ESTIMASI GAJI</p>
+      <div className='w-full h-fit flex flex-row justify-between items-center'>
+        <div className="flex items-center gap-2 relative">
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-glass-tertiary"
+            aria-hidden="true"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-glass-tertiary"
+            aria-hidden="true"
+          />
+          <p className="glassline-label">ESTIMASI GAJI</p>
+        </div>
+        <HandCoins className='text-glass-secondary size-5' />
       </div>
 
       {/* Value */}

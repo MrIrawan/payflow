@@ -146,10 +146,11 @@
     background-color: #FFFFFF;
     border: 1px solid rgba(74, 85, 104, 0.15);
     border-radius: 16px;
-    padding: 24px;
+    padding: 22px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 170px;
   }
 
   /**
