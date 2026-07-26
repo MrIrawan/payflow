@@ -60,7 +60,7 @@ export function EmployeeLeftSidebar() {
                 {employeeProfile === undefined ? (
                     <Skeleton className="w-full h-[50px] bg-glass-secondary/20 rounded-md" />
                 ) : (
-                    <CompanyContextDropDown employeeProfile={employeeProfile} companyId={companyId} />
+                    <CompanyContextDropDown />
                 )}
             </SidebarHeader>
             <SidebarContent>
