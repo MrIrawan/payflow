@@ -48,7 +48,17 @@ export function AttendanceCard({
   return (
     <div className="glassline-card">
       {/* Label */}
-      <p className="glassline-label">TOTAL HADIR</p>
+      <div className="flex items-center gap-2 relative">
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-green-600"
+          aria-hidden="true"
+        />
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-green-600"
+          aria-hidden="true"
+        />
+        <p className="glassline-label">TOTAL HADIR</p>
+      </div>
 
       {/* Value */}
       <p
