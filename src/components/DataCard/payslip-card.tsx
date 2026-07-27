@@ -29,7 +29,7 @@ export interface PayslipCardProps {
 export function PayslipCard({ payslipCount = 0, isLoading = false }: PayslipCardProps) {
   if (isLoading) {
     return (
-      <div className="glassline-card">
+      <div className="glassline-card h-[170px]">
         <Skeleton className="w-24 h-3 rounded" />
         <Skeleton className="w-40 h-8 mt-2 rounded" />
         <Skeleton className="w-32 h-3 mt-2 rounded" />
@@ -38,7 +38,7 @@ export function PayslipCard({ payslipCount = 0, isLoading = false }: PayslipCard
   }
 
   return (
-    <div className="glassline-card">
+    <div className="glassline-card flex flex-col justify-between h-[170px]">
       {/* Label */}
       <div className='w-full h-fit flex flex-row justify-between items-center'>
         <div className="flex items-center gap-2 relative">
