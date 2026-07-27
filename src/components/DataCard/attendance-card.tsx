@@ -1,6 +1,7 @@
 'use client';
 
 import { Skeleton } from '@/components/ui/skeleton';
+import { CalendarCheck } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -34,7 +35,7 @@ export function AttendanceCard({
 }: AttendanceCardProps) {
   if (isLoading) {
     return (
-      <div className="glassline-card">
+      <div className="glassline-card h-[170px]">
         <Skeleton className="w-24 h-3 rounded" />
         <Skeleton className="w-40 h-8 mt-2 rounded" />
         <Skeleton className="w-32 h-3 mt-2 rounded" />
@@ -46,9 +47,22 @@ export function AttendanceCard({
   const progress = workingDays > 0 ? Math.min((presentCount / workingDays) * 100, 100) : 0;
 
   return (
-    <div className="glassline-card">
+    <div className="glassline-card flex flex-col justify-between h-[170px]">
       {/* Label */}
-      <p className="glassline-label">TOTAL HADIR</p>
+      <div className='w-full h-fit flex flex-row justify-between items-center'>
+        <div className="flex items-center gap-2 relative">
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-green-600"
+            aria-hidden="true"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-green-600"
+            aria-hidden="true"
+          />
+          <p className="glassline-label">TOTAL HADIR</p>
+        </div>
+        <CalendarCheck className='text-glass-secondary size-5' />
+      </div>
 
       {/* Value */}
       <p

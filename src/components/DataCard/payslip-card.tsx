@@ -29,7 +29,7 @@ export interface PayslipCardProps {
 export function PayslipCard({ payslipCount = 0, isLoading = false }: PayslipCardProps) {
   if (isLoading) {
     return (
-      <div className="glassline-card">
+      <div className="glassline-card h-[170px]">
         <Skeleton className="w-24 h-3 rounded" />
         <Skeleton className="w-40 h-8 mt-2 rounded" />
         <Skeleton className="w-32 h-3 mt-2 rounded" />
@@ -38,16 +38,22 @@ export function PayslipCard({ payslipCount = 0, isLoading = false }: PayslipCard
   }
 
   return (
-    <div className="glassline-card relative">
-      {/* Icon — top right */}
-      <FileText
-        className="absolute top-6 right-6"
-        style={{ color: '#4A5568', width: '1.25rem', height: '1.25rem' }}
-        aria-hidden="true"
-      />
-
+    <div className="glassline-card flex flex-col justify-between h-[170px]">
       {/* Label */}
-      <p className="glassline-label">SLIP GAJI DITERIMA</p>
+      <div className='w-full h-fit flex flex-row justify-between items-center'>
+        <div className="flex items-center gap-2 relative">
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 animate-ping absolute bg-indigo-600"
+            aria-hidden="true"
+          />
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0 bg-indigo-600"
+            aria-hidden="true"
+          />
+          <p className="glassline-label">SLIP GAJI DITERIMA</p>
+        </div>
+        <FileText className='text-glass-secondary size-5' />
+      </div>
 
       {/* Value */}
       <p
