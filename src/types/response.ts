@@ -232,3 +232,14 @@ export interface JoinCompanyResponse {
   message: string;
   data: JoinCompanyData;
 }
+
+export interface SwitchCompanyData {
+  role: string;
+  companyId: number;
+}
+
+export interface SwitchCompanyResponse {
+  success: boolean;
+  message: string;
+  data: SwitchCompanyData;
+}
