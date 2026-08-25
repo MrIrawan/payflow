@@ -69,3 +69,7 @@ export type AddNewCompanyRequest = Omit<Companies, "company_id" | "created_at" |
 export interface JoinCompanyRequest {
   company_key: string;
 }
+
+export interface SwitchCompanyRequest {
+  companyId: number;
+}
